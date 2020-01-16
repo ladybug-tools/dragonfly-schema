@@ -30,6 +30,8 @@
     ],
     "floor_height": 3.0,
     "floor_to_ceiling_height": 3.0,
+    "is_ground_contact": false,
+    "is_top_exposed": false,
     "boundary_conditions": [
         {
             "type": "Outdoors",
