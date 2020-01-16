@@ -20,7 +20,7 @@ _base_open_api = {
             "altText": "Dragonfly logo"
         },
         "license": {
-            "name": "BSD",
+            "name": "MIT",
             "url": "https://github.com/ladybug-tools/dragonfly-schema/blob/master/LICENSE"
         }
     },

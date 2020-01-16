@@ -33,6 +33,8 @@
             ],
             "floor_height": 3.0,
             "floor_to_ceiling_height": 3.0,
+            "is_ground_contact": false,
+            "is_top_exposed": false,
             "boundary_conditions": [
                 {
                     "type": "Surface",
@@ -104,6 +106,8 @@
             ],
             "floor_height": 3.0,
             "floor_to_ceiling_height": 3.0,
+            "is_ground_contact": false,
+            "is_top_exposed": false,
             "boundary_conditions": [
                 {
                     "type": "Outdoors",
@@ -175,6 +179,8 @@
             ],
             "floor_height": 3.0,
             "floor_to_ceiling_height": 3.0,
+            "is_ground_contact": false,
+            "is_top_exposed": false,
             "boundary_conditions": [
                 {
                     "type": "Surface",
@@ -246,6 +252,8 @@
             ],
             "floor_height": 3.0,
             "floor_to_ceiling_height": 3.0,
+            "is_ground_contact": false,
+            "is_top_exposed": false,
             "boundary_conditions": [
                 {
                     "type": "Outdoors",
@@ -290,8 +298,6 @@
     ],
     "floor_to_floor_height": 3.0,
     "multiplier": 1,
-    "is_ground_floor": false,
-    "is_top_floor": false,
     "properties": {
         "type": "StoryPropertiesAbridged",
         "energy": {
