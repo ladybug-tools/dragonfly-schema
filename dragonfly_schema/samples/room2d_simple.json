@@ -1,0 +1,75 @@
+{
+    "type": "Room2D",
+    "name": "ShoeBoxZone",
+    "display_name": "Shoe Box Zone",
+    "properties": {
+        "type": "Room2DPropertiesAbridged",
+        "energy": {
+            "type": "Room2DEnergyPropertiesAbridged",
+            "program_type": "Generic Office Program",
+            "construction_set": "Thermal Mass Construction Set"
+        }
+    },
+    "floor_boundary": [
+        [
+            0.0,
+            0.0
+        ],
+        [
+            10.0,
+            0.0
+        ],
+        [
+            10.0,
+            10.0
+        ],
+        [
+            0.0,
+            10.0
+        ]
+    ],
+    "floor_height": 3.0,
+    "floor_to_ceiling_height": 3.0,
+    "boundary_conditions": [
+        {
+            "type": "Outdoors",
+            "sun_exposure": true,
+            "wind_exposure": true,
+            "view_factor": "autocalculate"
+        },
+        {
+            "type": "Ground"
+        },
+        {
+            "type": "Outdoors",
+            "sun_exposure": true,
+            "wind_exposure": true,
+            "view_factor": "autocalculate"
+        },
+        {
+            "type": "Ground"
+        }
+    ],
+    "window_parameters": [
+        {
+            "type": "SimpleWindowRatio",
+            "window_ratio": 0.4
+        },
+        null,
+        {
+            "type": "SimpleWindowRatio",
+            "window_ratio": 0.4
+        },
+        null
+    ],
+    "shading_parameters": [
+        {
+            "type": "Overhang",
+            "depth": 1.0,
+            "angle": 0.0
+        },
+        null,
+        null,
+        null
+    ]
+}

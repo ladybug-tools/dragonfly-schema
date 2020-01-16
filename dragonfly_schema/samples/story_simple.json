@@ -1,0 +1,302 @@
+{
+    "type": "Story",
+    "name": "OfficeFloor",
+    "display_name": "Office Floor",
+    "room_2ds": [
+        {
+            "type": "Room2D",
+            "name": "Office1",
+            "display_name": "Office 1",
+            "properties": {
+                "type": "Room2DPropertiesAbridged",
+                "energy": {
+                    "type": "Room2DEnergyPropertiesAbridged"
+                }
+            },
+            "floor_boundary": [
+                [
+                    10.0,
+                    0.0
+                ],
+                [
+                    10.0,
+                    10.0
+                ],
+                [
+                    0.0,
+                    10.0
+                ],
+                [
+                    0.0,
+                    0.0
+                ]
+            ],
+            "floor_height": 3.0,
+            "floor_to_ceiling_height": 3.0,
+            "boundary_conditions": [
+                {
+                    "type": "Surface",
+                    "boundary_condition_objects": [
+                        "Office2..Face3",
+                        "Office2"
+                    ]
+                },
+                {
+                    "type": "Surface",
+                    "boundary_condition_objects": [
+                        "Office3..Face4",
+                        "Office3"
+                    ]
+                },
+                {
+                    "type": "Outdoors",
+                    "sun_exposure": true,
+                    "wind_exposure": true,
+                    "view_factor": "autocalculate"
+                },
+                {
+                    "type": "Outdoors",
+                    "sun_exposure": true,
+                    "wind_exposure": true,
+                    "view_factor": "autocalculate"
+                }
+            ],
+            "window_parameters": [
+                null,
+                null,
+                {
+                    "type": "SimpleWindowRatio",
+                    "window_ratio": 0.4
+                },
+                {
+                    "type": "SimpleWindowRatio",
+                    "window_ratio": 0.4
+                }
+            ]
+        },
+        {
+            "type": "Room2D",
+            "name": "Office2",
+            "display_name": "Office 2",
+            "properties": {
+                "type": "Room2DPropertiesAbridged",
+                "energy": {
+                    "type": "Room2DEnergyPropertiesAbridged"
+                }
+            },
+            "floor_boundary": [
+                [
+                    20.0,
+                    0.0
+                ],
+                [
+                    20.0,
+                    10.0
+                ],
+                [
+                    10.0,
+                    10.0
+                ],
+                [
+                    10.0,
+                    0.0
+                ]
+            ],
+            "floor_height": 3.0,
+            "floor_to_ceiling_height": 3.0,
+            "boundary_conditions": [
+                {
+                    "type": "Outdoors",
+                    "sun_exposure": true,
+                    "wind_exposure": true,
+                    "view_factor": "autocalculate"
+                },
+                {
+                    "type": "Surface",
+                    "boundary_condition_objects": [
+                        "Office4..Face4",
+                        "Office4"
+                    ]
+                },
+                {
+                    "type": "Surface",
+                    "boundary_condition_objects": [
+                        "Office1..Face1",
+                        "Office1"
+                    ]
+                },
+                {
+                    "type": "Outdoors",
+                    "sun_exposure": true,
+                    "wind_exposure": true,
+                    "view_factor": "autocalculate"
+                }
+            ],
+            "window_parameters": [
+                {
+                    "type": "SimpleWindowRatio",
+                    "window_ratio": 0.4
+                },
+                null,
+                null,
+                {
+                    "type": "SimpleWindowRatio",
+                    "window_ratio": 0.4
+                }
+            ]
+        },
+        {
+            "type": "Room2D",
+            "name": "Office3",
+            "display_name": "Office 3",
+            "properties": {
+                "type": "Room2DPropertiesAbridged",
+                "energy": {
+                    "type": "Room2DEnergyPropertiesAbridged"
+                }
+            },
+            "floor_boundary": [
+                [
+                    10.0,
+                    10.0
+                ],
+                [
+                    10.0,
+                    20.0
+                ],
+                [
+                    0.0,
+                    20.0
+                ],
+                [
+                    0.0,
+                    10.0
+                ]
+            ],
+            "floor_height": 3.0,
+            "floor_to_ceiling_height": 3.0,
+            "boundary_conditions": [
+                {
+                    "type": "Surface",
+                    "boundary_condition_objects": [
+                        "Office4..Face3",
+                        "Office4"
+                    ]
+                },
+                {
+                    "type": "Outdoors",
+                    "sun_exposure": true,
+                    "wind_exposure": true,
+                    "view_factor": "autocalculate"
+                },
+                {
+                    "type": "Outdoors",
+                    "sun_exposure": true,
+                    "wind_exposure": true,
+                    "view_factor": "autocalculate"
+                },
+                {
+                    "type": "Surface",
+                    "boundary_condition_objects": [
+                        "Office1..Face2",
+                        "Office1"
+                    ]
+                }
+            ],
+            "window_parameters": [
+                null,
+                {
+                    "type": "SimpleWindowRatio",
+                    "window_ratio": 0.4
+                },
+                {
+                    "type": "SimpleWindowRatio",
+                    "window_ratio": 0.4
+                },
+                null
+            ]
+        },
+        {
+            "type": "Room2D",
+            "name": "Office4",
+            "display_name": "Office 4",
+            "properties": {
+                "type": "Room2DPropertiesAbridged",
+                "energy": {
+                    "type": "Room2DEnergyPropertiesAbridged"
+                }
+            },
+            "floor_boundary": [
+                [
+                    20.0,
+                    10.0
+                ],
+                [
+                    20.0,
+                    20.0
+                ],
+                [
+                    10.0,
+                    20.0
+                ],
+                [
+                    10.0,
+                    10.0
+                ]
+            ],
+            "floor_height": 3.0,
+            "floor_to_ceiling_height": 3.0,
+            "boundary_conditions": [
+                {
+                    "type": "Outdoors",
+                    "sun_exposure": true,
+                    "wind_exposure": true,
+                    "view_factor": "autocalculate"
+                },
+                {
+                    "type": "Outdoors",
+                    "sun_exposure": true,
+                    "wind_exposure": true,
+                    "view_factor": "autocalculate"
+                },
+                {
+                    "type": "Surface",
+                    "boundary_condition_objects": [
+                        "Office3..Face1",
+                        "Office3"
+                    ]
+                },
+                {
+                    "type": "Surface",
+                    "boundary_condition_objects": [
+                        "Office2..Face2",
+                        "Office2"
+                    ]
+                }
+            ],
+            "window_parameters": [
+                {
+                    "type": "SimpleWindowRatio",
+                    "window_ratio": 0.4
+                },
+                {
+                    "type": "SimpleWindowRatio",
+                    "window_ratio": 0.4
+                },
+                null,
+                null
+            ]
+        }
+    ],
+    "floor_to_floor_height": 3.0,
+    "multiplier": 1,
+    "is_ground_floor": false,
+    "is_top_floor": false,
+    "properties": {
+        "type": "StoryPropertiesAbridged",
+        "energy": {
+            "type": "StoryEnergyPropertiesAbridged",
+            "construction_set": "Thermal Mass Construction Set"
+        }
+    }
+}
