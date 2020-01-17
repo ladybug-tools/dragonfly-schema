@@ -28,3 +28,8 @@ def test_context_shade_two_tree_canopy():
 def test_model_complete_simple():
     file_path  = os.path.join(target_folder, 'model_complete_simple.json')
     Model.parse_file(file_path)
+
+
+def test_model_complete_pinwheel_lab_complex():
+    file_path  = os.path.join(target_folder, 'model_complete_pinwheel_lab_complex.json')
+    Model.parse_file(file_path)
