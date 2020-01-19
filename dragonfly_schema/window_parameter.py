@@ -1,5 +1,6 @@
 """Window Parameters with instructions for generating windows."""
-from pydantic import BaseModel, Field, constr
+from pydantic import BaseModel, Field, validator, root_validator, constr
+from typing import List
 
 
 class SingleWindow(BaseModel):
@@ -90,3 +91,98 @@ class RepeatingWindowRatio(BaseModel):
         description='An optional number to create a single vertical separation '
             'between top and bottom windows.'
     )
+
+
+class RectangularWindows(BaseModel):
+    """Several rectangular windows, defined by origin, width and height."""
+
+    type: constr(regex='^RectangularWindows$') = 'RectangularWindows'
+
+    origins: List[List[float]] = Field(
+        ...,
+        description='An array of 2D points within the plane of the wall for the origin '
+            'of each window. Each point should be a list of 2 (x, y) values. The '
+            'wall plane is assumed to have an origin at the first point of the wall '
+            'segment and an X-axis extending along the length of the segment. The '
+            'wall plane Y-axis always points upwards. Therefore, both X and Y '
+            'values of each origin point should be positive.'
+    )
+
+    widths: List[float] = Field(
+        ...,
+        description='An array of postive numbers for the window widths. '
+            'The length of this list must match the length of the origins.'
+    )
+
+    heights: List[float] = Field(
+        ...,
+        description='An array of postive numbers for the window heights. '
+            'The length of this list must match the length of the origins.'
+    )
+
+    @validator('origins')
+    def check_num_items(cls, v):
+        for i in v:
+            assert len(i) == 2, 'Number of floats must be 2 for (x, y).'
+            assert i[0] > 0, 'X value for WindowParameter origin must be positive.'
+            assert i[1] > 0, 'Y value for WindowParameter origin must be positive.'
+        return v
+
+    @validator('widths')
+    def check_positive_widths(cls, v):
+        for i in v:
+            assert i > 0, 'Window width must be positive.'
+        return v
+
+    @validator('heights')
+    def check_positive_heights(cls, v):
+        for i in v:
+            assert i > 0, 'Window height must be positive.'
+        return v
+
+    @root_validator
+    def check_aligned_lists(cls, values):
+        "Ensure length of origins, widths and heights match."
+        origins = values.get('origins')
+        widths = values.get('widths')
+        heights = values.get('heights')
+
+        assert len(origins) == len(widths) == len(heights), 'Length of ' \
+            'RectangularWindows origins, widths, and heights ' \
+            'must match. origins: {}, widths: {}, heights: {}'.format(
+                len(origins), len(widths), len(heights))
+        
+        return values
+
+
+class DetailedWindows(BaseModel):
+    """Several detailed windows defined by 2D Polygons (lists of 2D vertices)."""
+
+    type: constr(regex='^DetailedWindows$') = 'DetailedWindows'
+
+    polygons: List[List[List[float]]] = Field(
+        ...,
+        description='An array of arrays with each sub-array representing a polygonal '
+            'boundary of a window within the plane of the wall. Each sub-array should '
+            'consist of at least three 2D points and each point should be a list of '
+            '2 (x, y) values. The wall plane is assumed to have an origin at the '
+            'first point of the wall segment and an X-axis extending along the '
+            'length of the segment. The wall plane Y-axis always points upwards. '
+            'Therefore, both X and Y values of each point in the polygon should '
+            'always be positive. Note that, if you are starting from 3D vertices '
+            'of windows, you can use these window parameters to represent them. '
+            'Some sample code to convert from 2D vertices to 2D vertices in the '
+            'plane of the wall can be found here: '
+            'https://www.ladybug.tools/dragonfly-core/docs/dragonfly.windowparameter.html#dragonfly.windowparameter.DetailedWindows'
+    )
+
+    @validator('polygons')
+    def check_num_items(cls, v):
+        for pt_list in v:
+            assert len(pt_list) >= 3, \
+                'DetailedWindows must have windows with at least 3 vertices.'
+            for pt in pt_list:
+                assert len(pt) == 2, 'Number of floats must be 2 for (x, y).'
+                assert pt[0] > 0, 'X value for WindowParameter vertex must be positive.'
+                assert pt[1] > 0, 'Y value for WindowParameter vertex must be positive.'
+        return v

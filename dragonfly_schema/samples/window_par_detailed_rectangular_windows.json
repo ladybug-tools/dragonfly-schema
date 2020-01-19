@@ -1,0 +1,21 @@
+{
+    "type": "RectangularWindows",
+    "origins": [
+        [
+            2.0,
+            1.0
+        ],
+        [
+            5.0,
+            0.5
+        ]
+    ],
+    "widths": [
+        1.0,
+        3.0
+    ],
+    "heights": [
+        1.0,
+        2.0
+    ]
+}

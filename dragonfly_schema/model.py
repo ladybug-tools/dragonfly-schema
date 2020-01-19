@@ -7,7 +7,8 @@ from honeybee_schema.model import Face3D
 from honeybee_schema.bc import Ground, Outdoors, Adiabatic, Surface
 
 from ._base import NamedBaseModel
-from .window_parameter import SingleWindow, SimpleWindowRatio, RepeatingWindowRatio
+from .window_parameter import SingleWindow, SimpleWindowRatio, RepeatingWindowRatio, \
+    RectangularWindows, DetailedWindows
 from .shading_parameter import ExtrudedBorder, Overhang, LouversByDistance, \
     LouversByCount
 from .energy.properties import Room2DEnergyPropertiesAbridged, \
@@ -77,7 +78,7 @@ class Room2D(NamedBaseModel):
     )
 
     window_parameters: List[Union[None, SingleWindow, SimpleWindowRatio,
-            RepeatingWindowRatio]] = Field(
+            RepeatingWindowRatio, RectangularWindows, DetailedWindows]] = Field(
         default=None,
         description='A list of WindowParameter objects that dictate how the window '
             'geometries will be generated for each of the walls. If None, no windows '
@@ -108,6 +109,7 @@ class Room2D(NamedBaseModel):
     def check_num_items_holes(cls, v):
         if v is not None:
             for pt_list in v:
+                assert len(pt_list) >= 3, 'Floor holes must have at least 3 vertices.'
                 for pt in pt_list:
                     assert len(pt) == 2, 'Number of floats must be 2 for (x, y).'
         return v

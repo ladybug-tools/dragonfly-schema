@@ -49,3 +49,8 @@ python -m pytest tests/
 ```python
 python ./docs.py
 ```
+
+5. Generate Sample Files:
+```python
+python ./scripts/export_samples.py
+```
