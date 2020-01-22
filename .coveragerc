@@ -1,2 +1,2 @@
 [run]
-omit = scripts/*
+omit = tests/*, scripts/*, docs/*, dragonfly_schema/_openapi.py, docs.py

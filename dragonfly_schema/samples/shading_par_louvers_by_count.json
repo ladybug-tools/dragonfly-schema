@@ -1,0 +1,12 @@
+{
+    "type": "LouversByCount",
+    "louver_count": 3,
+    "depth": 0.3,
+    "offset": 1.0,
+    "angle": 30.0,
+    "contour_vector": [
+        0.0,
+        1.0
+    ],
+    "flip_start_side": false
+}
