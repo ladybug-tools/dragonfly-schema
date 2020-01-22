@@ -54,3 +54,10 @@ python ./docs.py
 ```python
 python ./scripts/export_samples.py
 ```
+
+6. Validate a Model:
+```python
+python ./validate.py ./dragonfly_schema/samples/model_complete_simple.json
+```
+Note that `./dragonfly_schema/samples/model_complete_simple.json` should be replaced
+with the path to the specific model JSON that you would like to validate.

@@ -9,7 +9,6 @@ import json
 
 
 def window_par_single_window(directory):
-    """Test the to/from dict methods."""
     simple_window = SingleWindow(5, 2, 0.8)
 
     dest_file = os.path.join(directory, 'window_par_single_window.json')
@@ -18,7 +17,6 @@ def window_par_single_window(directory):
 
 
 def window_par_simple_window_ratio(directory):
-    """Test the to/from dict methods."""
     ashrae_base = SimpleWindowRatio(0.4)
 
     dest_file = os.path.join(directory, 'window_par_simple_window_ratio.json')
@@ -27,7 +25,6 @@ def window_par_simple_window_ratio(directory):
 
 
 def window_par_repeating_window_ratio(directory):
-    """Test the to/from dict methods."""
     ashrae_base = RepeatingWindowRatio(0.4, 2, 0.8, 3)
 
     dest_file = os.path.join(directory, 'window_par_repeating_window_ratio.json')
@@ -36,7 +33,6 @@ def window_par_repeating_window_ratio(directory):
 
 
 def window_par_detailed_rectangular_windows(directory):
-    """Test the to/from dict methods."""
     origins = (Point2D(2, 1), Point2D(5, 0.5))
     widths = (1, 3)
     heights = (1, 2)
@@ -48,7 +44,6 @@ def window_par_detailed_rectangular_windows(directory):
 
 
 def window_par_detailed_windows(directory):
-    """Test the to/from dict methods."""
     pts_1 = (Point2D(2, 1), Point2D(3, 1), Point2D(3, 2), Point2D(2, 2))
     pts_2 = (Point2D(5, 0.5), Point2D(8, 0.5), Point2D(8, 2.5), Point2D(5, 2.5))
     detailed_window = DetailedWindows((Polygon2D(pts_1), Polygon2D(pts_2)))
