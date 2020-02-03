@@ -84,7 +84,7 @@ def get_openapi(
         
         # sort properties order: put required parameters at begining of the list
         s = schemas[name]
-        if not 'required' in s:
+        if 'required' not in s:
             continue
         properties = s['properties']
         required = s['required']
