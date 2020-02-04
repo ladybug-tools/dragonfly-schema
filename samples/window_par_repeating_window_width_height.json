@@ -1,0 +1,7 @@
+{
+    "type": "RepeatingWindowWidthHeight",
+    "window_height": 2.0,
+    "window_width": 1.5,
+    "sill_height": 0.8,
+    "horizontal_separation": 3.0
+}

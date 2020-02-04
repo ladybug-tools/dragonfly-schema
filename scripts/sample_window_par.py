@@ -1,5 +1,6 @@
 from dragonfly.windowparameter import SingleWindow, SimpleWindowRatio, \
-    RepeatingWindowRatio, RectangularWindows, DetailedWindows
+    RepeatingWindowRatio, RepeatingWindowWidthHeight, RectangularWindows, \
+    DetailedWindows
 
 from ladybug_geometry.geometry2d.pointvector import Point2D
 from ladybug_geometry.geometry2d.polygon import Polygon2D
@@ -32,6 +33,14 @@ def window_par_repeating_window_ratio(directory):
         json.dump(ashrae_base.to_dict(), fp, indent=4)
 
 
+def window_par_repeating_window_width_height(directory):
+    bod_windows = RepeatingWindowWidthHeight(2, 1.5, 0.8, 3)
+
+    dest_file = os.path.join(directory, 'window_par_repeating_window_width_height.json')
+    with open(dest_file, 'w') as fp:
+        json.dump(bod_windows.to_dict(), fp, indent=4)
+
+
 def window_par_detailed_rectangular_windows(directory):
     origins = (Point2D(2, 1), Point2D(5, 0.5))
     widths = (1, 3)
@@ -55,10 +64,11 @@ def window_par_detailed_windows(directory):
 
 # run all functions within the file
 master_dir = os.path.split(os.path.dirname(__file__))[0]
-sample_directory = os.path.join(master_dir, 'dragonfly_schema', 'samples')
+sample_directory = os.path.join(master_dir, 'samples')
 
 window_par_single_window(sample_directory)
 window_par_simple_window_ratio(sample_directory)
 window_par_repeating_window_ratio(sample_directory)
+window_par_repeating_window_width_height(sample_directory)
 window_par_detailed_rectangular_windows(sample_directory)
 window_par_detailed_windows(sample_directory)
