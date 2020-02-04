@@ -37,7 +37,9 @@
             "type": "Outdoors",
             "sun_exposure": true,
             "wind_exposure": true,
-            "view_factor": "autocalculate"
+            "view_factor": {
+                "type": "Autocalculate"
+            }
         },
         {
             "type": "Ground"
@@ -46,7 +48,9 @@
             "type": "Outdoors",
             "sun_exposure": true,
             "wind_exposure": true,
-            "view_factor": "autocalculate"
+            "view_factor": {
+                "type": "Autocalculate"
+            }
         },
         {
             "type": "Ground"

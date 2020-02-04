@@ -54,13 +54,17 @@
                     "type": "Outdoors",
                     "sun_exposure": true,
                     "wind_exposure": true,
-                    "view_factor": "autocalculate"
+                    "view_factor": {
+                        "type": "Autocalculate"
+                    }
                 },
                 {
                     "type": "Outdoors",
                     "sun_exposure": true,
                     "wind_exposure": true,
-                    "view_factor": "autocalculate"
+                    "view_factor": {
+                        "type": "Autocalculate"
+                    }
                 }
             ],
             "window_parameters": [
@@ -113,7 +117,9 @@
                     "type": "Outdoors",
                     "sun_exposure": true,
                     "wind_exposure": true,
-                    "view_factor": "autocalculate"
+                    "view_factor": {
+                        "type": "Autocalculate"
+                    }
                 },
                 {
                     "type": "Surface",
@@ -133,7 +139,9 @@
                     "type": "Outdoors",
                     "sun_exposure": true,
                     "wind_exposure": true,
-                    "view_factor": "autocalculate"
+                    "view_factor": {
+                        "type": "Autocalculate"
+                    }
                 }
             ],
             "window_parameters": [
@@ -193,13 +201,17 @@
                     "type": "Outdoors",
                     "sun_exposure": true,
                     "wind_exposure": true,
-                    "view_factor": "autocalculate"
+                    "view_factor": {
+                        "type": "Autocalculate"
+                    }
                 },
                 {
                     "type": "Outdoors",
                     "sun_exposure": true,
                     "wind_exposure": true,
-                    "view_factor": "autocalculate"
+                    "view_factor": {
+                        "type": "Autocalculate"
+                    }
                 },
                 {
                     "type": "Surface",
@@ -259,13 +271,17 @@
                     "type": "Outdoors",
                     "sun_exposure": true,
                     "wind_exposure": true,
-                    "view_factor": "autocalculate"
+                    "view_factor": {
+                        "type": "Autocalculate"
+                    }
                 },
                 {
                     "type": "Outdoors",
                     "sun_exposure": true,
                     "wind_exposure": true,
-                    "view_factor": "autocalculate"
+                    "view_factor": {
+                        "type": "Autocalculate"
+                    }
                 },
                 {
                     "type": "Surface",

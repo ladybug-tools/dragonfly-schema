@@ -3,7 +3,7 @@ import os
 
 # target folder where all of the samples live
 root = os.path.dirname(os.path.dirname(__file__))
-target_folder = os.path.join(root, 'dragonfly_schema', 'samples')
+target_folder = os.path.join(root, 'samples')
 
 
 def test_room2d_simple():
@@ -27,9 +27,4 @@ def test_context_shade_two_tree_canopy():
 
 def test_model_complete_simple():
     file_path  = os.path.join(target_folder, 'model_complete_simple.json')
-    Model.parse_file(file_path)
-
-
-def test_model_complete_pinwheel_lab_complex():
-    file_path  = os.path.join(target_folder, 'model_complete_pinwheel_lab_complex.json')
     Model.parse_file(file_path)

@@ -175,7 +175,7 @@ def context_shade_two_tree_canopy(directory):
 
 # run all functions within the file
 master_dir = os.path.split(os.path.dirname(__file__))[0]
-sample_directory = os.path.join(master_dir, 'dragonfly_schema', 'samples')
+sample_directory = os.path.join(master_dir, 'samples')
 
 model_complete_simple(sample_directory)
 building_simple(sample_directory)
