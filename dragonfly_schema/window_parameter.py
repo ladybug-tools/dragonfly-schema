@@ -73,7 +73,7 @@ class RepeatingWindowRatio(BaseModel):
         ...,
         gt=0,
         description='A number for the target height above the bottom edge of the '
-            'rectangle to start the windows. Note that, if the ratio is too large '
+            'wall to start the windows. Note that, if the ratio is too large '
             'for the height, the ratio will take precedence and the sill_height '
             'will be smaller than this value.'
     )
@@ -91,6 +91,47 @@ class RepeatingWindowRatio(BaseModel):
         ge=0,
         description='An optional number to create a single vertical separation '
             'between top and bottom windows.'
+    )
+
+
+class RepeatingWindowWidthHeight(BaseModel):
+    """Repeating rectangular windows of a fixed width and height."""
+
+    type: constr(regex='^RepeatingWindowWidthHeight$') = 'RepeatingWindowWidthHeight'
+
+    window_height: float = Field(
+        ...,
+        gt=0,
+        description='A number for the target height of the windows. Note that, '
+            'if the window_height is larger than the height of the wall, '
+            'the generated windows will have a height equal to the wall height '
+            'in order to avoid having windows extend outside the wall face.'
+    )
+
+    window_width: float = Field(
+        ...,
+        gt=0,
+        description='A number for the target width of the windows. '
+            'Note that, if the window_width is larger than the width of the wall, '
+            'the generated windows will have a width equal to the wall width '
+            'in order to avoid having windows extend outside the wall face.'
+    )
+
+    sill_height: float = Field(
+        ...,
+        gt=0,
+        description='A number for the target height above the bottom edge of the '
+            'wall to start the windows. If the window_height is too large for the '
+            'sill_height to fit within the rectangle, the window_height will take '
+            'precedence.'
+    )
+
+    horizontal_separation: float = Field(
+        ...,
+        ge=0,
+        description='A number for the target separation between individual window '
+            'centerlines.  If this number is larger than the parent rectangle base, '
+            'only one window will be produced.'
     )
 
 
