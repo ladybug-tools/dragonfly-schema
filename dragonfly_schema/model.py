@@ -3,7 +3,7 @@ from pydantic import BaseModel, Field, validator, root_validator, constr, conlis
 from typing import List, Union
 from enum import Enum
 
-from honeybee_schema.model import Face3D
+from honeybee_schema.model import Face3D, Units
 from honeybee_schema.bc import Ground, Outdoors, Adiabatic, Surface
 
 from ._base import NamedBaseModel
@@ -245,6 +245,34 @@ class Model(NamedBaseModel):
         ge=0,
         lt=360,
         description='The clockwise north direction in degrees.'
+    )
+
+    units: Units = Field(
+        default=Units.meters,
+        description='Text indicating the units in which the model geometry exists. '
+            'This is used to scale the geometry to the correct units for simulation '
+            'engines like EnergyPlus, which requires all geometry be in meters.'
+    )
+
+    tolerance: float = Field(
+        default=0,
+        description='The maximum difference between x, y, and z values at which '
+            'vertices are considered equivalent. This value should be in the Model '
+            'units and is used in a variety of checks and operations that can '
+            'be performed on geometry, such as solving adjacency between Room2Ds. '
+            'A value of 0 will result in no checks and an inability to perform '
+            'certain operations. Typical tolerances for builing geometry range '
+            'from 0.1 to 0.0001 depending on the units of the geometry.'
+    )
+
+    angle_tolerance: float = Field(
+        default=0,
+        description='The max angle difference in degrees that vertices are '
+            'allowed to differ from one another in order to consider them colinear. '
+            'This value is used in a variety of checks and operations that can be '
+            'performed on geometry. A value of 0 will result in no checks and '
+            'an inability to perform certain operations. Typical tolerances for '
+            'builing geometry are often around 1 degree.'
     )
 
     properties: ModelProperties = Field(
