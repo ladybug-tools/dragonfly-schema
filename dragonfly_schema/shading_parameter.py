@@ -1,9 +1,11 @@
 """Window Parameters with instructions for generating windows."""
-from pydantic import BaseModel, Field, constr
+from pydantic import Field, constr
 from typing import List
 
+from honeybee_schema._base import NoExtraBaseModel
 
-class ExtrudedBorder(BaseModel):
+
+class ExtrudedBorder(NoExtraBaseModel):
     """Extruded borders over all windows in the wall."""
 
     type: constr(regex='^ExtrudedBorder$') = 'ExtrudedBorder'
@@ -15,7 +17,7 @@ class ExtrudedBorder(BaseModel):
     )
 
 
-class Overhang(BaseModel):
+class Overhang(NoExtraBaseModel):
     """A single overhang over an entire wall."""
 
     type: constr(regex='^Overhang$') = 'Overhang'
@@ -37,7 +39,7 @@ class Overhang(BaseModel):
     )
 
 
-class _LouversBase(BaseModel):
+class _LouversBase(NoExtraBaseModel):
     """Base class for for a series of louvered shades over a wall."""
 
     depth: float = Field(

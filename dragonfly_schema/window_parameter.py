@@ -1,10 +1,12 @@
 """Window Parameters with instructions for generating windows."""
-from pydantic import BaseModel, Field, validator, root_validator, \
+from pydantic import Field, validator, root_validator, \
     constr, conlist, confloat
 from typing import List
 
+from honeybee_schema._base import NoExtraBaseModel
 
-class SingleWindow(BaseModel):
+
+class SingleWindow(NoExtraBaseModel):
     """A single window in the wall center defined by a width * height."""
 
     type: constr(regex='^SingleWindow$') = 'SingleWindow'
@@ -34,7 +36,7 @@ class SingleWindow(BaseModel):
     )
 
 
-class SimpleWindowRatio(BaseModel):
+class SimpleWindowRatio(NoExtraBaseModel):
     """A single window defined by an area ratio with the base surface."""
 
     type: constr(regex='^SimpleWindowRatio$') = 'SimpleWindowRatio'
@@ -48,7 +50,7 @@ class SimpleWindowRatio(BaseModel):
     )
 
 
-class RepeatingWindowRatio(BaseModel):
+class RepeatingWindowRatio(NoExtraBaseModel):
     """Repeating windows derived from an area ratio with the base wall."""
 
     type: constr(regex='^RepeatingWindowRatio$') = 'RepeatingWindowRatio'
@@ -94,7 +96,7 @@ class RepeatingWindowRatio(BaseModel):
     )
 
 
-class RepeatingWindowWidthHeight(BaseModel):
+class RepeatingWindowWidthHeight(NoExtraBaseModel):
     """Repeating rectangular windows of a fixed width and height."""
 
     type: constr(regex='^RepeatingWindowWidthHeight$') = 'RepeatingWindowWidthHeight'
@@ -135,7 +137,7 @@ class RepeatingWindowWidthHeight(BaseModel):
     )
 
 
-class RectangularWindows(BaseModel):
+class RectangularWindows(NoExtraBaseModel):
     """Several rectangular windows, defined by origin, width and height."""
 
     type: constr(regex='^RectangularWindows$') = 'RectangularWindows'
@@ -180,7 +182,7 @@ class RectangularWindows(BaseModel):
         return values
 
 
-class DetailedWindows(BaseModel):
+class DetailedWindows(NoExtraBaseModel):
     """Several detailed windows defined by 2D Polygons (lists of 2D vertices)."""
 
     type: constr(regex='^DetailedWindows$') = 'DetailedWindows'

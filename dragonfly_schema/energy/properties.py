@@ -1,8 +1,9 @@
 """Model energy properties."""
-from pydantic import BaseModel, Field, constr
+from pydantic import Field, constr
 from typing import List, Union
 from enum import Enum
 
+from honeybee_schema._base import NoExtraBaseModel
 from honeybee_schema.energy.constructionset import ConstructionSetAbridged
 from honeybee_schema.energy.programtype import ProgramTypeAbridged
 from honeybee_schema.energy.hvac import IdealAirSystemAbridged
@@ -18,7 +19,7 @@ from honeybee_schema.energy.schedule import ScheduleTypeLimit, ScheduleRulesetAb
     ScheduleFixedIntervalAbridged
 
 
-class Room2DEnergyPropertiesAbridged(BaseModel):
+class Room2DEnergyPropertiesAbridged(NoExtraBaseModel):
 
     type: constr(regex='^Room2DEnergyPropertiesAbridged$') = \
         'Room2DEnergyPropertiesAbridged'
@@ -51,7 +52,7 @@ class Room2DEnergyPropertiesAbridged(BaseModel):
     )
 
 
-class StoryEnergyPropertiesAbridged(BaseModel):
+class StoryEnergyPropertiesAbridged(NoExtraBaseModel):
 
     type: constr(regex='^StoryEnergyPropertiesAbridged$') = \
         'StoryEnergyPropertiesAbridged'
@@ -67,7 +68,7 @@ class StoryEnergyPropertiesAbridged(BaseModel):
     )
 
 
-class BuildingEnergyPropertiesAbridged(BaseModel):
+class BuildingEnergyPropertiesAbridged(NoExtraBaseModel):
 
     type: constr(regex='^BuildingEnergyPropertiesAbridged$') = \
         'BuildingEnergyPropertiesAbridged'
@@ -81,7 +82,7 @@ class BuildingEnergyPropertiesAbridged(BaseModel):
     )
 
 
-class ContextShadeEnergyPropertiesAbridged(BaseModel):
+class ContextShadeEnergyPropertiesAbridged(NoExtraBaseModel):
 
     type: constr(regex='^ContextShadeEnergyPropertiesAbridged$') = \
         'ContextShadeEnergyPropertiesAbridged'
@@ -105,7 +106,7 @@ class ContextShadeEnergyPropertiesAbridged(BaseModel):
     )
 
 
-class ModelEnergyProperties(BaseModel):
+class ModelEnergyProperties(NoExtraBaseModel):
 
     type: constr(regex='^ModelEnergyProperties$') = 'ModelEnergyProperties'
 

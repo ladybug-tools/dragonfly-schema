@@ -3,10 +3,10 @@ from pydantic import BaseModel, Field, validator, root_validator, constr, conlis
 from typing import List, Union
 from enum import Enum
 
+from honeybee_schema._base import NamedBaseModel
 from honeybee_schema.model import Face3D, Units
 from honeybee_schema.bc import Ground, Outdoors, Adiabatic, Surface
 
-from ._base import NamedBaseModel
 from .window_parameter import SingleWindow, SimpleWindowRatio, RepeatingWindowRatio, \
     RectangularWindows, DetailedWindows
 from .shading_parameter import ExtrudedBorder, Overhang, LouversByDistance, \
@@ -61,7 +61,7 @@ class Room2D(NamedBaseModel):
             'with the ground.'
     )
 
-    is_top_floor: bool = Field(
+    is_top_exposed: bool = Field(
         False,
         description='A boolean noting whether this Room2D has its ceiling exposed '
             'to the outdoors.'
@@ -187,6 +187,12 @@ class Building(NamedBaseModel):
             'floor to highest floor. Note that, if a given Story is repeated several '
             'times over the height of the building, the unique story included in this '
             'list should be the first (lowest) story of the repeated floors.'
+    )
+
+    properties: BuildingPropertiesAbridged = Field(
+        ...,
+        description='Extension properties for particular simulation engines '
+            '(Radiance, EnergyPlus).'
     )
 
 
