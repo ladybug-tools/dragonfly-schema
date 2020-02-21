@@ -10,7 +10,7 @@ from honeybee_schema.energy.hvac import IdealAirSystemAbridged
 
 from honeybee_schema.energy.properties import TerrianTypes
 from honeybee_schema.energy.construction import OpaqueConstructionAbridged, \
-    WindowConstructionAbridged, ShadeConstruction
+    WindowConstructionAbridged, ShadeConstruction, AirBoundaryConstructionAbridged
 from honeybee_schema.energy.material import EnergyMaterial, EnergyMaterialNoMass, \
     EnergyWindowMaterialGas, EnergyWindowMaterialGasCustom, \
     EnergyWindowMaterialGasMixture, EnergyWindowMaterialSimpleGlazSys, \
@@ -130,8 +130,9 @@ class ModelEnergyProperties(NoExtraBaseModel):
         description='List of all ConstructionSets in the Model.'
     )
 
-    constructions: List[Union[OpaqueConstructionAbridged, WindowConstructionAbridged,
-                              ShadeConstruction]] = Field(
+    constructions: List[Union[
+        OpaqueConstructionAbridged, WindowConstructionAbridged,
+        ShadeConstruction, AirBoundaryConstructionAbridged]] = Field(
         ...,
         description='A list of all unique constructions in the model. This includes '
             'constructions across all the Model construction_sets.'
