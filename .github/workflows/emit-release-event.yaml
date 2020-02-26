@@ -23,7 +23,7 @@ jobs:
         curl -X POST $DISPATCH_URL \
           -H "Accept: application/vnd.github.everest-preview+json" \
           -d '{
-            "event_type": "honeybee_schema_release",
+            "event_type": "dragonfly_schema_release",
             "client_payload": {
               "version" : $GITHUB_REF
             }
