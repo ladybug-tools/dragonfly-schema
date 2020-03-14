@@ -5,7 +5,7 @@ from typing import Dict
 VERSION = None
 
 try:
-    VERSION = '.'.join(get_distribution('honeybee_schema').version.split('.')[:3]),
+    VERSION = '.'.join(get_distribution('dragonfly_schema').version.split('.')[:3]),
 except:
     pass
 
