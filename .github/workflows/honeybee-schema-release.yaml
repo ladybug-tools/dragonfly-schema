@@ -1,0 +1,41 @@
+name: CI
+
+on: repository_dispatch
+
+jobs:
+  update_honeybee_schema:
+    name: "Update Honeybee Schema version"
+    runs-on: ubuntu-latest
+    if: github.event.action == 'honeybee_schema_release'
+
+    steps:
+    - name: "Checkout Master Branch"
+      uses: actions/checkout@v1
+      with:
+        ref: refs/heads/master
+    
+    - name: "Run Update Script"
+      env:
+        VERSION: ${{ github.event.client_payload.version }}
+      run: |
+        sed -i 's/honeybee-schema\S*/honeybee-schema=='"$(echo $VERSION  | sed 's/v//')"'/' requirements.txt
+    
+    - name: "Set PR Variables"
+      id: pr_vars
+      env:
+        VERSION: ${{ github.event.client_payload.version }}
+      run: |
+        echo ::set-output name=commit_message::"fix(honeybee-schema): bump to $VERSION"
+        echo ::set-output name=pr_title::"Bump Honeybee Schema to $VERSION"
+        echo ::set-output name=pr_body::"Auto-generated Pull Request based on new release of honeybee-schema."        
+        echo ::set-output name=pr_branch::"honeybee-schema-$VERSION"
+
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v1.5.4
+      env:
+        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        COMMIT_MESSAGE: ${{ steps.pr_vars.outputs.commit_message }}
+        PULL_REQUEST_TITLE: ${{ steps.pr_vars.outputs.pr_title }}
+        PULL_REQUEST_BODY: ${{ steps.pr_vars.outputs.pr_body }}
+        PULL_REQUEST_BRANCH: ${{ steps.pr_vars.outputs.pr_branch }}
+        PULL_REQUEST_BASE: master
