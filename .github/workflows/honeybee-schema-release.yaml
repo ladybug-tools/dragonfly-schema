@@ -3,8 +3,8 @@ name: CI
 on: repository_dispatch
 
 jobs:
-  updateImage:
-    name: "Update Image versions"
+  update_honeybee_schema:
+    name: "Update Honeybee Schema version"
     runs-on: ubuntu-latest
     if: github.event.action == 'honeybee_schema_release'
 
