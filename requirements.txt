@@ -1,4 +1,4 @@
 
-honeybee-schema>=1.16.1
+honeybee-schema==1.18.0
 pydantic==1.4
 pytest~=4.4.0
