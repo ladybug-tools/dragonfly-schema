@@ -1,12 +1,12 @@
 {
     "type": "Story",
-    "name": "OfficeFloor",
-    "display_name": "Office Floor",
+    "identifier": "OfficeFloor",
+    "display_name": "OfficeFloor",
     "room_2ds": [
         {
             "type": "Room2D",
-            "name": "Office1",
-            "display_name": "Office 1",
+            "identifier": "Office1",
+            "display_name": "Office1",
             "properties": {
                 "type": "Room2DPropertiesAbridged",
                 "energy": {
@@ -82,8 +82,8 @@
         },
         {
             "type": "Room2D",
-            "name": "Office2",
-            "display_name": "Office 2",
+            "identifier": "Office2",
+            "display_name": "Office2",
             "properties": {
                 "type": "Room2DPropertiesAbridged",
                 "energy": {
@@ -159,8 +159,8 @@
         },
         {
             "type": "Room2D",
-            "name": "Office3",
-            "display_name": "Office 3",
+            "identifier": "Office3",
+            "display_name": "Office3",
             "properties": {
                 "type": "Room2DPropertiesAbridged",
                 "energy": {
@@ -236,8 +236,8 @@
         },
         {
             "type": "Room2D",
-            "name": "Office4",
-            "display_name": "Office 4",
+            "identifier": "Office4",
+            "display_name": "Office4",
             "properties": {
                 "type": "Room2DPropertiesAbridged",
                 "energy": {

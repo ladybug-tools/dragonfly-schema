@@ -1,7 +1,7 @@
 {
     "type": "ContextShade",
-    "name": "TreeCanopy",
-    "display_name": "Tree Canopy",
+    "identifier": "TreeCanopy",
+    "display_name": "TreeCanopy",
     "properties": {
         "type": "ContextShadePropertiesAbridged",
         "energy": {

@@ -3,7 +3,7 @@ from pydantic import BaseModel, Field, validator, root_validator, constr, conlis
 from typing import List, Union
 from enum import Enum
 
-from honeybee_schema._base import NamedBaseModel
+from honeybee_schema._base import IDdBaseModel
 from honeybee_schema.model import Face3D, Units
 from honeybee_schema.bc import Ground, Outdoors, Adiabatic, Surface
 
@@ -25,7 +25,7 @@ class Room2DPropertiesAbridged(BaseModel):
     )
 
 
-class Room2D(NamedBaseModel):
+class Room2D(IDdBaseModel):
 
     type: constr(regex='^Room2D$') = 'Room2D'
 
@@ -136,7 +136,7 @@ class StoryPropertiesAbridged(BaseModel):
     )
 
 
-class Story(NamedBaseModel):
+class Story(IDdBaseModel):
 
     type: constr(regex='^Story$') = 'Story'
 
@@ -176,7 +176,7 @@ class BuildingPropertiesAbridged(BaseModel):
     )
 
 
-class Building(NamedBaseModel):
+class Building(IDdBaseModel):
 
     type: constr(regex='^Building$') = 'Building'
 
@@ -206,7 +206,7 @@ class ContextShadePropertiesAbridged(BaseModel):
     )
 
 
-class ContextShade(NamedBaseModel):
+class ContextShade(IDdBaseModel):
 
     type: constr(regex='^ContextShade$') = 'ContextShade'
 
@@ -232,7 +232,7 @@ class ModelProperties(BaseModel):
     )
 
 
-class Model(NamedBaseModel):
+class Model(IDdBaseModel):
 
     type: constr(regex='^Model$') = 'Model'
 
