@@ -1,7 +1,7 @@
 {
     "type": "Room2D",
-    "name": "ShoeBoxZone",
-    "display_name": "Shoe Box Zone",
+    "identifier": "ShoeBoxZone",
+    "display_name": "ShoeBoxZone",
     "properties": {
         "type": "Room2DPropertiesAbridged",
         "energy": {

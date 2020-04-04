@@ -4,19 +4,21 @@ from typing import List, Union
 from enum import Enum
 
 from honeybee_schema._base import NoExtraBaseModel
-from honeybee_schema.energy.constructionset import ConstructionSetAbridged
-from honeybee_schema.energy.programtype import ProgramTypeAbridged
+from honeybee_schema.energy.constructionset import ConstructionSetAbridged, \
+    ConstructionSet
+from honeybee_schema.energy.programtype import ProgramTypeAbridged, ProgramType
 from honeybee_schema.energy.hvac import IdealAirSystemAbridged
 
 from honeybee_schema.energy.properties import TerrianTypes
 from honeybee_schema.energy.construction import OpaqueConstructionAbridged, \
-    WindowConstructionAbridged, ShadeConstruction, AirBoundaryConstructionAbridged
+    WindowConstructionAbridged, ShadeConstruction, AirBoundaryConstructionAbridged, \
+    OpaqueConstruction, WindowConstruction, AirBoundaryConstruction
 from honeybee_schema.energy.material import EnergyMaterial, EnergyMaterialNoMass, \
     EnergyWindowMaterialGas, EnergyWindowMaterialGasCustom, \
     EnergyWindowMaterialGasMixture, EnergyWindowMaterialSimpleGlazSys, \
     EnergyWindowMaterialBlind, EnergyWindowMaterialGlazing, EnergyWindowMaterialShade
 from honeybee_schema.energy.schedule import ScheduleTypeLimit, ScheduleRulesetAbridged, \
-    ScheduleFixedIntervalAbridged
+    ScheduleFixedIntervalAbridged, ScheduleRuleset, ScheduleFixedInterval
 
 
 class Room2DEnergyPropertiesAbridged(NoExtraBaseModel):
@@ -46,7 +48,7 @@ class Room2DEnergyPropertiesAbridged(NoExtraBaseModel):
         default=None,
         min_length=1,
         max_length=100,
-        description='An optional name of a HVAC system (such as an IdealAirSystem) '
+        description='An optional identifier of a HVAC system (such as an IdealAirSystem) '
             'that specifies how the Room2D is conditioned. If None, it will be assumed '
             'that the Room2D is not conditioned.'
     )
@@ -125,14 +127,15 @@ class ModelEnergyProperties(NoExtraBaseModel):
             'ConstructionSet must appear under the Model construction_sets.'
     )
 
-    construction_sets: List[ConstructionSetAbridged] = Field(
+    construction_sets: List[Union[ConstructionSetAbridged, ConstructionSet]] = Field(
         default=None,
         description='List of all ConstructionSets in the Model.'
     )
 
     constructions: List[Union[
         OpaqueConstructionAbridged, WindowConstructionAbridged,
-        ShadeConstruction, AirBoundaryConstructionAbridged]] = Field(
+        ShadeConstruction, AirBoundaryConstructionAbridged,
+        OpaqueConstruction, WindowConstruction, AirBoundaryConstruction]] = Field(
         ...,
         description='A list of all unique constructions in the model. This includes '
             'constructions across all the Model construction_sets.'
@@ -153,12 +156,13 @@ class ModelEnergyProperties(NoExtraBaseModel):
         description='List of all HVAC systems in the Model.'
     )
 
-    program_types: List[ProgramTypeAbridged] = Field(
+    program_types: List[Union[ProgramTypeAbridged, ProgramType]] = Field(
         default=None,
         description='List of all ProgramTypes in the Model.'
     )
 
-    schedules: List[Union[ScheduleRulesetAbridged, ScheduleFixedIntervalAbridged]] = Field(
+    schedules: List[Union[ScheduleRulesetAbridged, ScheduleFixedIntervalAbridged,
+                          ScheduleRuleset, ScheduleFixedInterval]] = Field(
         default=None,
         description='A list of all unique schedules in the model. This includes '
             'schedules across all HVAC systems, ProgramTypes and ContextShades.'
