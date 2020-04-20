@@ -5,9 +5,14 @@
         [
             "@semantic-release/github",
             {
-                "assets": [{
+                "assets": [
+                    {
                         "path": "docs/model.json",
-                        "label": "Model Schema"
+                        "label": "Model schema"
+                    },
+                    {
+                        "path": "docs/model_inheritance.json",
+                        "label": "Model schema with inheritance"
                     }
                 ]
             }

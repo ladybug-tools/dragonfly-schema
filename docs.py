@@ -1,10 +1,10 @@
 """generate openapi docs."""
-from dragonfly_schema._openapi import get_openapi
+from honeybee_schema._openapi import get_openapi
 from dragonfly_schema.model import Model
-from honeybee_schema.energy.simulation import SimulationParameter
 
 import json
 import argparse
+from pkg_resources import get_distribution
 
 parser =  argparse.ArgumentParser(description='Generate OpenAPI JSON schemas')
 
@@ -17,13 +17,57 @@ VERSION = None
 
 if args.version:
     VERSION = args.version.replace('v', '')
+else:
+    try:
+        VERSION = '.'.join(get_distribution('dragonfly_schema').version.split('.')[:3]),
+    except:
+        pass
+
+info = {
+        "description": "",
+        "version": VERSION,
+        "title": "",
+        "contact": {
+            "name": "Ladybug Tools",
+            "email": "info@ladybug.tools",
+            "url": "https://github.com/ladybug-tools/dragonfly-core"
+        },
+        "x-logo": {
+            "url": "https://www.ladybug.tools/assets/img/dragonfly-large.png",
+            "altText": "Dragonfly logo"
+        },
+        "license": {
+            "name": "MIT",
+            "url": "https://github.com/ladybug-tools/dragonfly-schema/blob/master/LICENSE"
+        }
+}
 
 # generate Model open api schema
 print('Generating Model documentation...')
+
+external_docs = {
+    "description": "OpenAPI Specification with Inheritance",
+    "url": "./model_inheritance.json"
+}
+
 openapi = get_openapi(
     [Model],
     title='Dragonfly Model Schema',
     description='This is the documentation for Dragonfly model schema.',
-    version=VERSION)
+    version=VERSION, info=info,
+    external_docs=external_docs)
 with open('./docs/model.json', 'w') as out_file:
+    json.dump(openapi, out_file, indent=2)
+
+# with inheritance
+openapi = get_openapi(
+    [Model],
+    title='Dragonfly Model Schema',
+    description='This is the documentation for Dragonfly model schema.',
+    version=VERSION, info=info,
+    inheritance=True,
+    external_docs=external_docs
+)
+
+with open('./docs/model_inheritance.json', 'w') as out_file:
     json.dump(openapi, out_file, indent=2)
