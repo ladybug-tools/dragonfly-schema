@@ -1,12 +1,12 @@
 """generate openapi docs."""
-from honeybee_schema._openapi import get_openapi
+from honeybee_schema._openapi import get_openapi, get_model_mapper
 from dragonfly_schema.model import Model
 
 import json
 import argparse
 from pkg_resources import get_distribution
 
-parser =  argparse.ArgumentParser(description='Generate OpenAPI JSON schemas')
+parser = argparse.ArgumentParser(description='Generate OpenAPI JSON schemas')
 
 parser.add_argument('--version',
                     help='Set the version of the new OpenAPI Schema')
@@ -18,10 +18,7 @@ VERSION = None
 if args.version:
     VERSION = args.version.replace('v', '')
 else:
-    try:
-        VERSION = '.'.join(get_distribution('dragonfly_schema').version.split('.')[:3]),
-    except:
-        pass
+    VERSION = '.'.join(get_distribution('dragonfly_schema').version.split('.')[:3]),
 
 info = {
         "description": "",
@@ -71,3 +68,9 @@ openapi = get_openapi(
 
 with open('./docs/model_inheritance.json', 'w') as out_file:
     json.dump(openapi, out_file, indent=2)
+
+# add the mapper file
+mapper = get_model_mapper(Model)
+module_mapper = {k: c.__module__ for k, c in mapper.items()}
+with open('./docs/model_mapper.json', 'w') as out_file:
+    json.dump(module_mapper, out_file, indent=2)
