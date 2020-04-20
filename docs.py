@@ -18,7 +18,7 @@ VERSION = None
 if args.version:
     VERSION = args.version.replace('v', '')
 else:
-    VERSION = '.'.join(get_distribution('dragonfly_schema').version.split('.')[:3]),
+    VERSION = '.'.join(get_distribution('dragonfly_schema').version.split('.')[:3])
 
 info = {
         "description": "",
