@@ -13,6 +13,10 @@
                     {
                         "path": "docs/model_inheritance.json",
                         "label": "Model schema with inheritance"
+                    },
+                    {
+                        "path": "docs/model_mapper.json",
+                        "label": "Model schema mapper"
                     }
                 ]
             }
