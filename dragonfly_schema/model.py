@@ -1,11 +1,10 @@
 """Model schema and the 3 geometry objects that define it."""
-from pydantic import BaseModel, Field, validator, root_validator, constr, conlist
+from pydantic import BaseModel, Field, root_validator, constr, conlist
 from typing import List, Union
-from enum import Enum
 
 from honeybee_schema._base import IDdBaseModel
 from honeybee_schema.model import Face3D, Units
-from honeybee_schema.bc import Ground, Outdoors, Adiabatic, Surface
+from honeybee_schema.boundarycondition import Ground, Outdoors, Adiabatic, Surface
 
 from .window_parameter import SingleWindow, SimpleWindowRatio, RepeatingWindowRatio, \
     RectangularWindows, DetailedWindows
@@ -102,7 +101,7 @@ class Room2D(IDdBaseModel):
 
     @root_validator
     def check_segment_count(cls, values):
-        "Ensure len of boundary_conditions, window par, shading par match sement count."
+        "Ensure len of boundary_conditions, window par, shading par match segment count."
         floor_bound = values.get('floor_boundary')
         floor_holes = values.get('floor_holes')
         bcs = values.get('boundary_conditions')
@@ -267,7 +266,7 @@ class Model(IDdBaseModel):
             'units and is used in a variety of checks and operations that can '
             'be performed on geometry, such as solving adjacency between Room2Ds. '
             'A value of 0 will result in no checks and an inability to perform '
-            'certain operations. Typical tolerances for builing geometry range '
+            'certain operations. Typical tolerances for building geometry range '
             'from 0.1 to 0.0001 depending on the units of the geometry.'
     )
 
@@ -278,7 +277,7 @@ class Model(IDdBaseModel):
             'This value is used in a variety of checks and operations that can be '
             'performed on geometry. A value of 0 will result in no checks and '
             'an inability to perform certain operations. Typical tolerances for '
-            'builing geometry are often around 1 degree.'
+            'building geometry are often around 1 degree.'
     )
 
     properties: ModelProperties = Field(
