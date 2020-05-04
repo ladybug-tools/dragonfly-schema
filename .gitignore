@@ -9,3 +9,6 @@ test.db
 test.py
 out.txt
 docs/*.json
+.eggs
+build/
+*.egg-info*
