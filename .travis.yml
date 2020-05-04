@@ -33,8 +33,11 @@ jobs:
     if: branch = master AND (NOT type IN (pull_request))
     python:
     - "3.7"
-    script:
+    install:
+    - pip install -r dev-requirements.txt
+    - pip install -r requirements.txt
     - pip install -U .
+    script:
     - python ./docs.py
     deploy:
       provider: pages

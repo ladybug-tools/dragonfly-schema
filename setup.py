@@ -6,6 +6,12 @@ with open("README.md", "r") as fh:
 with open('requirements.txt') as f:
     requirements = f.read().splitlines()
 
+dependency_links = []
+for req in requirements:
+    if req.startswith('git+'):
+        dependency_links.append(req)
+        requirements.remove(req)
+
 setuptools.setup(
     name="dragonfly-schema",
     use_scm_version=True,
@@ -18,6 +24,7 @@ setuptools.setup(
     url="https://github.com/ladybug-tools/dragonfly-schema",
     packages=setuptools.find_packages(exclude=["tests", "scripts", "samples"]),
     install_requires=requirements,
+    dependency_links=dependency_links,
     classifiers=[
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: Implementation :: CPython",
