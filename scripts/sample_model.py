@@ -77,8 +77,6 @@ def model_complete_simple(directory):
 
     model = Model('NewDevelopment', [building], [tree_canopy])
 
-    model.north_angle = 15
-
     dest_file = os.path.join(directory, 'model_complete_simple.json')
     with open(dest_file, 'w') as fp:
         json.dump(model.to_dict(), fp, indent=4)

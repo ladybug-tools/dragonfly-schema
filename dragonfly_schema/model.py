@@ -1,6 +1,7 @@
 """Model schema and the 3 geometry objects that define it."""
-from pydantic import BaseModel, Field, root_validator, constr, conlist
+from pydantic import BaseModel, Field, validator, root_validator, constr, conlist
 from typing import List, Union
+from enum import Enum
 
 from honeybee_schema._base import IDdBaseModel
 from honeybee_schema.model import Face3D, Units
@@ -243,13 +244,6 @@ class Model(IDdBaseModel):
     context_shades: List[ContextShade] = Field(
         None,
         description='A list of ContextShades in the model.'
-    )
-
-    north_angle: float = Field(
-        default=0,
-        ge=0,
-        lt=360,
-        description='The clockwise north direction in degrees.'
     )
 
     units: Units = Field(
