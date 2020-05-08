@@ -9,7 +9,6 @@ from honeybee_schema.energy.constructionset import ConstructionSetAbridged, \
 from honeybee_schema.energy.programtype import ProgramTypeAbridged, ProgramType
 from honeybee_schema.energy.hvac import IdealAirSystemAbridged
 
-from honeybee_schema.energy.properties import TerrianTypes
 from honeybee_schema.energy.construction import OpaqueConstructionAbridged, \
     WindowConstructionAbridged, ShadeConstruction, AirBoundaryConstructionAbridged, \
     OpaqueConstruction, WindowConstruction, AirBoundaryConstruction
@@ -104,19 +103,13 @@ class ContextShadeEnergyPropertiesAbridged(NoExtraBaseModel):
         max_length=100,
         description='Name of a schedule to set the transmittance of the ContextShade, '
             'which can vary throughout the simulation. If None, the ContextShade will '
-            'be completely opauqe.'
+            'be completely opaque.'
     )
 
 
 class ModelEnergyProperties(NoExtraBaseModel):
 
     type: constr(regex='^ModelEnergyProperties$') = 'ModelEnergyProperties'
-
-    terrain_type: TerrianTypes = Field(
-        default=TerrianTypes.city,
-        description='Text for the terrain in which the model sits. This is used '
-            'to determine the wind profile over the height of the buildings.'
-    )
 
     global_construction_set: str = Field(
         default=None,
