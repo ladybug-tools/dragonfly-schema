@@ -1,5 +1,5 @@
 """generate openapi docs."""
-from honeybee_schema._openapi import get_openapi, get_model_mapper
+from honeybee_schema._openapi import get_openapi, class_mapper
 from dragonfly_schema.model import Model
 
 import json
@@ -70,7 +70,5 @@ with open('./docs/model_inheritance.json', 'w') as out_file:
     json.dump(openapi, out_file, indent=2)
 
 # add the mapper file
-mapper = get_model_mapper(Model)
-module_mapper = {k: c.__module__ for k, c in mapper.items()}
 with open('./docs/model_mapper.json', 'w') as out_file:
-    json.dump(module_mapper, out_file, indent=2)
+    json.dump(class_mapper(Model), out_file, indent=2)
