@@ -71,4 +71,4 @@ with open('./docs/model_inheritance.json', 'w') as out_file:
 
 # add the mapper file
 with open('./docs/model_mapper.json', 'w') as out_file:
-    json.dump(class_mapper(Model), out_file, indent=2)
+    json.dump(class_mapper([Model]), out_file, indent=2)
