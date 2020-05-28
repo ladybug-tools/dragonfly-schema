@@ -33,9 +33,9 @@ class Overhang(NoExtraBaseModel):
         ge=-90,
         le=90,
         description='A number between -90 and 90 for the for an angle to rotate the '
-            'overhang in degrees. 0 indicates an overhang perpendicular to the wall. '
-            'Positive values indicate a downward rotation. Negative values indicate '
-            'an upward rotation.'
+        'overhang in degrees. 0 indicates an overhang perpendicular to the wall. '
+        'Positive values indicate a downward rotation. Negative values indicate '
+        'an upward rotation.'
     )
 
 
@@ -59,9 +59,9 @@ class _LouversBase(NoExtraBaseModel):
         ge=-90,
         le=90,
         description='A number between -90 and 90 for the for an angle to rotate the '
-            'louvers in degrees. 0 indicates louvers perpendicular to the wall. '
-            'Positive values indicate a downward rotation. Negative values indicate '
-            'an upward rotation.'
+        'louvers in degrees. 0 indicates louvers perpendicular to the wall. '
+        'Positive values indicate a downward rotation. Negative values indicate '
+        'an upward rotation.'
     )
 
     contour_vector: List[float] = Field(
@@ -69,16 +69,16 @@ class _LouversBase(NoExtraBaseModel):
         min_items=2,
         max_items=2,
         description='A list of two float values representing the (x, y) of a 2D vector '
-            'for the direction along which contours are generated. (0, 1) will generate '
-            'horizontal contours, (1, 0) will generate vertical contours, and (1, 1) '
-            'will generate diagonal contours.'
+        'for the direction along which contours are generated. (0, 1) will generate '
+        'horizontal contours, (1, 0) will generate vertical contours, and (1, 1) '
+        'will generate diagonal contours.'
     )
 
     flip_start_side: bool = Field(
         False,
         description='Boolean to note whether the side the louvers start from should '
-            'be flipped. Default is False to have contours on top or right. Setting '
-            'to True will start contours on the bottom or left.'
+        'be flipped. Default is False to have contours on top or right. Setting '
+        'to True will start contours on the bottom or left.'
     )
 
 
