@@ -1,6 +1,5 @@
 """Window Parameters with instructions for generating windows."""
-from pydantic import Field, validator, root_validator, \
-    constr, conlist, confloat
+from pydantic import Field, root_validator, constr, conlist, confloat
 from typing import List
 
 from honeybee_schema._base import NoExtraBaseModel
@@ -15,18 +14,18 @@ class SingleWindow(NoExtraBaseModel):
         ...,
         gt=0,
         description='A number for the window width. Note that, if this width is '
-            'applied to a wall that is too narrow for this width, the generated '
-            'window will automatically be shortened when it is applied to the wall. '
-            'In this way, setting the width to be `float("inf")` will create '
-            'parameters that always generate a ribboin window.'
+        'applied to a wall that is too narrow for this width, the generated '
+        'window will automatically be shortened when it is applied to the wall. '
+        'In this way, setting the width to be `float("inf")` will create '
+        'parameters that always generate a ribbon window.'
     )
 
     height: float = Field(
         ...,
         gt=0,
         description='A number for the window height. Note that, if this height is '
-            'applied to a wall that is too short for this height, the generated '
-            'window will automatically be shortened when it is applied to the wall.'
+        'applied to a wall that is too short for this height, the generated '
+        'window will automatically be shortened when it is applied to the wall.'
     )
 
     sill_height: float = Field(
@@ -46,7 +45,7 @@ class SimpleWindowRatio(NoExtraBaseModel):
         gt=0,
         lt=1,
         description='A number between 0 and 1 for the ratio between the window '
-            'area and the parent wall surface area.'
+        'area and the parent wall surface area.'
     )
 
 
@@ -60,39 +59,39 @@ class RepeatingWindowRatio(NoExtraBaseModel):
         gt=0,
         lt=1,
         description='A number between 0 and 1 for the ratio between the window '
-            'area and the parent wall surface area.'
+        'area and the parent wall surface area.'
     )
 
     window_height: float = Field(
         ...,
         gt=0,
         description='A number for the target height of the windows. Note that, '
-            'if the window ratio is too large for the height, the ratio will take '
-            'precedence and the actual window_height will be larger than this value.'
+        'if the window ratio is too large for the height, the ratio will take '
+        'precedence and the actual window_height will be larger than this value.'
     )
 
     sill_height: float = Field(
         ...,
         gt=0,
         description='A number for the target height above the bottom edge of the '
-            'wall to start the windows. Note that, if the ratio is too large '
-            'for the height, the ratio will take precedence and the sill_height '
-            'will be smaller than this value.'
+        'wall to start the windows. Note that, if the ratio is too large '
+        'for the height, the ratio will take precedence and the sill_height '
+        'will be smaller than this value.'
     )
 
     horizontal_separation: float = Field(
         ...,
         ge=0,
         description='A number for the target separation between individual window '
-            'centerlines.  If this number is larger than the parent rectangle base, '
-            'only one window will be produced.'
+        'centerlines.  If this number is larger than the parent rectangle base, '
+        'only one window will be produced.'
     )
 
     vertical_separation: float = Field(
         0,
         ge=0,
         description='An optional number to create a single vertical separation '
-            'between top and bottom windows.'
+        'between top and bottom windows.'
     )
 
 
@@ -105,35 +104,35 @@ class RepeatingWindowWidthHeight(NoExtraBaseModel):
         ...,
         gt=0,
         description='A number for the target height of the windows. Note that, '
-            'if the window_height is larger than the height of the wall, '
-            'the generated windows will have a height equal to the wall height '
-            'in order to avoid having windows extend outside the wall face.'
+        'if the window_height is larger than the height of the wall, '
+        'the generated windows will have a height equal to the wall height '
+        'in order to avoid having windows extend outside the wall face.'
     )
 
     window_width: float = Field(
         ...,
         gt=0,
         description='A number for the target width of the windows. '
-            'Note that, if the window_width is larger than the width of the wall, '
-            'the generated windows will have a width equal to the wall width '
-            'in order to avoid having windows extend outside the wall face.'
+        'Note that, if the window_width is larger than the width of the wall, '
+        'the generated windows will have a width equal to the wall width '
+        'in order to avoid having windows extend outside the wall face.'
     )
 
     sill_height: float = Field(
         ...,
         gt=0,
         description='A number for the target height above the bottom edge of the '
-            'wall to start the windows. If the window_height is too large for the '
-            'sill_height to fit within the rectangle, the window_height will take '
-            'precedence.'
+        'wall to start the windows. If the window_height is too large for the '
+        'sill_height to fit within the rectangle, the window_height will take '
+        'precedence.'
     )
 
     horizontal_separation: float = Field(
         ...,
         ge=0,
         description='A number for the target separation between individual window '
-            'centerlines.  If this number is larger than the parent rectangle base, '
-            'only one window will be produced.'
+        'centerlines.  If this number is larger than the parent rectangle base, '
+        'only one window will be produced.'
     )
 
 
@@ -146,25 +145,25 @@ class RectangularWindows(NoExtraBaseModel):
         ...,
         min_items=1,
         description='An array of 2D points within the plane of the wall for the origin '
-            'of each window. Each point should be a list of 2 (x, y) values. The '
-            'wall plane is assumed to have an origin at the first point of the wall '
-            'segment and an X-axis extending along the length of the segment. The '
-            'wall plane Y-axis always points upwards. Therefore, both X and Y '
-            'values of each origin point should be positive.'
+        'of each window. Each point should be a list of 2 (x, y) values. The '
+        'wall plane is assumed to have an origin at the first point of the wall '
+        'segment and an X-axis extending along the length of the segment. The '
+        'wall plane Y-axis always points upwards. Therefore, both X and Y '
+        'values of each origin point should be positive.'
     )
 
     widths: List[confloat(gt=0)] = Field(
         ...,
         min_items=1,
-        description='An array of postive numbers for the window widths. '
-            'The length of this list must match the length of the origins.'
+        description='An array of positive numbers for the window widths. '
+        'The length of this list must match the length of the origins.'
     )
 
     heights: List[confloat(gt=0)] = Field(
         ...,
         min_items=1,
-        description='An array of postive numbers for the window heights. '
-            'The length of this list must match the length of the origins.'
+        description='An array of positive numbers for the window heights. '
+        'The length of this list must match the length of the origins.'
     )
 
     @root_validator
@@ -178,7 +177,7 @@ class RectangularWindows(NoExtraBaseModel):
             'RectangularWindows origins, widths, and heights ' \
             'must match. origins: {}, widths: {}, heights: {}'.format(
                 len(origins), len(widths), len(heights))
-        
+
         return values
 
 

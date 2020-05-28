@@ -1,7 +1,6 @@
 """Model energy properties."""
 from pydantic import Field, constr
 from typing import List, Union
-from enum import Enum
 
 from honeybee_schema._base import NoExtraBaseModel
 from honeybee_schema.energy.constructionset import ConstructionSetAbridged, \
@@ -30,9 +29,9 @@ class Room2DEnergyPropertiesAbridged(NoExtraBaseModel):
         min_length=1,
         max_length=100,
         description='Name of a ConstructionSet to specify all constructions for '
-            'the Room2D. If None, the Room2D will use the Story or Building '
-            'construction_set or the Model global_construction_set. Any ConstructionSet '
-            'assigned here will override those assigned to these objects.'
+        'the Room2D. If None, the Room2D will use the Story or Building '
+        'construction_set or the Model global_construction_set. Any ConstructionSet '
+        'assigned here will override those assigned to these objects.'
     )
 
     program_type: str = Field(
@@ -40,7 +39,7 @@ class Room2DEnergyPropertiesAbridged(NoExtraBaseModel):
         min_length=1,
         max_length=100,
         description='Name of a ProgramType to specify all schedules and loads '
-            'for the Room2D. If None, the Room2D will have no loads or setpoints.'
+        'for the Room2D. If None, the Room2D will have no loads or setpoints.'
     )
 
     hvac: str = Field(
@@ -48,8 +47,8 @@ class Room2DEnergyPropertiesAbridged(NoExtraBaseModel):
         min_length=1,
         max_length=100,
         description='An optional identifier of a HVAC system (such as an IdealAirSystem) '
-            'that specifies how the Room2D is conditioned. If None, it will be assumed '
-            'that the Room2D is not conditioned.'
+        'that specifies how the Room2D is conditioned. If None, it will be assumed '
+        'that the Room2D is not conditioned.'
     )
 
 
@@ -63,9 +62,9 @@ class StoryEnergyPropertiesAbridged(NoExtraBaseModel):
         min_length=1,
         max_length=100,
         description='Name of a ConstructionSet to specify all constructions for '
-            'the Story. If None, the Story will use the Building construction_set '
-            'or the Model global_construction_set. Any ConstructionSet '
-            'assigned here will override those assigned to these objects.'
+        'the Story. If None, the Story will use the Building construction_set '
+        'or the Model global_construction_set. Any ConstructionSet '
+        'assigned here will override those assigned to these objects.'
     )
 
 
@@ -79,7 +78,7 @@ class BuildingEnergyPropertiesAbridged(NoExtraBaseModel):
         min_length=1,
         max_length=100,
         description='Name of a ConstructionSet to specify all constructions for '
-            'the Building. If None, the Model global_construction_set will be used.'
+        'the Building. If None, the Model global_construction_set will be used.'
     )
 
 
@@ -88,13 +87,13 @@ class ContextShadeEnergyPropertiesAbridged(NoExtraBaseModel):
     type: constr(regex='^ContextShadeEnergyPropertiesAbridged$') = \
         'ContextShadeEnergyPropertiesAbridged'
 
-    construction:  str = Field(
+    construction: str = Field(
         default=None,
         min_length=1,
         max_length=100,
         description='Name of a ShadeConstruction to set the reflectance and '
-            'specularity of the ContextShade. If None, the the EnergyPlus default '
-            'of 0.2 diffuse reflectance will be used.'
+        'specularity of the ContextShade. If None, the the EnergyPlus default '
+        'of 0.2 diffuse reflectance will be used.'
     )
 
     transmittance_schedule: str = Field(
@@ -102,8 +101,8 @@ class ContextShadeEnergyPropertiesAbridged(NoExtraBaseModel):
         min_length=1,
         max_length=100,
         description='Name of a schedule to set the transmittance of the ContextShade, '
-            'which can vary throughout the simulation. If None, the ContextShade will '
-            'be completely opaque.'
+        'which can vary throughout the simulation. If None, the ContextShade will '
+        'be completely opaque.'
     )
 
 
@@ -116,8 +115,8 @@ class ModelEnergyProperties(NoExtraBaseModel):
         min_length=1,
         max_length=100,
         description='Name for the ConstructionSet to be used for all objects lacking '
-            'their own construction or a parent construction_set. This '
-            'ConstructionSet must appear under the Model construction_sets.'
+        'their own construction or a parent construction_set. This '
+        'ConstructionSet must appear under the Model construction_sets.'
     )
 
     construction_sets: List[Union[ConstructionSetAbridged, ConstructionSet]] = Field(
@@ -141,7 +140,7 @@ class ModelEnergyProperties(NoExtraBaseModel):
                           EnergyWindowMaterialShade]] = Field(
         default=None,
         description='A list of all unique materials in the model. This includes '
-            'materials needed to make the Model constructions.'
+        'materials needed to make the Model constructions.'
     )
 
     hvacs: List[Union[IdealAirSystemAbridged]] = Field(
@@ -158,11 +157,11 @@ class ModelEnergyProperties(NoExtraBaseModel):
                           ScheduleRuleset, ScheduleFixedInterval]] = Field(
         default=None,
         description='A list of all unique schedules in the model. This includes '
-            'schedules across all HVAC systems, ProgramTypes and ContextShades.'
+        'schedules across all HVAC systems, ProgramTypes and ContextShades.'
     )
 
     schedule_type_limits: List[ScheduleTypeLimit] = Field(
         default=None,
         description='A list of all unique ScheduleTypeLimits in the model. This '
-            'all ScheduleTypeLimits needed to make the Model schedules.'
+        'all ScheduleTypeLimits needed to make the Model schedules.'
     )

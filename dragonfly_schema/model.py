@@ -1,7 +1,6 @@
 """Model schema and the 3 geometry objects that define it."""
-from pydantic import BaseModel, Field, validator, root_validator, constr, conlist
+from pydantic import BaseModel, Field, root_validator, constr, conlist
 from typing import List, Union
-from enum import Enum
 
 from honeybee_schema._base import IDdBaseModel
 from honeybee_schema.model import Face3D, Units
@@ -33,16 +32,16 @@ class Room2D(IDdBaseModel):
         ...,
         min_items=3,
         description='A list of 2D points representing the outer boundary vertices of '
-            'the Room2D. The list should include at least 3 points and each point '
-            'should be a list of 2 (x, y) values.'
+        'the Room2D. The list should include at least 3 points and each point '
+        'should be a list of 2 (x, y) values.'
     )
 
     floor_holes: List[conlist(conlist(float, min_items=2, max_items=2), min_items=3)] = Field(
         None,
-        description='Optional list of lists with one list for each hole in the floor plate.'
-            'Each hole should be a list of at least 2 points and each point a list '
-            'of 2 (x, y) values. If None, it will be assumed that there are no '
-            'holes in the floor plate.'
+        description='Optional list of lists with one list for each hole in the floor '
+        'plate. Each hole should be a list of at least 2 points and each point a list '
+        'of 2 (x, y) values. If None, it will be assumed that there are no '
+        'holes in the floor plate.'
     )
 
     floor_height: float = Field(
@@ -58,46 +57,47 @@ class Room2D(IDdBaseModel):
     is_ground_contact: bool = Field(
         False,
         description='A boolean noting whether this Room2D has its floor in contact '
-            'with the ground.'
+        'with the ground.'
     )
 
     is_top_exposed: bool = Field(
         False,
         description='A boolean noting whether this Room2D has its ceiling exposed '
-            'to the outdoors.'
+        'to the outdoors.'
     )
 
     boundary_conditions: List[Union[Ground, Outdoors, Adiabatic, Surface]] = Field(
         default=None,
         description='A list of boundary conditions that match the number of segments '
-            'in the input floor_geometry + floor_holes. These will be used to assign '
-            'boundary conditions to each of the walls of the Room in the resulting '
-            'model. Their order should align with the order of segments in the '
-            'floor_boundary and then with each hole segment. If None, all boundary '
-            'conditions will be Outdoors or Ground depending on whether ceiling '
-            'height of the room is at or below 0 (the assumed ground plane).'
+        'in the input floor_geometry + floor_holes. These will be used to assign '
+        'boundary conditions to each of the walls of the Room in the resulting '
+        'model. Their order should align with the order of segments in the '
+        'floor_boundary and then with each hole segment. If None, all boundary '
+        'conditions will be Outdoors or Ground depending on whether ceiling '
+        'height of the room is at or below 0 (the assumed ground plane).'
     )
 
     window_parameters: List[Union[None, SingleWindow, SimpleWindowRatio,
-            RepeatingWindowRatio, RectangularWindows, DetailedWindows]] = Field(
+                                  RepeatingWindowRatio, RectangularWindows,
+                                  DetailedWindows]] = Field(
         default=None,
         description='A list of WindowParameter objects that dictate how the window '
-            'geometries will be generated for each of the walls. If None, no windows '
-            'will exist over the entire Room2D.'
+        'geometries will be generated for each of the walls. If None, no windows '
+        'will exist over the entire Room2D.'
     )
 
     shading_parameters: List[Union[None, ExtrudedBorder, Overhang, LouversByDistance,
-            LouversByCount]] = Field(
+                                   LouversByCount]] = Field(
         default=None,
         description='A list of ShadingParameter objects that dictate how the shade '
-            'geometries will be generated for each of the walls. If None, no shades '
-            'will exist over the entire Room2D.'
+        'geometries will be generated for each of the walls. If None, no shades '
+        'will exist over the entire Room2D.'
     )
 
     properties: Room2DPropertiesAbridged = Field(
         ...,
         description='Extension properties for particular simulation engines '
-            '(Radiance, EnergyPlus).'
+        '(Radiance, EnergyPlus).'
     )
 
     @root_validator
@@ -111,7 +111,7 @@ class Room2D(IDdBaseModel):
 
         seg_count = len(floor_bound) if floor_holes is None\
             else len(floor_bound) + sum(len(hole) for hole in floor_holes)
-        
+
         if bcs is not None:
             assert len(bcs) == seg_count, 'Length of Room2D boundary_conditions ' \
                 'must match number of floor segments. {} != {}'.format(
@@ -143,27 +143,27 @@ class Story(IDdBaseModel):
     room_2ds: List[Room2D] = Field(
         ...,
         description='An array of dragonfly Room2D objects that together form an '
-            'entire story of a building.'
+        'entire story of a building.'
     )
 
     floor_to_floor_height: float = Field(
         None,
         description='A number for the distance from the floor plate of this story '
-            'to the floor of the story above this one (if it exists). If None, this '
-            'value will be the maximum floor_to_ceiling_height of the input room_2ds.'
+        'to the floor of the story above this one (if it exists). If None, this '
+        'value will be the maximum floor_to_ceiling_height of the input room_2ds.'
     )
 
     multiplier: int = Field(
         1,
         ge=1,
         description='An integer that denotes the number of times that this Story is '
-            'repeated over the height of the building.'
+        'repeated over the height of the building.'
     )
 
     properties: StoryPropertiesAbridged = Field(
         ...,
         description='Extension properties for particular simulation engines '
-            '(Radiance, EnergyPlus).'
+        '(Radiance, EnergyPlus).'
     )
 
 
@@ -183,16 +183,16 @@ class Building(IDdBaseModel):
     unique_stories: List[Story] = Field(
         ...,
         description='An array of unique dragonfly Story objects that together form '
-            'the entire building. Stories should generally be ordered from lowest '
-            'floor to highest floor. Note that, if a given Story is repeated several '
-            'times over the height of the building, the unique story included in this '
-            'list should be the first (lowest) story of the repeated floors.'
+        'the entire building. Stories should generally be ordered from lowest '
+        'floor to highest floor. Note that, if a given Story is repeated several '
+        'times over the height of the building, the unique story included in this '
+        'list should be the first (lowest) story of the repeated floors.'
     )
 
     properties: BuildingPropertiesAbridged = Field(
         ...,
         description='Extension properties for particular simulation engines '
-            '(Radiance, EnergyPlus).'
+        '(Radiance, EnergyPlus).'
     )
 
 
@@ -213,13 +213,13 @@ class ContextShade(IDdBaseModel):
     geometry: List[Face3D] = Field(
         ...,
         description='An array of planar Face3Ds that together represent the '
-            'context shade.'
+        'context shade.'
     )
 
     properties: ContextShadePropertiesAbridged = Field(
         ...,
         description='Extension properties for particular simulation engines '
-            '(Radiance, EnergyPlus).'
+        '(Radiance, EnergyPlus).'
     )
 
 
@@ -249,37 +249,33 @@ class Model(IDdBaseModel):
     units: Units = Field(
         default=Units.meters,
         description='Text indicating the units in which the model geometry exists. '
-            'This is used to scale the geometry to the correct units for simulation '
-            'engines like EnergyPlus, which requires all geometry be in meters.'
+        'This is used to scale the geometry to the correct units for simulation '
+        'engines like EnergyPlus, which requires all geometry be in meters.'
     )
 
     tolerance: float = Field(
         default=0,
         description='The maximum difference between x, y, and z values at which '
-            'vertices are considered equivalent. This value should be in the Model '
-            'units and is used in a variety of checks and operations that can '
-            'be performed on geometry, such as solving adjacency between Room2Ds. '
-            'A value of 0 will result in no checks and an inability to perform '
-            'certain operations. Typical tolerances for building geometry range '
-            'from 0.1 to 0.0001 depending on the units of the geometry.'
+        'vertices are considered equivalent. This value should be in the Model '
+        'units and is used in a variety of checks and operations that can '
+        'be performed on geometry, such as solving adjacency between Room2Ds. '
+        'A value of 0 will result in no checks and an inability to perform '
+        'certain operations. Typical tolerances for building geometry range '
+        'from 0.1 to 0.0001 depending on the units of the geometry.'
     )
 
     angle_tolerance: float = Field(
         default=0,
         description='The max angle difference in degrees that vertices are '
-            'allowed to differ from one another in order to consider them colinear. '
-            'This value is used in a variety of checks and operations that can be '
-            'performed on geometry. A value of 0 will result in no checks and '
-            'an inability to perform certain operations. Typical tolerances for '
-            'building geometry are often around 1 degree.'
+        'allowed to differ from one another in order to consider them colinear. '
+        'This value is used in a variety of checks and operations that can be '
+        'performed on geometry. A value of 0 will result in no checks and '
+        'an inability to perform certain operations. Typical tolerances for '
+        'building geometry are often around 1 degree.'
     )
 
     properties: ModelProperties = Field(
         ...,
         description='Extension properties for particular simulation engines '
-            '(Radiance, EnergyPlus).'
+        '(Radiance, EnergyPlus).'
     )
-
-
-if __name__ == '__main__':
-    print(Model.schema_json(indent=2))
