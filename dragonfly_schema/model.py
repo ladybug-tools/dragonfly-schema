@@ -254,24 +254,26 @@ class Model(IDdBaseModel):
     )
 
     tolerance: float = Field(
-        default=0,
+        default=0.01,
+        ge=0,
         description='The maximum difference between x, y, and z values at which '
         'vertices are considered equivalent. This value should be in the Model '
-        'units and is used in a variety of checks and operations that can '
-        'be performed on geometry, such as solving adjacency between Room2Ds. '
-        'A value of 0 will result in no checks and an inability to perform '
-        'certain operations. Typical tolerances for building geometry range '
-        'from 0.1 to 0.0001 depending on the units of the geometry.'
+        'units and is used in a variety of checks and operations. A value of 0 '
+        'will result in bypassing all checks so it is recommended that this always '
+        'be a positive number when checks have not already been performed '
+        'on a Model. The default of 0.01 is suitable for models in meters.'
     )
 
     angle_tolerance: float = Field(
-        default=0,
+        default=1.0,
+        ge=0,
         description='The max angle difference in degrees that vertices are '
         'allowed to differ from one another in order to consider them colinear. '
         'This value is used in a variety of checks and operations that can be '
         'performed on geometry. A value of 0 will result in no checks and '
-        'an inability to perform certain operations. Typical tolerances for '
-        'building geometry are often around 1 degree.'
+        'an inability to perform certain operations so it is recommended that '
+        'this always be a positive number when checks have not already '
+        'been performed on a given Model.'
     )
 
     properties: ModelProperties = Field(
