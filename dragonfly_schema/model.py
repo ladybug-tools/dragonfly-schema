@@ -153,6 +153,13 @@ class Story(IDdBaseModel):
         'value will be the maximum floor_to_ceiling_height of the input room_2ds.'
     )
 
+    floor_height: float = Field(
+        None,
+        description='A number to indicate the height of the floor plane in the Z axis.'
+        'If None, this will be the minimum floor height of all the room_2ds, which '
+        'is suitable for cases where there are no floor plenums.'
+    )
+
     multiplier: int = Field(
         1,
         ge=1,
@@ -235,6 +242,12 @@ class ModelProperties(BaseModel):
 class Model(IDdBaseModel):
 
     type: constr(regex='^Model$') = 'Model'
+
+    version: str = Field(
+        default='0.0.0',
+        regex=r'([0-9]+)\.([0-9]+)\.([0-9]+)',
+        description='Text string for the current version of the schema.'
+    )
 
     buildings: List[Building] = Field(
         ...,

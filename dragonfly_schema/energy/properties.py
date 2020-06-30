@@ -110,15 +110,6 @@ class ModelEnergyProperties(NoExtraBaseModel):
 
     type: constr(regex='^ModelEnergyProperties$') = 'ModelEnergyProperties'
 
-    global_construction_set: str = Field(
-        default=None,
-        min_length=1,
-        max_length=100,
-        description='Name for the ConstructionSet to be used for all objects lacking '
-        'their own construction or a parent construction_set. This '
-        'ConstructionSet must appear under the Model construction_sets.'
-    )
-
     construction_sets: List[Union[ConstructionSetAbridged, ConstructionSet]] = Field(
         default=None,
         description='List of all ConstructionSets in the Model.'

@@ -8,11 +8,13 @@
 Dragonfly Data-Model Objects
 
 ## Installation
+
 ```console
 pip install dragonfly-schema
 ```
 
 ## QuickStart
+
 ```python
 import dragonfly_schema
 
@@ -25,7 +27,9 @@ import dragonfly_schema
 [Energy Simulation Parameter Schema](https://ladybug-tools-in2.github.io/honeybee-schema/simulation-parameter.html)
 
 ## Local Development
+
 1. Clone this repo locally
+
 ```console
 git clone git@github.com:ladybug-tools/dragonfly-schema
 
@@ -33,7 +37,9 @@ git clone git@github.com:ladybug-tools/dragonfly-schema
 
 git clone https://github.com/ladybug-tools/dragonfly-schema
 ```
+
 2. Install dependencies:
+
 ```console
 cd dragonfly-schema
 pip install -r dev-requirements.txt
@@ -41,16 +47,19 @@ pip install -r requirements.txt
 ```
 
 3. Run Tests:
+
 ```console
 python -m pytest tests/
 ```
 
 4. Generate Documentation:
+
 ```python
 python ./docs.py
 ```
 
 5. Generate Sample Files:
+
 ```python
 python ./scripts/export_samples.py
 ```
