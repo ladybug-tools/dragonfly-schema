@@ -313,6 +313,7 @@
         }
     ],
     "floor_to_floor_height": 3.0,
+    "floor_height": 3.0,
     "multiplier": 1,
     "properties": {
         "type": "StoryPropertiesAbridged",
