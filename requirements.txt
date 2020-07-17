@@ -1,4 +1,4 @@
 
-honeybee-schema==1.35.0
+honeybee-schema==1.35.1
 # pydantic==1.5.1
 git+https://github.com/samuelcolvin/pydantic.git@5067508eca6222b9315b1e38a30ddc975dee05e7
