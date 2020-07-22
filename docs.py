@@ -21,22 +21,22 @@ else:
     VERSION = '.'.join(get_distribution('dragonfly_schema').version.split('.')[:3])
 
 info = {
-        "description": "",
-        "version": VERSION,
-        "title": "",
-        "contact": {
-            "name": "Ladybug Tools",
-            "email": "info@ladybug.tools",
-            "url": "https://github.com/ladybug-tools/dragonfly-core"
-        },
-        "x-logo": {
-            "url": "https://www.ladybug.tools/assets/img/dragonfly-large.png",
-            "altText": "Dragonfly logo"
-        },
-        "license": {
-            "name": "MIT",
-            "url": "https://github.com/ladybug-tools/dragonfly-schema/blob/master/LICENSE"
-        }
+    "description": "",
+    "version": VERSION,
+    "title": "",
+    "contact": {
+        "name": "Ladybug Tools",
+        "email": "info@ladybug.tools",
+        "url": "https://github.com/ladybug-tools/dragonfly-core"
+    },
+    "x-logo": {
+        "url": "https://www.ladybug.tools/assets/img/dragonfly-large.png",
+        "altText": "Dragonfly logo"
+    },
+    "license": {
+        "name": "MIT",
+        "url": "https://github.com/ladybug-tools/dragonfly-schema/blob/master/LICENSE"
+    }
 }
 
 # generate Model open api schema
@@ -53,6 +53,8 @@ openapi = get_openapi(
     description='This is the documentation for Dragonfly model schema.',
     version=VERSION, info=info,
     external_docs=external_docs)
+# set the version default key in the Model schema
+openapi['components']['schemas']['Model']['properties']['version']['default'] = VERSION
 with open('./docs/model.json', 'w') as out_file:
     json.dump(openapi, out_file, indent=2)
 
@@ -65,7 +67,8 @@ openapi = get_openapi(
     inheritance=True,
     external_docs=external_docs
 )
-
+# set the version default key in the Model schema
+openapi['components']['schemas']['Model']['allOf'][1]['properties']['version']['default'] = VERSION
 with open('./docs/model_inheritance.json', 'w') as out_file:
     json.dump(openapi, out_file, indent=2)
 
