@@ -6,7 +6,11 @@ from honeybee_schema._base import NoExtraBaseModel
 from honeybee_schema.energy.constructionset import ConstructionSetAbridged, \
     ConstructionSet
 from honeybee_schema.energy.programtype import ProgramTypeAbridged, ProgramType
-from honeybee_schema.energy.hvac import IdealAirSystemAbridged
+from honeybee_schema.energy.hvac.idealair import IdealAirSystemAbridged
+from honeybee_schema.energy.hvac.allair import VAV, PVAV, PSZ, PTAC, ForcedAirFurnace
+from honeybee_schema.energy.hvac.doas import FCUwithDOAS, WSHPwithDOAS, VRFwithDOAS
+from honeybee_schema.energy.hvac.heatcool import FCU, WSHP, VRF, Baseboard, \
+    EvaporativeCooler, Residential, WindowAC, GasUnitHeater
 
 from honeybee_schema.energy.construction import OpaqueConstructionAbridged, \
     WindowConstructionAbridged, ShadeConstruction, AirBoundaryConstructionAbridged, \
@@ -134,7 +138,9 @@ class ModelEnergyProperties(NoExtraBaseModel):
         'materials needed to make the Model constructions.'
     )
 
-    hvacs: List[Union[IdealAirSystemAbridged]] = Field(
+    hvacs: List[Union[IdealAirSystemAbridged, VAV, PVAV, PSZ, PTAC, ForcedAirFurnace,
+                      FCUwithDOAS, WSHPwithDOAS, VRFwithDOAS, FCU, WSHP, VRF, Baseboard,
+                      EvaporativeCooler, Residential, WindowAC, GasUnitHeater]] = Field(
         default=None,
         description='List of all HVAC systems in the Model.'
     )
