@@ -11,6 +11,7 @@ from honeybee_schema.energy.hvac.allair import VAV, PVAV, PSZ, PTAC, ForcedAirFu
 from honeybee_schema.energy.hvac.doas import FCUwithDOAS, WSHPwithDOAS, VRFwithDOAS
 from honeybee_schema.energy.hvac.heatcool import FCU, WSHP, VRF, Baseboard, \
     EvaporativeCooler, Residential, WindowAC, GasUnitHeater
+from honeybee_schema.energy.ventcool import VentilationControlAbridged, VentilationOpening
 
 from honeybee_schema.energy.construction import OpaqueConstructionAbridged, \
     WindowConstructionAbridged, ShadeConstruction, AirBoundaryConstructionAbridged, \
@@ -53,6 +54,18 @@ class Room2DEnergyPropertiesAbridged(NoExtraBaseModel):
         description='An optional identifier of a HVAC system (such as an IdealAirSystem) '
         'that specifies how the Room2D is conditioned. If None, it will be assumed '
         'that the Room2D is not conditioned.'
+    )
+
+    window_vent_control: VentilationControlAbridged = Field(
+        default=None,
+        description='An optional VentilationControl object to dictate the opening '
+        'of windows. If None, the windows will never open.'
+    )
+
+    window_vent_opening: VentilationOpening = Field(
+        default=None,
+        description='An optional VentilationOpening to specify the operable '
+        'portion of all windows of the Room2D. If None, the windows will never open.'
     )
 
 
