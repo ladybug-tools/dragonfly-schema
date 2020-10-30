@@ -1,15 +1,15 @@
 """generate openapi docs."""
-from honeybee_schema._openapi import get_openapi, class_mapper
-from dragonfly_schema.model import Model
-
 import json
 import argparse
 from pkg_resources import get_distribution
 
+from pydantic_openapi_helper.core import get_openapi
+from pydantic_openapi_helper.inheritance import class_mapper
+from dragonfly_schema.model import Model
+
 parser = argparse.ArgumentParser(description='Generate OpenAPI JSON schemas')
 
-parser.add_argument('--version',
-                    help='Set the version of the new OpenAPI Schema')
+parser.add_argument('--version', help='Set the version of the new OpenAPI Schema')
 
 args = parser.parse_args()
 
@@ -39,39 +39,60 @@ info = {
     }
 }
 
-# generate Model open api schema
-print('Generating Model documentation...')
+modules = [
+    {'module': [Model], 'name': 'Model'}
+]
 
-external_docs = {
-    "description": "OpenAPI Specification with Inheritance",
-    "url": "./model_inheritance.json"
-}
 
-openapi = get_openapi(
-    [Model],
-    title='Dragonfly Model Schema',
-    description='This is the documentation for Dragonfly model schema.',
-    version=VERSION, info=info,
-    external_docs=external_docs)
-# set the version default key in the Model schema
-openapi['components']['schemas']['Model']['properties']['version']['default'] = VERSION
-with open('./docs/model.json', 'w') as out_file:
-    json.dump(openapi, out_file, indent=2)
+def _process_name(name):
+    """Process module name."""
+    new_name = '-'.join(n.lower() for n in name.split())
+    return new_name
 
-# with inheritance
-openapi = get_openapi(
-    [Model],
-    title='Dragonfly Model Schema',
-    description='This is the documentation for Dragonfly model schema.',
-    version=VERSION, info=info,
-    inheritance=True,
-    external_docs=external_docs
-)
-# set the version default key in the Model schema
-openapi['components']['schemas']['Model']['allOf'][1]['properties']['version']['default'] = VERSION
-with open('./docs/model_inheritance.json', 'w') as out_file:
-    json.dump(openapi, out_file, indent=2)
 
-# add the mapper file
-with open('./docs/model_mapper.json', 'w') as out_file:
-    json.dump(class_mapper([Model]), out_file, indent=2)
+for module in modules:
+    # generate Recipe open api schema
+    print(f'Generating {module["name"]} documentation...')
+
+    external_docs = {
+        "description": "OpenAPI Specification with Inheritance",
+        "url": f"./{_process_name(module['name'])}_inheritance.json"
+    }
+
+    openapi = get_openapi(
+        module['module'],
+        title=f'Dragonfly {module["name"]} Schema',
+        description=f'Dragonfly {_process_name(module["name"])} schema.',
+        version=VERSION, info=info,
+        external_docs=external_docs
+    )
+
+    # set the version default key in the Model schema
+    if module['module'] is Model:
+        openapi['components']['schemas']['Model']['properties']['version']['default'] = \
+            VERSION
+    with open(f'./docs/{_process_name(module["name"])}.json', 'w') as out_file:
+        json.dump(openapi, out_file, indent=2)
+
+    # with inheritance
+    openapi = get_openapi(
+        module['module'],
+        title=f'Dragonfly {module["name"]} Schema',
+        description=f'Documentation for Dragonfly {_process_name(module["name"])} schema',
+        version=VERSION, info=info,
+        inheritance=True,
+        external_docs=external_docs
+    )
+
+    # set the version default key in the Recipe schema
+    if module['module'] is Model:
+        openapi['components']['schemas']['Model']['properties']['version']['default'] = \
+            VERSION
+
+    with open(f'./docs/{_process_name(module["name"])}_inheritance.json', 'w') \
+            as out_file:
+        json.dump(openapi, out_file, indent=2)
+
+    # add the mapper file
+    with open(f'./docs/{_process_name(module["name"])}_mapper.json', 'w') as out_file:
+        json.dump(class_mapper(module['module']), out_file, indent=2)
