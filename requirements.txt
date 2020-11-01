@@ -1,2 +1,2 @@
-honeybee-schema==1.39.2
+honeybee-schema==1.39.3
 pydantic==1.7.2
