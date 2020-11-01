@@ -1,2 +1,2 @@
 honeybee-schema==1.39.2
-pydantic==1.7.1
+pydantic==1.7.2
