@@ -27,5 +27,5 @@ def test_context_shade_two_tree_canopy():
 
 
 def test_model_complete_simple():
-    file_path = os.path.join(target_folder, 'model_complete_simple.json')
+    file_path = os.path.join(target_folder, 'model_complete_simple.dfjson')
     Model.parse_file(file_path)
