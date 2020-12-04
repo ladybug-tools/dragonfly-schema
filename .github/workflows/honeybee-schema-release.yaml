@@ -1,4 +1,4 @@
-name: CI
+name: CI-Honeybee-Schema-Release
 
 on: repository_dispatch
 
