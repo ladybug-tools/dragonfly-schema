@@ -94,6 +94,15 @@ class Room2D(IDdBaseModel):
         'will exist over the entire Room2D.'
     )
 
+    air_boundaries: List[bool] = Field(
+        default=None,
+        description='A list of booleans for whether each wall has an air boundary type. '
+        'False values indicate a standard opaque type while True values indicate '
+        'an AirBoundary type. All walls will be False by default. Note that any '
+        'walls with a True air boundary must have a Surface boundary condition '
+        'without any windows.'
+    )
+
     properties: Room2DPropertiesAbridged = Field(
         ...,
         description='Extension properties for particular simulation engines '
@@ -108,6 +117,7 @@ class Room2D(IDdBaseModel):
         bcs = values.get('boundary_conditions')
         win_par = values.get('window_parameters')
         shd_par = values.get('shading_parameters')
+        air_bnd = values.get('air_boundaries')
 
         seg_count = len(floor_bound) if floor_holes is None\
             else len(floor_bound) + sum(len(hole) for hole in floor_holes)
@@ -124,6 +134,10 @@ class Room2D(IDdBaseModel):
             assert len(shd_par) == seg_count, 'Length of Room2D shading_parameters ' \
                 'must match number of floor segments. {} != {}'.format(
                     len(shd_par), seg_count)
+        if air_bnd is not None:
+            assert len(air_bnd) == seg_count, 'Length of Room2D air_boundaries ' \
+                'must match number of floor segments. {} != {}'.format(
+                    len(air_bnd), seg_count)
         return values
 
 
