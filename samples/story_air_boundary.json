@@ -1,0 +1,160 @@
+{
+    "type": "Story",
+    "identifier": "OfficeFloor",
+    "display_name": "OfficeFloor",
+    "room_2ds": [
+        {
+            "type": "Room2D",
+            "identifier": "SquareShoebox1",
+            "display_name": "SquareShoebox1",
+            "properties": {
+                "type": "Room2DPropertiesAbridged",
+                "energy": {
+                    "type": "Room2DEnergyPropertiesAbridged"
+                }
+            },
+            "floor_boundary": [
+                [
+                    0.0,
+                    0.0
+                ],
+                [
+                    10.0,
+                    0.0
+                ],
+                [
+                    10.0,
+                    10.0
+                ],
+                [
+                    0.0,
+                    10.0
+                ]
+            ],
+            "floor_height": 3.0,
+            "floor_to_ceiling_height": 3.0,
+            "is_ground_contact": false,
+            "is_top_exposed": false,
+            "boundary_conditions": [
+                {
+                    "type": "Outdoors",
+                    "sun_exposure": true,
+                    "wind_exposure": true,
+                    "view_factor": {
+                        "type": "Autocalculate"
+                    }
+                },
+                {
+                    "type": "Surface",
+                    "boundary_condition_objects": [
+                        "SquareShoebox2..Face4",
+                        "SquareShoebox2"
+                    ]
+                },
+                {
+                    "type": "Outdoors",
+                    "sun_exposure": true,
+                    "wind_exposure": true,
+                    "view_factor": {
+                        "type": "Autocalculate"
+                    }
+                },
+                {
+                    "type": "Outdoors",
+                    "sun_exposure": true,
+                    "wind_exposure": true,
+                    "view_factor": {
+                        "type": "Autocalculate"
+                    }
+                }
+            ],
+            "air_boundaries": [
+                false,
+                true,
+                false,
+                false
+            ]
+        },
+        {
+            "type": "Room2D",
+            "identifier": "SquareShoebox2",
+            "display_name": "SquareShoebox2",
+            "properties": {
+                "type": "Room2DPropertiesAbridged",
+                "energy": {
+                    "type": "Room2DEnergyPropertiesAbridged"
+                }
+            },
+            "floor_boundary": [
+                [
+                    10.0,
+                    0.0
+                ],
+                [
+                    20.0,
+                    0.0
+                ],
+                [
+                    20.0,
+                    10.0
+                ],
+                [
+                    10.0,
+                    10.0
+                ]
+            ],
+            "floor_height": 3.0,
+            "floor_to_ceiling_height": 3.0,
+            "is_ground_contact": false,
+            "is_top_exposed": false,
+            "boundary_conditions": [
+                {
+                    "type": "Outdoors",
+                    "sun_exposure": true,
+                    "wind_exposure": true,
+                    "view_factor": {
+                        "type": "Autocalculate"
+                    }
+                },
+                {
+                    "type": "Outdoors",
+                    "sun_exposure": true,
+                    "wind_exposure": true,
+                    "view_factor": {
+                        "type": "Autocalculate"
+                    }
+                },
+                {
+                    "type": "Outdoors",
+                    "sun_exposure": true,
+                    "wind_exposure": true,
+                    "view_factor": {
+                        "type": "Autocalculate"
+                    }
+                },
+                {
+                    "type": "Surface",
+                    "boundary_condition_objects": [
+                        "SquareShoebox1..Face2",
+                        "SquareShoebox1"
+                    ]
+                }
+            ],
+            "air_boundaries": [
+                false,
+                false,
+                false,
+                true
+            ]
+        }
+    ],
+    "floor_to_floor_height": 3.0,
+    "floor_height": 3.0,
+    "multiplier": 1,
+    "properties": {
+        "type": "StoryPropertiesAbridged",
+        "energy": {
+            "type": "StoryEnergyPropertiesAbridged"
+        }
+    }
+}

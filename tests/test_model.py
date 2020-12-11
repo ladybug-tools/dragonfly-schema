@@ -16,6 +16,11 @@ def test_story_simple():
     Story.parse_file(file_path)
 
 
+def test_story_air_boundary():
+    file_path = os.path.join(target_folder, 'story_air_boundary.json')
+    Story.parse_file(file_path)
+
+
 def test_building_simple():
     file_path = os.path.join(target_folder, 'building_simple.json')
     Building.parse_file(file_path)
