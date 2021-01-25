@@ -54,24 +54,24 @@ jobs:
       - name: install semantic-release
         run:
           npm install @semantic-release/exec
-      - name: generate docs for assets deployment
-        run: |
-          python docs.py $(echo $VERSION | sed 's/v//')
-        env:
-          VERSION: ${{ github.event.client_payload.version }}
       - name: run semantic release
-        run:
+        id: new_release
+        run: |
+          nextRelease="`npx semantic-release --dryRun | grep -oP 'Published release \K.*? ' || true`"
           npx semantic-release
+          echo "::set-output name=tag::$nextRelease"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PYPI_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
           PYPI_USERNAME: ${{ secrets.PYPI_USERNAME }}
+    outputs:
+      tag: ${{ steps.new_release.outputs.tag }}
 
   docs:
     name: Generate docs
     runs-on: ubuntu-latest
-    needs: test
-    if: github.ref == 'refs/heads/master' && github.repository_owner == 'ladybug-tools'
+    needs: deploy
+    if: ${{ github.ref == 'refs/heads/master' && github.repository_owner == 'ladybug-tools' && contains(needs.deploy.outputs.tag, '.') }}
     steps:
       - uses: actions/checkout@v2
       - name: set up Python
@@ -91,10 +91,8 @@ jobs:
           pip install -r dev-requirements.txt
       - name: generate docs
         run: |
-          python docs.py $(echo $VERSION | sed 's/v//')
+          python docs.py --version ${{needs.deploy.outputs.tag}}
           redoc-cli bundle ./docs/model_redoc.json -o ./docs/model.html
-        env:
-          VERSION: ${{ github.event.client_payload.version }}
 
       - name: deploy to github pages
         uses: peaceiris/actions-gh-pages@v3
