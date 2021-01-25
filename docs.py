@@ -13,8 +13,6 @@ parser.add_argument('--version', help='Set the version of the new OpenAPI Schema
 
 args = parser.parse_args()
 
-VERSION = None
-
 if args.version:
     VERSION = args.version.replace('v', '')
 else:
