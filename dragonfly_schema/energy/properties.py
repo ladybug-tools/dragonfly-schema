@@ -8,7 +8,8 @@ from honeybee_schema.energy.constructionset import ConstructionSetAbridged, \
 from honeybee_schema.energy.programtype import ProgramTypeAbridged, ProgramType
 from honeybee_schema.energy.hvac.idealair import IdealAirSystemAbridged
 from honeybee_schema.energy.hvac.allair import VAV, PVAV, PSZ, PTAC, ForcedAirFurnace
-from honeybee_schema.energy.hvac.doas import FCUwithDOAS, WSHPwithDOAS, VRFwithDOAS
+from honeybee_schema.energy.hvac.doas import FCUwithDOASAbridged, \
+    WSHPwithDOASAbridged, VRFwithDOASAbridged
 from honeybee_schema.energy.hvac.heatcool import FCU, WSHP, VRF, Baseboard, \
     EvaporativeCooler, Residential, WindowAC, GasUnitHeater
 from honeybee_schema.energy.ventcool import VentilationControlAbridged, VentilationOpening
@@ -152,8 +153,9 @@ class ModelEnergyProperties(NoExtraBaseModel):
     )
 
     hvacs: List[Union[IdealAirSystemAbridged, VAV, PVAV, PSZ, PTAC, ForcedAirFurnace,
-                      FCUwithDOAS, WSHPwithDOAS, VRFwithDOAS, FCU, WSHP, VRF, Baseboard,
-                      EvaporativeCooler, Residential, WindowAC, GasUnitHeater]] = Field(
+                      FCUwithDOASAbridged, WSHPwithDOASAbridged, VRFwithDOASAbridged,
+                      FCU, WSHP, VRF, Baseboard, EvaporativeCooler, Residential,
+                      WindowAC, GasUnitHeater]] = Field(
         default=None,
         description='List of all HVAC systems in the Model.'
     )
