@@ -5,6 +5,7 @@ from typing import List, Union
 from honeybee_schema._base import IDdBaseModel
 from honeybee_schema.model import Face3D, Units
 from honeybee_schema.boundarycondition import Ground, Outdoors, Adiabatic, Surface
+from honeybee_schema.altnumber import Autocalculate
 
 from .window_parameter import SingleWindow, SimpleWindowRatio, RepeatingWindowRatio, \
     RectangularWindows, DetailedWindows
@@ -36,7 +37,8 @@ class Room2D(IDdBaseModel):
         'should be a list of 2 (x, y) values.'
     )
 
-    floor_holes: List[conlist(conlist(float, min_items=2, max_items=2), min_items=3)] = Field(
+    floor_holes: List[conlist(conlist(float, min_items=2, max_items=2), min_items=3)] \
+        = Field(
         None,
         description='Optional list of lists with one list for each hole in the floor '
         'plate. Each hole should be a list of at least 2 points and each point a list '
@@ -160,18 +162,18 @@ class Story(IDdBaseModel):
         'entire story of a building.'
     )
 
-    floor_to_floor_height: float = Field(
-        None,
+    floor_to_floor_height: Union[Autocalculate, float] = Field(
+        Autocalculate(),
         description='A number for the distance from the floor plate of this story '
-        'to the floor of the story above this one (if it exists). If None, this '
-        'value will be the maximum floor_to_ceiling_height of the input room_2ds.'
+        'to the floor of the story above this one (if it exists). If Autocalculate, '
+        'this value will be the maximum floor_to_ceiling_height of the input room_2ds.'
     )
 
-    floor_height: float = Field(
-        None,
+    floor_height: Union[Autocalculate, float] = Field(
+        Autocalculate(),
         description='A number to indicate the height of the floor plane in the Z axis.'
-        'If None, this will be the minimum floor height of all the room_2ds, which '
-        'is suitable for cases where there are no floor plenums.'
+        'If Autocalculate, this will be the minimum floor height of all the room_2ds, '
+        'which is suitable for cases where there are no floor plenums.'
     )
 
     multiplier: int = Field(
