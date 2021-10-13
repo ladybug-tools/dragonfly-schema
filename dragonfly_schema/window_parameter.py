@@ -186,19 +186,19 @@ class DetailedWindows(NoExtraBaseModel):
 
     type: constr(regex='^DetailedWindows$') = 'DetailedWindows'
 
-    polygons: List[conlist(conlist(confloat(gt=0), min_items=2, max_items=2), min_items=3)] = \
+    polygons: List[conlist(conlist(confloat(gt=0), min_items=2, max_items=3), min_items=3)] = \
         Field(
         ...,
         description='An array of arrays with each sub-array representing a polygonal '
-            'boundary of a window within the plane of the wall. Each sub-array should '
-            'consist of at least three 2D points and each point should be a list of '
-            '2 (x, y) values. The wall plane is assumed to have an origin at the '
+            'boundary of a window. Each sub-array should consist of arrays '
+            'representing points, which can either contain 2 values (indicating they '
+            'are 2D vertices within the plane of a parent wall segment) or they can '
+            'contain 3 values (indicating they are 3D world coordinates). '
+            'For 2D points, the wall plane is assumed to have an origin at the '
             'first point of the wall segment and an X-axis extending along the '
             'length of the segment. The wall plane Y-axis always points upwards. '
             'Therefore, both X and Y values of each point in the polygon should '
-            'always be positive. Note that, if you are starting from 3D vertices '
-            'of windows, you can use these window parameters to represent them. '
-            'Some sample code to convert from 2D vertices to 2D vertices in the '
-            'plane of the wall can be found here: '
+            'always be positive. Some sample code to convert from 2D vertices to '
+            '2D vertices in the plane of the wall can be found here: '
             'https://www.ladybug.tools/dragonfly-core/docs/dragonfly.windowparameter.html#dragonfly.windowparameter.DetailedWindows'
     )

@@ -12,7 +12,10 @@ from honeybee_schema.energy.hvac.doas import FCUwithDOASAbridged, \
     WSHPwithDOASAbridged, VRFwithDOASAbridged
 from honeybee_schema.energy.hvac.heatcool import FCU, WSHP, VRF, Baseboard, \
     EvaporativeCooler, Residential, WindowAC, GasUnitHeater
-from honeybee_schema.energy.ventcool import VentilationControlAbridged, VentilationOpening
+from honeybee_schema.energy.ventcool import VentilationControlAbridged, \
+    VentilationOpening
+from honeybee_schema.energy.shw import SHWSystem
+from honeybee_schema.energy.global_constructionset import GlobalConstructionSet
 
 from honeybee_schema.energy.construction import OpaqueConstructionAbridged, \
     WindowConstructionAbridged, ShadeConstruction, AirBoundaryConstructionAbridged, \
@@ -52,9 +55,19 @@ class Room2DEnergyPropertiesAbridged(NoExtraBaseModel):
         default=None,
         min_length=1,
         max_length=100,
-        description='An optional identifier of a HVAC system (such as an IdealAirSystem) '
-        'that specifies how the Room2D is conditioned. If None, it will be assumed '
+        description='An optional identifier of a HVAC system (such as an IdealAirSystem)'
+        ' that specifies how the Room2D is conditioned. If None, it will be assumed '
         'that the Room2D is not conditioned.'
+    )
+
+    shw: str = Field(
+        default=None,
+        min_length=1,
+        max_length=100,
+        description='An optional identifier of a Service Hot Water (SHW) system '
+        'that specifies how the hot water load of the Room is met. If None, the hot '
+        'water load will be met with a generic system that only measures thermal load'
+        'and does not account for system efficiencies.'
     )
 
     window_vent_control: VentilationControlAbridged = Field(
@@ -128,6 +141,12 @@ class ModelEnergyProperties(NoExtraBaseModel):
 
     type: constr(regex='^ModelEnergyProperties$') = 'ModelEnergyProperties'
 
+    global_construction_set: GlobalConstructionSet = Field(
+        default=GlobalConstructionSet(),
+        description='Global Energy construction set.',
+        readOnly=True
+    )
+
     construction_sets: List[Union[ConstructionSetAbridged, ConstructionSet]] = Field(
         default=None,
         description='List of all ConstructionSets in the Model.'
@@ -158,6 +177,11 @@ class ModelEnergyProperties(NoExtraBaseModel):
                       WindowAC, GasUnitHeater]] = Field(
         default=None,
         description='List of all HVAC systems in the Model.'
+    )
+
+    shws: List[SHWSystem] = Field(
+        default=None,
+        description='List of all Service Hot Water (SHW) systems in the Model.'
     )
 
     program_types: List[Union[ProgramTypeAbridged, ProgramType]] = Field(
