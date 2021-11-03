@@ -14,6 +14,7 @@ from honeybee_schema.energy.hvac.heatcool import FCU, WSHP, VRF, Baseboard, \
     EvaporativeCooler, Residential, WindowAC, GasUnitHeater
 from honeybee_schema.energy.ventcool import VentilationControlAbridged, \
     VentilationOpening
+from honeybee_schema.energy.load import ProcessAbridged
 from honeybee_schema.energy.shw import SHWSystem
 from honeybee_schema.energy.global_constructionset import GlobalConstructionSet
 
@@ -80,6 +81,15 @@ class Room2DEnergyPropertiesAbridged(NoExtraBaseModel):
         default=None,
         description='An optional VentilationOpening to specify the operable '
         'portion of all windows of the Room2D. If None, the windows will never open.'
+    )
+
+    process_loads: List[ProcessAbridged] = Field(
+        default=None,
+        description='An optional list of of Process objects for process loads within '
+        'the room. These can represent kilns, manufacturing equipment, and various '
+        'industrial processes. They can also be used to represent wood burning '
+        'fireplaces or certain pieces of equipment to be separated from the other '
+        'end uses.'
     )
 
 
