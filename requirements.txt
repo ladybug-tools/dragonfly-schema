@@ -1,1 +1,1 @@
-honeybee-schema==1.48.0
+honeybee-schema==1.48.1
