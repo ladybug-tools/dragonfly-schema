@@ -9,9 +9,9 @@ from honeybee_schema.energy.programtype import ProgramTypeAbridged, ProgramType
 from honeybee_schema.energy.hvac.idealair import IdealAirSystemAbridged
 from honeybee_schema.energy.hvac.allair import VAV, PVAV, PSZ, PTAC, ForcedAirFurnace
 from honeybee_schema.energy.hvac.doas import FCUwithDOASAbridged, \
-    WSHPwithDOASAbridged, VRFwithDOASAbridged
+    WSHPwithDOASAbridged, VRFwithDOASAbridged, RadiantwithDOASAbridged
 from honeybee_schema.energy.hvac.heatcool import FCU, WSHP, VRF, Baseboard, \
-    EvaporativeCooler, Residential, WindowAC, GasUnitHeater
+    EvaporativeCooler, Residential, WindowAC, GasUnitHeater, Radiant
 from honeybee_schema.energy.ventcool import VentilationControlAbridged, \
     VentilationOpening
 from honeybee_schema.energy.load import ProcessAbridged
@@ -192,8 +192,8 @@ class ModelEnergyProperties(NoExtraBaseModel):
         Union[
             IdealAirSystemAbridged, VAV, PVAV, PSZ, PTAC, ForcedAirFurnace,
             FCUwithDOASAbridged, WSHPwithDOASAbridged, VRFwithDOASAbridged,
-            FCU, WSHP, VRF, Baseboard, EvaporativeCooler, Residential,
-            WindowAC, GasUnitHeater
+            RadiantwithDOASAbridged, FCU, WSHP, VRF, Baseboard, EvaporativeCooler,
+            Residential, WindowAC, GasUnitHeater, Radiant
         ]
     ] = Field(
         default=None,
