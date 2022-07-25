@@ -239,6 +239,13 @@ class ContextShade(IDdBaseModel):
         'context shade.'
     )
 
+    is_detached: bool = Field(
+        True,
+        description='Boolean to note whether this shade is detached from any of '
+        'the other geometry in the model. Cases where this should be True include '
+        'shade representing surrounding buildings or context.'
+    )
+
     properties: ContextShadePropertiesAbridged = Field(
         ...,
         description='Extension properties for particular simulation engines '

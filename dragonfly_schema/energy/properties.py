@@ -171,7 +171,7 @@ class ModelEnergyProperties(NoExtraBaseModel):
     ] = Field(
         default=None,
         description='A list of all unique constructions in the model. This includes '
-            'constructions across all the Model construction_sets.'
+        'constructions across all the Model construction_sets.'
     )
 
     materials: List[
