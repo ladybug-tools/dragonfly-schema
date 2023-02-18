@@ -57,7 +57,7 @@ class RepeatingWindowRatio(NoExtraBaseModel):
     window_ratio: float = Field(
         ...,
         gt=0,
-        lt=1,
+        lt=0.95,
         description='A number between 0 and 1 for the ratio between the window '
         'area and the parent wall surface area.'
     )
@@ -166,6 +166,14 @@ class RectangularWindows(NoExtraBaseModel):
         'The length of this list must match the length of the origins.'
     )
 
+    are_doors: List[bool] = Field(
+        default=None,
+        description='An array of booleans that align with the origins and note '
+        'whether each of the geometries represents a door (True) or a window (False). '
+        'If None, it will be assumed that all geometries represent windows and '
+        'they will be translated to Apertures in any resulting Honeybee model.'
+    )
+
     @root_validator
     def check_aligned_lists(cls, values):
         "Ensure length of origins, widths and heights match."
@@ -186,8 +194,9 @@ class DetailedWindows(NoExtraBaseModel):
 
     type: constr(regex='^DetailedWindows$') = 'DetailedWindows'
 
-    polygons: List[conlist(conlist(confloat(gt=0), min_items=2, max_items=3), min_items=3)] = \
-        Field(
+    polygons: List[
+        conlist(conlist(confloat(gt=0), min_items=2, max_items=3), min_items=3)
+    ] = Field(
         ...,
         description='An array of arrays with each sub-array representing a polygonal '
             'boundary of a window. Each sub-array should consist of arrays '
@@ -201,4 +210,12 @@ class DetailedWindows(NoExtraBaseModel):
             'always be positive. Some sample code to convert from 2D vertices to '
             '2D vertices in the plane of the wall can be found here: '
             'https://www.ladybug.tools/dragonfly-core/docs/dragonfly.windowparameter.html#dragonfly.windowparameter.DetailedWindows'
+    )
+
+    are_doors: List[bool] = Field(
+        default=None,
+        description='An array of booleans that align with the polygons and note '
+        'whether each of the polygons represents a door (True) or a window (False). '
+        'If None, it will be assumed that all polygons represent windows and '
+        'they will be translated to Apertures in any resulting Honeybee model.'
     )

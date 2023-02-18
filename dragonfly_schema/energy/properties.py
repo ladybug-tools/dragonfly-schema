@@ -12,6 +12,7 @@ from honeybee_schema.energy.hvac.doas import FCUwithDOASAbridged, \
     WSHPwithDOASAbridged, VRFwithDOASAbridged, RadiantwithDOASAbridged
 from honeybee_schema.energy.hvac.heatcool import FCU, WSHP, VRF, Baseboard, \
     EvaporativeCooler, Residential, WindowAC, GasUnitHeater, Radiant
+from honeybee_schema.energy.hvac.detailed import DetailedHVAC
 from honeybee_schema.energy.ventcool import VentilationControlAbridged, \
     VentilationOpening
 from honeybee_schema.energy.load import ProcessAbridged
@@ -23,8 +24,9 @@ from honeybee_schema.energy.construction import OpaqueConstructionAbridged, \
     OpaqueConstruction, WindowConstruction, AirBoundaryConstruction
 from honeybee_schema.energy.material import EnergyMaterial, EnergyMaterialNoMass, \
     EnergyMaterialVegetation, EnergyWindowMaterialGas, EnergyWindowMaterialGasCustom, \
-    EnergyWindowMaterialGasMixture, EnergyWindowMaterialSimpleGlazSys, \
-    EnergyWindowMaterialBlind, EnergyWindowMaterialGlazing, EnergyWindowMaterialShade
+    EnergyWindowMaterialGasMixture, EnergyWindowFrame, \
+    EnergyWindowMaterialSimpleGlazSys, EnergyWindowMaterialGlazing, \
+    EnergyWindowMaterialShade, EnergyWindowMaterialBlind
 from honeybee_schema.energy.schedule import ScheduleTypeLimit, ScheduleRulesetAbridged, \
     ScheduleFixedIntervalAbridged, ScheduleRuleset, ScheduleFixedInterval
 
@@ -178,7 +180,7 @@ class ModelEnergyProperties(NoExtraBaseModel):
         Union[
             EnergyMaterial, EnergyMaterialNoMass, EnergyMaterialVegetation,
             EnergyWindowMaterialGas, EnergyWindowMaterialGasCustom,
-            EnergyWindowMaterialGasMixture,
+            EnergyWindowMaterialGasMixture, EnergyWindowFrame,
             EnergyWindowMaterialSimpleGlazSys, EnergyWindowMaterialGlazing,
             EnergyWindowMaterialBlind, EnergyWindowMaterialShade
         ]
@@ -193,7 +195,7 @@ class ModelEnergyProperties(NoExtraBaseModel):
             IdealAirSystemAbridged, VAV, PVAV, PSZ, PTAC, ForcedAirFurnace,
             FCUwithDOASAbridged, WSHPwithDOASAbridged, VRFwithDOASAbridged,
             RadiantwithDOASAbridged, FCU, WSHP, VRF, Baseboard, EvaporativeCooler,
-            Residential, WindowAC, GasUnitHeater, Radiant
+            Residential, WindowAC, GasUnitHeater, Radiant, DetailedHVAC
         ]
     ] = Field(
         default=None,

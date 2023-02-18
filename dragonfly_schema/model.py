@@ -4,13 +4,15 @@ from typing import List, Union
 
 from honeybee_schema._base import IDdBaseModel
 from honeybee_schema.model import Face3D, Units
-from honeybee_schema.boundarycondition import Ground, Outdoors, Adiabatic, Surface
+from honeybee_schema.boundarycondition import Ground, Outdoors, Surface, \
+    Adiabatic, OtherSideTemperature
 from honeybee_schema.altnumber import Autocalculate
 
 from .window_parameter import SingleWindow, SimpleWindowRatio, RepeatingWindowRatio, \
     RectangularWindows, DetailedWindows
 from .shading_parameter import ExtrudedBorder, Overhang, LouversByDistance, \
     LouversByCount
+from .skylight_parameter import GriddedSkylightRatio, DetailedSkylights
 from .energy.properties import Room2DEnergyPropertiesAbridged, \
     StoryEnergyPropertiesAbridged, BuildingEnergyPropertiesAbridged, \
     ContextShadeEnergyPropertiesAbridged, ModelEnergyProperties
@@ -68,7 +70,9 @@ class Room2D(IDdBaseModel):
         'to the outdoors.'
     )
 
-    boundary_conditions: List[Union[Ground, Outdoors, Adiabatic, Surface]] = Field(
+    boundary_conditions: List[
+        Union[Ground, Outdoors, Surface, Adiabatic, OtherSideTemperature]
+    ] = Field(
         default=None,
         description='A list of boundary conditions that match the number of segments '
         'in the input floor_geometry + floor_holes. These will be used to assign '
@@ -103,6 +107,12 @@ class Room2D(IDdBaseModel):
         'an AirBoundary type. All walls will be False by default. Note that any '
         'walls with a True air boundary must have a Surface boundary condition '
         'without any windows.'
+    )
+
+    skylight_parameters: Union[None, GriddedSkylightRatio, DetailedSkylights] = Field(
+        default=None,
+        description='A SkylightParameter object describing how to generate skylights. '
+        'If None, no skylights will exist on the Room2D.'
     )
 
     properties: Room2DPropertiesAbridged = Field(
