@@ -16,6 +16,9 @@ from .skylight_parameter import GriddedSkylightRatio, DetailedSkylights
 from .energy.properties import Room2DEnergyPropertiesAbridged, \
     StoryEnergyPropertiesAbridged, BuildingEnergyPropertiesAbridged, \
     ContextShadeEnergyPropertiesAbridged, ModelEnergyProperties
+from .radiance.properties import Room2DRadiancePropertiesAbridged, \
+    StoryRadiancePropertiesAbridged, BuildingRadiancePropertiesAbridged, \
+    ContextShadeRadiancePropertiesAbridged, ModelRadianceProperties
 
 
 class Room2DPropertiesAbridged(BaseModel):
@@ -23,6 +26,10 @@ class Room2DPropertiesAbridged(BaseModel):
     type: constr(regex='^Room2DPropertiesAbridged$') = 'Room2DPropertiesAbridged'
 
     energy: Room2DEnergyPropertiesAbridged = Field(
+        default=None
+    )
+
+    radiance: Room2DRadiancePropertiesAbridged = Field(
         default=None
     )
 
@@ -161,6 +168,10 @@ class StoryPropertiesAbridged(BaseModel):
         default=None
     )
 
+    radiance: StoryRadiancePropertiesAbridged = Field(
+        default=None
+    )
+
 
 class Story(IDdBaseModel):
 
@@ -208,6 +219,10 @@ class BuildingPropertiesAbridged(BaseModel):
         default=None
     )
 
+    radiance: BuildingRadiancePropertiesAbridged = Field(
+        default=None
+    )
+
 
 class Building(IDdBaseModel):
 
@@ -235,6 +250,10 @@ class ContextShadePropertiesAbridged(BaseModel):
         'ContextShadePropertiesAbridged'
 
     energy: ContextShadeEnergyPropertiesAbridged = Field(
+        default=None
+    )
+
+    radiance: ContextShadeRadiancePropertiesAbridged = Field(
         default=None
     )
 
@@ -271,6 +290,10 @@ class ModelProperties(BaseModel):
         default=None
     )
 
+    radiance: ModelRadianceProperties = Field(
+        default=None
+    )
+
 
 class Model(IDdBaseModel):
 
@@ -283,7 +306,7 @@ class Model(IDdBaseModel):
     )
 
     buildings: List[Building] = Field(
-        ...,
+        None,
         description='A list of Buildings in the model.'
     )
 

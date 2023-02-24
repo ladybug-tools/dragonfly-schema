@@ -87,7 +87,7 @@ class Room2DEnergyPropertiesAbridged(NoExtraBaseModel):
 
     process_loads: List[ProcessAbridged] = Field(
         default=None,
-        description='An optional list of of Process objects for process loads within '
+        description='An optional list of Process objects for process loads within '
         'the room. These can represent wood burning fireplaces, kilns, manufacturing '
         'equipment, and various industrial processes. They can also be used to '
         'represent certain pieces of equipment to be separated from the other '
