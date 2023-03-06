@@ -1,9 +1,33 @@
 """Window Parameters with instructions for generating windows."""
-from pydantic import Field, constr, conlist, confloat
+from pydantic import Field, constr, conlist
 from typing import Union, List
 
 from honeybee_schema._base import NoExtraBaseModel
 from honeybee_schema.altnumber import Autocalculate
+
+
+class GriddedSkylightArea(NoExtraBaseModel):
+    """Gridded skylights defined by an absolute area."""
+
+    type: constr(regex='^GriddedSkylightArea$') = 'GriddedSkylightArea'
+
+    skylight_area: float = Field(
+        ...,
+        gt=0,
+        description='A number for the skylight area in current model units. '
+        'If this area is larger than the area of the roof that it is applied '
+        'to, the skylight will fill the parent roof at a 99 percent ratio.'
+    )
+
+    spacing: Union[Autocalculate, float] = Field(
+        Autocalculate(),
+        gt=0,
+        description='A number for the spacing between the centers of each grid cell. '
+        'This should be less than a third of the dimension of the Roof geometry '
+        'if multiple, evenly-spaced skylights are desired. If Autocalculate, a spacing '
+        'of one third the smaller dimension of the parent Roof will be automatically '
+        'assumed.'
+    )
 
 
 class GriddedSkylightRatio(NoExtraBaseModel):
@@ -11,11 +35,11 @@ class GriddedSkylightRatio(NoExtraBaseModel):
 
     type: constr(regex='^GriddedSkylightRatio$') = 'GriddedSkylightRatio'
 
-    window_ratio: float = Field(
+    skylight_ratio: float = Field(
         ...,
         gt=0,
         lt=1,
-        description='A number between 0 and 0.75 for the ratio between the skylight '
+        description='A number between 0 and 1 for the ratio between the skylight '
         'area and the total Roof face area.'
     )
 
@@ -36,7 +60,7 @@ class DetailedSkylights(NoExtraBaseModel):
     type: constr(regex='^DetailedSkylights$') = 'DetailedSkylights'
 
     polygons: List[
-        conlist(conlist(confloat(gt=0), min_items=2, max_items=3), min_items=3)
+        conlist(conlist(float, min_items=2, max_items=2), min_items=3)
     ] = Field(
         ...,
         description='An array of arrays with each sub-array representing a polygonal '
