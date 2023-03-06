@@ -35,6 +35,20 @@ class SingleWindow(NoExtraBaseModel):
     )
 
 
+class SimpleWindowArea(NoExtraBaseModel):
+    """A single window defined by an absolute area."""
+
+    type: constr(regex='^SimpleWindowArea$') = 'SimpleWindowArea'
+
+    window_area: float = Field(
+        ...,
+        gt=0,
+        description='A number for the window area in current model units. '
+        'If this area is larger than the area of the Wall that it is applied'
+        'to, the window will fill the parent Wall at a 99 percent ratio.'
+    )
+
+
 class SimpleWindowRatio(NoExtraBaseModel):
     """A single window defined by an area ratio with the base surface."""
 

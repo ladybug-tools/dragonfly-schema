@@ -34,3 +34,8 @@ def test_context_shade_two_tree_canopy():
 def test_model_complete_simple():
     file_path = os.path.join(target_folder, 'model_complete_simple.dfjson')
     Model.parse_file(file_path)
+
+
+def test_model_with_doors_skylights_and_roof():
+    file_path = os.path.join(target_folder, 'model_with_doors_skylights.dfjson')
+    Model.parse_file(file_path)

@@ -8,11 +8,13 @@ from honeybee_schema.boundarycondition import Ground, Outdoors, Surface, \
     Adiabatic, OtherSideTemperature
 from honeybee_schema.altnumber import Autocalculate
 
-from .window_parameter import SingleWindow, SimpleWindowRatio, RepeatingWindowRatio, \
-    RectangularWindows, DetailedWindows
+from .window_parameter import SingleWindow, SimpleWindowArea, SimpleWindowRatio, \
+    RepeatingWindowRatio, RectangularWindows, DetailedWindows
 from .shading_parameter import ExtrudedBorder, Overhang, LouversByDistance, \
     LouversByCount
-from .skylight_parameter import GriddedSkylightRatio, DetailedSkylights
+from .skylight_parameter import GriddedSkylightArea, GriddedSkylightRatio, \
+    DetailedSkylights
+from .roof import RoofSpecification
 from .energy.properties import Room2DEnergyPropertiesAbridged, \
     StoryEnergyPropertiesAbridged, BuildingEnergyPropertiesAbridged, \
     ContextShadeEnergyPropertiesAbridged, ModelEnergyProperties
@@ -90,17 +92,19 @@ class Room2D(IDdBaseModel):
         'height of the room is at or below 0 (the assumed ground plane).'
     )
 
-    window_parameters: List[Union[None, SingleWindow, SimpleWindowRatio,
-                                  RepeatingWindowRatio, RectangularWindows,
-                                  DetailedWindows]] = Field(
+    window_parameters: List[Union[
+        None, SingleWindow, SimpleWindowArea, SimpleWindowRatio, RepeatingWindowRatio,
+        RectangularWindows, DetailedWindows
+    ]] = Field(
         default=None,
         description='A list of WindowParameter objects that dictate how the window '
         'geometries will be generated for each of the walls. If None, no windows '
         'will exist over the entire Room2D.'
     )
 
-    shading_parameters: List[Union[None, ExtrudedBorder, Overhang, LouversByDistance,
-                                   LouversByCount]] = Field(
+    shading_parameters: List[Union[
+        None, ExtrudedBorder, Overhang, LouversByDistance, LouversByCount
+    ]] = Field(
         default=None,
         description='A list of ShadingParameter objects that dictate how the shade '
         'geometries will be generated for each of the walls. If None, no shades '
@@ -116,7 +120,9 @@ class Room2D(IDdBaseModel):
         'without any windows.'
     )
 
-    skylight_parameters: Union[None, GriddedSkylightRatio, DetailedSkylights] = Field(
+    skylight_parameters: Union[
+        None, GriddedSkylightArea, GriddedSkylightRatio, DetailedSkylights
+    ] = Field(
         default=None,
         description='A SkylightParameter object describing how to generate skylights. '
         'If None, no skylights will exist on the Room2D.'
@@ -185,6 +191,7 @@ class Story(IDdBaseModel):
 
     floor_to_floor_height: Union[Autocalculate, float] = Field(
         Autocalculate(),
+        ge=0,
         description='A number for the distance from the floor plate of this story '
         'to the floor of the story above this one (if it exists). If Autocalculate, '
         'this value will be the maximum floor_to_ceiling_height of the input room_2ds.'
@@ -202,6 +209,15 @@ class Story(IDdBaseModel):
         ge=1,
         description='An integer that denotes the number of times that this Story is '
         'repeated over the height of the building.'
+    )
+
+    roof: RoofSpecification = Field(
+        default=None,
+        description='An optional RoofSpecification object containing geometry '
+        'for generating sloped roofs over the Story. The RoofSpecification will only '
+        'affect the child Room2Ds that have a True is_top_exposed property '
+        'and it will only be utilized in translation to Honeybee when the Story '
+        'multiplier is 1. If None, all Room2D ceilings will be flat.'
     )
 
     properties: StoryPropertiesAbridged = Field(
