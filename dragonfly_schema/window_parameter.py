@@ -5,7 +5,20 @@ from typing import List
 from honeybee_schema._base import NoExtraBaseModel
 
 
-class SingleWindow(NoExtraBaseModel):
+class _WindowParameterBase(NoExtraBaseModel):
+    """Base class for all window parameters."""
+
+    user_data: dict = Field(
+        default=None,
+        description='Optional dictionary of user data associated with the object.'
+        'All keys and values of this dictionary should be of a standard data '
+        'type to ensure correct serialization of the object (eg. str, float, '
+        'int, list). When a list is used, each item in the list will be assigned '
+        'to the generated Honeybee apertures.'
+    )
+
+
+class SingleWindow(_WindowParameterBase):
     """A single window in the wall center defined by a width * height."""
 
     type: constr(regex='^SingleWindow$') = 'SingleWindow'
@@ -35,7 +48,7 @@ class SingleWindow(NoExtraBaseModel):
     )
 
 
-class SimpleWindowArea(NoExtraBaseModel):
+class SimpleWindowArea(_WindowParameterBase):
     """A single window defined by an absolute area."""
 
     type: constr(regex='^SimpleWindowArea$') = 'SimpleWindowArea'
@@ -49,7 +62,7 @@ class SimpleWindowArea(NoExtraBaseModel):
     )
 
 
-class SimpleWindowRatio(NoExtraBaseModel):
+class SimpleWindowRatio(_WindowParameterBase):
     """A single window defined by an area ratio with the base surface."""
 
     type: constr(regex='^SimpleWindowRatio$') = 'SimpleWindowRatio'
@@ -63,7 +76,7 @@ class SimpleWindowRatio(NoExtraBaseModel):
     )
 
 
-class RepeatingWindowRatio(NoExtraBaseModel):
+class RepeatingWindowRatio(_WindowParameterBase):
     """Repeating windows derived from an area ratio with the base wall."""
 
     type: constr(regex='^RepeatingWindowRatio$') = 'RepeatingWindowRatio'
@@ -109,7 +122,7 @@ class RepeatingWindowRatio(NoExtraBaseModel):
     )
 
 
-class RepeatingWindowWidthHeight(NoExtraBaseModel):
+class RepeatingWindowWidthHeight(_WindowParameterBase):
     """Repeating rectangular windows of a fixed width and height."""
 
     type: constr(regex='^RepeatingWindowWidthHeight$') = 'RepeatingWindowWidthHeight'
@@ -150,7 +163,7 @@ class RepeatingWindowWidthHeight(NoExtraBaseModel):
     )
 
 
-class RectangularWindows(NoExtraBaseModel):
+class RectangularWindows(_WindowParameterBase):
     """Several rectangular windows, defined by origin, width and height."""
 
     type: constr(regex='^RectangularWindows$') = 'RectangularWindows'
@@ -203,7 +216,7 @@ class RectangularWindows(NoExtraBaseModel):
         return values
 
 
-class DetailedWindows(NoExtraBaseModel):
+class DetailedWindows(_WindowParameterBase):
     """Several detailed windows defined by 2D Polygons (lists of 2D vertices)."""
 
     type: constr(regex='^DetailedWindows$') = 'DetailedWindows'
