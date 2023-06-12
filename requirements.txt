@@ -1,1 +1,1 @@
-honeybee-schema==1.53.1
+honeybee-schema==1.53.2
