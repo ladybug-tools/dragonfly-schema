@@ -3,7 +3,7 @@ from pydantic import BaseModel, Field, root_validator, constr, conlist
 from typing import List, Union
 
 from honeybee_schema._base import IDdBaseModel
-from honeybee_schema.model import Face3D, Units
+from honeybee_schema.model import Room, Face3D, Units
 from honeybee_schema.boundarycondition import Ground, Outdoors, Surface, \
     Adiabatic, OtherSideTemperature
 from honeybee_schema.altnumber import Autocalculate
@@ -245,12 +245,31 @@ class Building(IDdBaseModel):
     type: constr(regex='^Building$') = 'Building'
 
     unique_stories: List[Story] = Field(
-        ...,
+        default=None,
         description='An array of unique dragonfly Story objects that together form '
         'the entire building. Stories should generally be ordered from lowest '
-        'floor to highest floor. Note that, if a given Story is repeated several '
-        'times over the height of the building, the unique story included in this '
+        'floor to highest floor, though this is not required. Note that, if a '
+        'given Story is repeated several times over the height of the building '
+        'and this is represented by the multiplier, the unique story included in this '
         'list should be the first (lowest) story of the repeated floors.'
+    )
+
+    room_3ds: List[Room] = Field(
+        default=None,
+        description='An optional array of 3D Honeybee Room objects for additional '
+        'Rooms that are a part of the Building but are not represented within '
+        'the unique_stories. This is useful when there are parts of the Building '
+        'geometry that cannot easily be represented with the extruded floor '
+        'plate and sloped roof assumptions that underlie Dragonfly Room2Ds '
+        'and RoofSpecification. Cases where this input is most useful include '
+        'sloped walls and certain types of domed roofs that become tedious to '
+        'implement with RoofSpecification. Matching the Honeybee Room.story '
+        'property to the Dragonfly Story.display_name of an object within the '
+        'unique_stories will effectively place the Honeybee Room on that Story '
+        'for the purposes of floor_area, exterior_wall_area, etc. However, note '
+        'that the Honeybee Room.multiplier property takes precedence over '
+        'whatever multiplier is assigned to the Dragonfly Story that the '
+        'Room.story may reference. (Default: None).'
     )
 
     properties: BuildingPropertiesAbridged = Field(
