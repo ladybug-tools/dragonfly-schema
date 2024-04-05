@@ -5,7 +5,8 @@
 
 # dragonfly-schema
 
-Dragonfly Data-Model Objects
+Dragonfly Data-Model that generates documentation and OpenAPI specifications for
+the DFJSON file schema.
 
 ## Installation
 
