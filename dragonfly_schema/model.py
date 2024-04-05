@@ -3,7 +3,7 @@ from pydantic import BaseModel, Field, root_validator, constr, conlist
 from typing import List, Union
 
 from honeybee_schema._base import IDdBaseModel
-from honeybee_schema.model import Room, Face3D, Units
+from honeybee_schema.model import Room, Face3D, Mesh3D, Units
 from honeybee_schema.boundarycondition import Ground, Outdoors, Surface, \
     Adiabatic, OtherSideTemperature
 from honeybee_schema.altnumber import Autocalculate
@@ -297,10 +297,10 @@ class ContextShade(IDdBaseModel):
 
     type: constr(regex='^ContextShade$') = 'ContextShade'
 
-    geometry: List[Face3D] = Field(
+    geometry: List[Union[Face3D, Mesh3D]] = Field(
         ...,
-        description='An array of planar Face3Ds that together represent the '
-        'context shade.'
+        description='An array of planar Face3Ds and or Mesh3Ds that together '
+        'represent the context shade.'
     )
 
     is_detached: bool = Field(
