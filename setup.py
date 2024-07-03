@@ -18,7 +18,9 @@ setuptools.setup(
     url="https://github.com/ladybug-tools/dragonfly-schema",
     packages=setuptools.find_packages(exclude=["tests", "scripts", "samples"]),
     install_requires=requirements,
+    include_package_data=True,
     classifiers=[
+        "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: Implementation :: CPython",
         "Operating System :: OS Independent"
