@@ -61,6 +61,17 @@ class SimpleWindowArea(_WindowParameterBase):
         'to, the window will fill the parent Wall at a 99 percent ratio.'
     )
 
+    rect_split: bool = Field(
+        True,
+        description='Boolean to note whether rectangular portions of base Face '
+        'should be extracted before scaling them to create apertures. For '
+        'pentagonal gabled geometries, this results in one rectangle and one '
+        'triangle, which can often look more realistic and is a better input '
+        'for engines like EnergyPlus that cannot model windows with more than 4 '
+        'vertices. However, if a single pentagonal window is desired for such a '
+        'gabled shape, this input can be set to False to produce such a result.'
+    )
+
 
 class SimpleWindowRatio(_WindowParameterBase):
     """A single window defined by an area ratio with the base surface."""
@@ -73,6 +84,17 @@ class SimpleWindowRatio(_WindowParameterBase):
         lt=1,
         description='A number between 0 and 1 for the ratio between the window '
         'area and the parent wall surface area.'
+    )
+
+    rect_split: bool = Field(
+        True,
+        description='Boolean to note whether rectangular portions of base Face '
+        'should be extracted before scaling them to create apertures. For '
+        'pentagonal gabled geometries, this results in one rectangle and one '
+        'triangle, which can often look more realistic and is a better input '
+        'for engines like EnergyPlus that cannot model windows with more than 4 '
+        'vertices. However, if a single pentagonal window is desired for such a '
+        'gabled shape, this input can be set to False to produce such a result.'
     )
 
 
