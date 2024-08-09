@@ -272,6 +272,24 @@ class Building(IDdBaseModel):
         'Room.story may reference. (Default: None).'
     )
 
+    roof: RoofSpecification = Field(
+        default=None,
+        description='An optional RoofSpecification object that provides an '
+        'alternative way to describe roof geometry over rooms (instead of '
+        'specifying roofs on each story). If trying to decide between the two, '
+        'specifying geometry on each story is closer to how dragonfly natively '
+        'works with roof geometry as it relates to rooms. However, when it is '
+        'unknown which roof geometries correspond to which stories, this Building-level '
+        'attribute may be used and each roof geometry will automatically be added '
+        'to the best Story in the Building upon serialization to Python. This '
+        'automatic assignment will happen by checking for overlaps between the '
+        'Story Room2Ds and the Roof geometry in plan. When a given roof geometry '
+        'overlaps with several Stories, the top-most Story will get the roof geometry '
+        'assigned to it unless this top Story has a floor_height above the roof '
+        'geometry, in which case the next highest story will be checked until a '
+        'compatible one is found.'
+    )
+
     properties: BuildingPropertiesAbridged = Field(
         ...,
         description='Extension properties for particular simulation engines '
