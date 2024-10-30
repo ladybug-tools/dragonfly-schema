@@ -79,6 +79,22 @@ class Room2D(IDdBaseModel):
         'to the outdoors.'
     )
 
+    has_floor: bool = Field(
+        True,
+        description='A boolean for whether the room has a Floor (True) or an '
+        'AirBoundary (False). If False, this property will only be meaningful if the '
+        'model is translated to Honeybee with ceiling adjacency solved and there '
+        'is a Room2D below this one with a has_ceiling property set to False.'
+    )
+
+    has_ceiling: bool = Field(
+        True,
+        description='A boolean for whether the room has a RoofCeiling (True) or an '
+        'AirBoundary (False). If False, this property will only be meaningful if the '
+        'model is translated to Honeybee with ceiling adjacency solved and there '
+        'is a Room2D above this one with a has_floor property set to False.'
+    )
+
     boundary_conditions: List[
         Union[Ground, Outdoors, Surface, Adiabatic, OtherSideTemperature]
     ] = Field(
