@@ -236,6 +236,13 @@ class Story(IDdBaseModel):
         'multiplier is 1. If None, all Room2D ceilings will be flat.'
     )
 
+    is_plenum: bool = Field(
+        False,
+        description='A boolean noting whether the Room2Ds of the Story represent '
+        'plenums. If True, all Room2Ds in the Story are translated to 3D with a True '
+        'exclude_floor_area property.'
+    )
+
     properties: StoryPropertiesAbridged = Field(
         ...,
         description='Extension properties for particular simulation engines '
