@@ -124,6 +124,24 @@ class BuildingEnergyPropertiesAbridged(NoExtraBaseModel):
         'the Building. If None, the Model global_construction_set will be used.'
     )
 
+    ceiling_plenum_construction: str = Field(
+        default=None,
+        min_length=1,
+        max_length=100,
+        description='Identifier of an OpaqueConstruction for the bottoms of '
+        'ceiling plenums. Materials should be ordered from the plenum side '
+        'to the room side. By default, this is a simple acoustic tile construction.'
+    )
+
+    floor_plenum_construction: str = Field(
+        default=None,
+        min_length=1,
+        max_length=100,
+        description='Identifier of an OpaqueConstruction for the tops of floor '
+        'plenums. Materials should be ordered from the plenum side '
+        'to the room side. By default, this is a simple wood plank construction.'
+    )
+
 
 class ContextShadeEnergyPropertiesAbridged(NoExtraBaseModel):
 
