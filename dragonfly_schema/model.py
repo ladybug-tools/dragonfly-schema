@@ -1,6 +1,7 @@
 """Model schema and the 3 geometry objects that define it."""
 from pydantic import BaseModel, Field, root_validator, constr, conlist
 from typing import List, Union
+from enum import Enum
 
 from honeybee_schema._base import IDdBaseModel
 from honeybee_schema.model import Room, Face3D, Mesh3D, Units
@@ -95,6 +96,26 @@ class Room2D(IDdBaseModel):
         'is a Room2D above this one with a has_floor property set to False.'
     )
 
+    ceiling_plenum_depth: float = Field(
+        0,
+        description='A number for the depth that a ceiling plenum extends into '
+        'the room. Setting this to a positive value will result in a separate '
+        'plenum room being split off of the Room2D volume during translation '
+        'from Dragonfly to Honeybee. The bottom of this ceiling plenum will '
+        'always be at this Room2D ceiling height minus the value specified here. '
+        'Setting this to zero indicates that the room has no ceiling plenum.'
+    )
+
+    floor_plenum_depth: float = Field(
+        0,
+        description='A number for the depth that a floor plenum extends into '
+        'the room. Setting this to a positive value will result in a separate '
+        'plenum room being split off of the Room2D volume during translation '
+        'from Dragonfly to Honeybee. The top of this floor plenum will always '
+        'be at this Room2D floor height plus the value specified here. '
+        'Setting this to zero indicates that the room has no floor plenum.'
+    )
+
     boundary_conditions: List[
         Union[Ground, Outdoors, Surface, Adiabatic, OtherSideTemperature]
     ] = Field(
@@ -182,6 +203,12 @@ class Room2D(IDdBaseModel):
         return values
 
 
+class StoryType(str, Enum):
+    standard = 'Standard'
+    ceiling_plenum = 'CeilingPlenum'
+    floor_plenum = 'FloorPlenum'
+
+
 class StoryPropertiesAbridged(BaseModel):
 
     type: constr(regex='^StoryPropertiesAbridged$') = 'StoryPropertiesAbridged'
@@ -236,11 +263,10 @@ class Story(IDdBaseModel):
         'multiplier is 1. If None, all Room2D ceilings will be flat.'
     )
 
-    is_plenum: bool = Field(
-        False,
-        description='A boolean noting whether the Room2Ds of the Story represent '
-        'plenums. If True, all Room2Ds in the Story are translated to 3D with a True '
-        'exclude_floor_area property.'
+    story_type: StoryType = Field(
+        StoryType.standard,
+        description='Text to indicate the type of story. Stories that are plenums '
+        'are translated to Honeybee with excluded floor areas.'
     )
 
     properties: StoryPropertiesAbridged = Field(
