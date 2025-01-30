@@ -98,6 +98,7 @@ class Room2D(IDdBaseModel):
 
     ceiling_plenum_depth: float = Field(
         0,
+        ge=0,
         description='A number for the depth that a ceiling plenum extends into '
         'the room. Setting this to a positive value will result in a separate '
         'plenum room being split off of the Room2D volume during translation '
@@ -108,6 +109,7 @@ class Room2D(IDdBaseModel):
 
     floor_plenum_depth: float = Field(
         0,
+        ge=0,
         description='A number for the depth that a floor plenum extends into '
         'the room. Setting this to a positive value will result in a separate '
         'plenum room being split off of the Room2D volume during translation '
