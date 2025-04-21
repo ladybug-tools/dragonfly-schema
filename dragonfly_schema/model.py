@@ -123,6 +123,15 @@ class Room2D(IDdBaseModel):
         'Setting this to zero indicates that the room has no floor plenum.'
     )
 
+    zone: str = Field(
+        default=None,
+        description='Text string for for the zone identifier to which this Room2D '
+        ' belongs. Room2Ds sharing the same zone identifier are considered part of the '
+        'same zone in a Building. If the zone identifier has not been specified, it will '
+        'be the same as the Room2D identifier in the destination engine. Note that this '
+        'property has no character restrictions.'
+    )
+
     boundary_conditions: List[
         Union[Ground, Outdoors, Surface, Adiabatic, OtherSideTemperature]
     ] = Field(
