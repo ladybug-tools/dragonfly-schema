@@ -22,6 +22,7 @@ from .energy.properties import Room2DEnergyPropertiesAbridged, \
 from .radiance.properties import Room2DRadiancePropertiesAbridged, \
     StoryRadiancePropertiesAbridged, BuildingRadiancePropertiesAbridged, \
     ContextShadeRadiancePropertiesAbridged, ModelRadianceProperties
+from .doe2.properties import Room2DDoe2Properties, ModelDoe2Properties
 from .comparison.properties import Room2DComparisonProperties, ModelComparisonProperties
 
 
@@ -34,6 +35,10 @@ class Room2DPropertiesAbridged(BaseModel):
     )
 
     radiance: Room2DRadiancePropertiesAbridged = Field(
+        default=None
+    )
+
+    doe2: Room2DDoe2Properties = Field(
         default=None
     )
 
@@ -409,6 +414,10 @@ class ModelProperties(BaseModel):
     )
 
     radiance: ModelRadianceProperties = Field(
+        default=None
+    )
+
+    doe2: ModelDoe2Properties = Field(
         default=None
     )
 
