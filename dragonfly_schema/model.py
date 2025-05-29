@@ -476,6 +476,17 @@ class Model(IDdBaseModel):
         'been performed on a given Model.'
     )
 
+    reference_vector: List[float] = Field(
+        None,
+        description='A n optional list of 3 (x, y, z) values that describe a Vector3D '
+        'relating the model to an original source coordinate system. Setting a value '
+        'here is useful if the model has been moved from its original location '
+        'and there may be future operations of merging geometry from the original '
+        'source system.',
+        min_items=3,
+        max_items=3
+    )
+
     properties: ModelProperties = Field(
         ...,
         description='Extension properties for particular simulation engines '
