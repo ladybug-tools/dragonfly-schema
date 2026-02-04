@@ -1,6 +1,6 @@
 """Model energy properties."""
-from pydantic import Field, constr
-from typing import List, Union
+from pydantic import Field
+from typing import List, Union, Literal
 
 from honeybee_schema._base import NoExtraBaseModel
 from honeybee_schema.energy.constructionset import ConstructionSetAbridged, \
@@ -33,10 +33,9 @@ from honeybee_schema.energy.schedule import ScheduleTypeLimit, ScheduleRulesetAb
 
 class Room2DEnergyPropertiesAbridged(NoExtraBaseModel):
 
-    type: constr(regex='^Room2DEnergyPropertiesAbridged$') = \
-        'Room2DEnergyPropertiesAbridged'
+    type: Literal['Room2DEnergyPropertiesAbridged'] = 'Room2DEnergyPropertiesAbridged'
 
-    construction_set: str = Field(
+    construction_set: Union[str, None] = Field(
         default=None,
         min_length=1,
         max_length=100,
@@ -46,7 +45,7 @@ class Room2DEnergyPropertiesAbridged(NoExtraBaseModel):
         'assigned here will override those assigned to these objects.'
     )
 
-    program_type: str = Field(
+    program_type: Union[str, None] = Field(
         default=None,
         min_length=1,
         max_length=100,
@@ -54,7 +53,7 @@ class Room2DEnergyPropertiesAbridged(NoExtraBaseModel):
         'for the Room2D. If None, the Room2D will have no loads or setpoints.'
     )
 
-    hvac: str = Field(
+    hvac: Union[str, None] = Field(
         default=None,
         min_length=1,
         max_length=100,
@@ -63,7 +62,7 @@ class Room2DEnergyPropertiesAbridged(NoExtraBaseModel):
         'that the Room2D is not conditioned.'
     )
 
-    shw: str = Field(
+    shw: Union[str, None] = Field(
         default=None,
         min_length=1,
         max_length=100,
@@ -73,19 +72,19 @@ class Room2DEnergyPropertiesAbridged(NoExtraBaseModel):
         'and does not account for system efficiencies.'
     )
 
-    window_vent_control: VentilationControlAbridged = Field(
+    window_vent_control: Union[VentilationControlAbridged, None] = Field(
         default=None,
         description='An optional VentilationControl object to dictate the opening '
         'of windows. If None, the windows will never open.'
     )
 
-    window_vent_opening: VentilationOpening = Field(
+    window_vent_opening: Union[VentilationOpening, None] = Field(
         default=None,
         description='An optional VentilationOpening to specify the operable '
         'portion of all windows of the Room2D. If None, the windows will never open.'
     )
 
-    process_loads: List[ProcessAbridged] = Field(
+    process_loads: Union[List[ProcessAbridged], None] = Field(
         default=None,
         description='An optional list of Process objects for process loads within '
         'the room. These can represent wood burning fireplaces, kilns, manufacturing '
@@ -97,10 +96,9 @@ class Room2DEnergyPropertiesAbridged(NoExtraBaseModel):
 
 class StoryEnergyPropertiesAbridged(NoExtraBaseModel):
 
-    type: constr(regex='^StoryEnergyPropertiesAbridged$') = \
-        'StoryEnergyPropertiesAbridged'
+    type: Literal['StoryEnergyPropertiesAbridged'] = 'StoryEnergyPropertiesAbridged'
 
-    construction_set: str = Field(
+    construction_set: Union[str, None] = Field(
         default=None,
         min_length=1,
         max_length=100,
@@ -113,10 +111,9 @@ class StoryEnergyPropertiesAbridged(NoExtraBaseModel):
 
 class BuildingEnergyPropertiesAbridged(NoExtraBaseModel):
 
-    type: constr(regex='^BuildingEnergyPropertiesAbridged$') = \
-        'BuildingEnergyPropertiesAbridged'
+    type: Literal['BuildingEnergyPropertiesAbridged'] = 'BuildingEnergyPropertiesAbridged'
 
-    construction_set: str = Field(
+    construction_set: Union[str, None] = Field(
         default=None,
         min_length=1,
         max_length=100,
@@ -124,7 +121,7 @@ class BuildingEnergyPropertiesAbridged(NoExtraBaseModel):
         'the Building. If None, the Model global_construction_set will be used.'
     )
 
-    ceiling_plenum_construction: str = Field(
+    ceiling_plenum_construction: Union[str, None] = Field(
         default=None,
         min_length=1,
         max_length=100,
@@ -133,7 +130,7 @@ class BuildingEnergyPropertiesAbridged(NoExtraBaseModel):
         'to the room side. By default, this is a simple acoustic tile construction.'
     )
 
-    floor_plenum_construction: str = Field(
+    floor_plenum_construction: Union[str, None] = Field(
         default=None,
         min_length=1,
         max_length=100,
@@ -145,10 +142,9 @@ class BuildingEnergyPropertiesAbridged(NoExtraBaseModel):
 
 class ContextShadeEnergyPropertiesAbridged(NoExtraBaseModel):
 
-    type: constr(regex='^ContextShadeEnergyPropertiesAbridged$') = \
-        'ContextShadeEnergyPropertiesAbridged'
+    type: Literal['ContextShadeEnergyPropertiesAbridged'] = 'ContextShadeEnergyPropertiesAbridged'
 
-    construction: str = Field(
+    construction: Union[str, None] = Field(
         default=None,
         min_length=1,
         max_length=100,
@@ -157,7 +153,7 @@ class ContextShadeEnergyPropertiesAbridged(NoExtraBaseModel):
         'of 0.2 diffuse reflectance will be used.'
     )
 
-    transmittance_schedule: str = Field(
+    transmittance_schedule: Union[str, None] = Field(
         default=None,
         min_length=1,
         max_length=100,
@@ -169,32 +165,32 @@ class ContextShadeEnergyPropertiesAbridged(NoExtraBaseModel):
 
 class ModelEnergyProperties(NoExtraBaseModel):
 
-    type: constr(regex='^ModelEnergyProperties$') = 'ModelEnergyProperties'
+    type: Literal['ModelEnergyProperties'] = 'ModelEnergyProperties'
 
     global_construction_set: GlobalConstructionSet = Field(
         default=GlobalConstructionSet(),
         description='Global Energy construction set.',
-        readOnly=True
+        json_schema_extra={'readOnly': True}
     )
 
-    construction_sets: List[Union[ConstructionSetAbridged, ConstructionSet]] = Field(
+    construction_sets: Union[List[Union[ConstructionSetAbridged, ConstructionSet]], None] = Field(
         default=None,
         description='List of all ConstructionSets in the Model.'
     )
 
-    constructions: List[
+    constructions: Union[List[
         Union[
             OpaqueConstructionAbridged, WindowConstructionAbridged,
             ShadeConstruction, AirBoundaryConstructionAbridged,
             OpaqueConstruction, WindowConstruction, AirBoundaryConstruction
         ]
-    ] = Field(
+    ], None] = Field(
         default=None,
         description='A list of all unique constructions in the model. This includes '
         'constructions across all the Model construction_sets.'
     )
 
-    materials: List[
+    materials: Union[List[
         Union[
             EnergyMaterial, EnergyMaterialNoMass, EnergyMaterialVegetation,
             EnergyWindowMaterialGas, EnergyWindowMaterialGasCustom,
@@ -202,42 +198,42 @@ class ModelEnergyProperties(NoExtraBaseModel):
             EnergyWindowMaterialSimpleGlazSys, EnergyWindowMaterialGlazing,
             EnergyWindowMaterialBlind, EnergyWindowMaterialShade
         ]
-    ] = Field(
+    ], None] = Field(
         default=None,
         description='A list of all unique materials in the model. This includes '
         'materials needed to make the Model constructions.'
     )
 
-    hvacs: List[
+    hvacs: Union[List[
         Union[
             IdealAirSystemAbridged, VAV, PVAV, PSZ, PTAC, ForcedAirFurnace,
             FCUwithDOASAbridged, WSHPwithDOASAbridged, VRFwithDOASAbridged,
             RadiantwithDOASAbridged, FCU, WSHP, VRF, Baseboard, EvaporativeCooler,
             Residential, WindowAC, GasUnitHeater, Radiant, DetailedHVAC
         ]
-    ] = Field(
+    ], None] = Field(
         default=None,
         description='List of all HVAC systems in the Model.'
     )
 
-    shws: List[SHWSystem] = Field(
+    shws: Union[List[SHWSystem], None] = Field(
         default=None,
         description='List of all Service Hot Water (SHW) systems in the Model.'
     )
 
-    program_types: List[Union[ProgramTypeAbridged, ProgramType]] = Field(
+    program_types: Union[List[Union[ProgramTypeAbridged, ProgramType]], None] = Field(
         default=None,
         description='List of all ProgramTypes in the Model.'
     )
 
-    schedules: List[Union[ScheduleRulesetAbridged, ScheduleFixedIntervalAbridged,
-                          ScheduleRuleset, ScheduleFixedInterval]] = Field(
+    schedules: Union[List[Union[ScheduleRulesetAbridged, ScheduleFixedIntervalAbridged,
+                          ScheduleRuleset, ScheduleFixedInterval]], None] = Field(
         default=None,
         description='A list of all unique schedules in the model. This includes '
         'schedules across all HVAC systems, ProgramTypes and ContextShades.'
     )
 
-    schedule_type_limits: List[ScheduleTypeLimit] = Field(
+    schedule_type_limits: Union[List[ScheduleTypeLimit], None] = Field(
         default=None,
         description='A list of all unique ScheduleTypeLimits in the model. This '
         'all ScheduleTypeLimits needed to make the Model schedules.'

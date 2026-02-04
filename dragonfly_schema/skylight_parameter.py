@@ -1,6 +1,6 @@
 """Window Parameters with instructions for generating windows."""
-from pydantic import Field, constr, conlist
-from typing import Union, List
+from pydantic import Field
+from typing import Union, List, Literal, Annotated
 
 from honeybee_schema._base import NoExtraBaseModel
 from honeybee_schema.altnumber import Autocalculate
@@ -9,7 +9,7 @@ from honeybee_schema.altnumber import Autocalculate
 class GriddedSkylightArea(NoExtraBaseModel):
     """Gridded skylights defined by an absolute area."""
 
-    type: constr(regex='^GriddedSkylightArea$') = 'GriddedSkylightArea'
+    type: Literal['GriddedSkylightArea'] = 'GriddedSkylightArea'
 
     skylight_area: float = Field(
         ...,
@@ -33,7 +33,7 @@ class GriddedSkylightArea(NoExtraBaseModel):
 class GriddedSkylightRatio(NoExtraBaseModel):
     """Gridded skylights derived from an area ratio with the roof."""
 
-    type: constr(regex='^GriddedSkylightRatio$') = 'GriddedSkylightRatio'
+    type: Literal['GriddedSkylightRatio'] = 'GriddedSkylightRatio'
 
     skylight_ratio: float = Field(
         ...,
@@ -57,11 +57,9 @@ class GriddedSkylightRatio(NoExtraBaseModel):
 class DetailedSkylights(NoExtraBaseModel):
     """Several detailed skylights defined by 2D Polygons (lists of 2D vertices)."""
 
-    type: constr(regex='^DetailedSkylights$') = 'DetailedSkylights'
+    type: Literal['DetailedSkylights'] = 'DetailedSkylights'
 
-    polygons: List[
-        conlist(conlist(float, min_items=2, max_items=2), min_items=3)
-    ] = Field(
+    polygons: List[Annotated[List[Annotated[List[float], Field(min_length=2, max_length=2)]], Field(min_length=3)]] = Field(
         ...,
         description='An array of arrays with each sub-array representing a polygonal '
         'boundary of a skylight. Each sub-array should consist of arrays '
@@ -70,7 +68,7 @@ class DetailedSkylights(NoExtraBaseModel):
         'parent Room2D Polygon.'
     )
 
-    are_doors: List[bool] = Field(
+    are_doors: Union[List[bool], None] = Field(
         default=None,
         description='An array of booleans that align with the polygons and note '
         'whether each of the polygons represents an overhead door (True) or a '

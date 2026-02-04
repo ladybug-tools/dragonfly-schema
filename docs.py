@@ -98,7 +98,7 @@ for module in modules:
 
 # generate JSONSchema for Dragonfly model
 with open('./docs/model_json_schema.json', 'w') as out_file:
-    out_file.write(Model.schema_json(indent=2))
+    json.dump(Model.model_json_schema(), out_file, indent=2)
 
 # generate schema for mode with inheritance but without descriminator
 # we will use this file for generating redocly - the full model is too big, and the

@@ -1,14 +1,13 @@
 """Window Parameters with instructions for generating windows."""
-from pydantic import Field, root_validator, constr, conlist, confloat
-from typing import List
+from pydantic import Field, model_validator
+from typing import Union, List, Literal, Annotated
 
 from honeybee_schema._base import NoExtraBaseModel
-
 
 class _WindowParameterBase(NoExtraBaseModel):
     """Base class for all window parameters."""
 
-    user_data: dict = Field(
+    user_data: Union[dict, None] = Field(
         default=None,
         description='Optional dictionary of user data associated with the object.'
         'All keys and values of this dictionary should be of a standard data '
@@ -21,7 +20,7 @@ class _WindowParameterBase(NoExtraBaseModel):
 class SingleWindow(_WindowParameterBase):
     """A single window in the wall center defined by a width * height."""
 
-    type: constr(regex='^SingleWindow$') = 'SingleWindow'
+    type: Literal['SingleWindow'] = 'SingleWindow'
 
     width: float = Field(
         ...,
@@ -51,7 +50,7 @@ class SingleWindow(_WindowParameterBase):
 class SimpleWindowArea(_WindowParameterBase):
     """A single window defined by an absolute area."""
 
-    type: constr(regex='^SimpleWindowArea$') = 'SimpleWindowArea'
+    type: Literal['SimpleWindowArea'] = 'SimpleWindowArea'
 
     window_area: float = Field(
         ...,
@@ -76,7 +75,7 @@ class SimpleWindowArea(_WindowParameterBase):
 class SimpleWindowRatio(_WindowParameterBase):
     """A single window defined by an area ratio with the base surface."""
 
-    type: constr(regex='^SimpleWindowRatio$') = 'SimpleWindowRatio'
+    type: Literal['SimpleWindowRatio'] = 'SimpleWindowRatio'
 
     window_ratio: float = Field(
         ...,
@@ -101,7 +100,7 @@ class SimpleWindowRatio(_WindowParameterBase):
 class RepeatingWindowRatio(_WindowParameterBase):
     """Repeating windows derived from an area ratio with the base wall."""
 
-    type: constr(regex='^RepeatingWindowRatio$') = 'RepeatingWindowRatio'
+    type: Literal['RepeatingWindowRatio'] = 'RepeatingWindowRatio'
 
     window_ratio: float = Field(
         ...,
@@ -147,7 +146,7 @@ class RepeatingWindowRatio(_WindowParameterBase):
 class RepeatingWindowWidthHeight(_WindowParameterBase):
     """Repeating rectangular windows of a fixed width and height."""
 
-    type: constr(regex='^RepeatingWindowWidthHeight$') = 'RepeatingWindowWidthHeight'
+    type: Literal['RepeatingWindowWidthHeight'] = 'RepeatingWindowWidthHeight'
 
     window_height: float = Field(
         ...,
@@ -188,11 +187,11 @@ class RepeatingWindowWidthHeight(_WindowParameterBase):
 class RectangularWindows(_WindowParameterBase):
     """Several rectangular windows, defined by origin, width and height."""
 
-    type: constr(regex='^RectangularWindows$') = 'RectangularWindows'
+    type: Literal['RectangularWindows'] = 'RectangularWindows'
 
-    origins: List[conlist(confloat(gt=0), min_items=2, max_items=2)] = Field(
+    origins: List[Annotated[List[Annotated[float, Field(gt=0)]], Field(min_length=2, max_length=2)]] = Field(
         ...,
-        min_items=1,
+        min_length=1,
         description='An array of 2D points within the plane of the wall for the origin '
         'of each window. Each point should be a list of 2 (x, y) values. The '
         'wall plane is assumed to have an origin at the first point of the wall '
@@ -201,21 +200,21 @@ class RectangularWindows(_WindowParameterBase):
         'values of each origin point should be positive.'
     )
 
-    widths: List[confloat(gt=0)] = Field(
+    widths: List[Annotated[float, Field(gt=0)]] = Field(
         ...,
-        min_items=1,
+        min_length=1,
         description='An array of positive numbers for the window widths. '
         'The length of this list must match the length of the origins.'
     )
 
-    heights: List[confloat(gt=0)] = Field(
+    heights: List[Annotated[float, Field(gt=0)]] = Field(
         ...,
-        min_items=1,
+        min_length=1,
         description='An array of positive numbers for the window heights. '
         'The length of this list must match the length of the origins.'
     )
 
-    are_doors: List[bool] = Field(
+    are_doors: Union[List[bool], None] = Field(
         default=None,
         description='An array of booleans that align with the origins and note '
         'whether each of the geometries represents a door (True) or a window (False). '
@@ -223,29 +222,22 @@ class RectangularWindows(_WindowParameterBase):
         'they will be translated to Apertures in any resulting Honeybee model.'
     )
 
-    @root_validator
-    def check_aligned_lists(cls, values):
+    @model_validator(mode='after')
+    def check_aligned_lists(self):
         "Ensure length of origins, widths and heights match."
-        origins = values.get('origins')
-        widths = values.get('widths')
-        heights = values.get('heights')
-
-        assert len(origins) == len(widths) == len(heights), 'Length of ' \
-            'RectangularWindows origins, widths, and heights ' \
-            'must match. origins: {}, widths: {}, heights: {}'.format(
-                len(origins), len(widths), len(heights))
-
-        return values
+        assert len(self.origins) == len(self.widths) == len(self.heights), 'Length of ' \
+            'RectangularWindows origins, widths, and heights must match. ' \
+            f'origins: {len(self.origins)}, widths: {len(self.widths)}, ' \
+            f'heights: {len(self.heights)}'
+        return self
 
 
 class DetailedWindows(_WindowParameterBase):
     """Several detailed windows defined by 2D Polygons (lists of 2D vertices)."""
 
-    type: constr(regex='^DetailedWindows$') = 'DetailedWindows'
+    type: Literal['DetailedWindows'] = 'DetailedWindows'
 
-    polygons: List[
-        conlist(conlist(confloat(gt=0), min_items=2, max_items=3), min_items=3)
-    ] = Field(
+    polygons: List[Annotated[List[Annotated[List[Annotated[float, Field(gt=0)]], Field(min_length=2, max_length=3)]], Field(min_length=3)]] = Field(
         ...,
         description='An array of arrays with each sub-array representing a polygonal '
         'boundary of a window. Each sub-array should consist of arrays '
@@ -262,7 +254,7 @@ class DetailedWindows(_WindowParameterBase):
         'html#dragonfly.windowparameter.DetailedWindows'
     )
 
-    are_doors: List[bool] = Field(
+    are_doors: Union[List[bool], None] = Field(
         default=None,
         description='An array of booleans that align with the polygons and note '
         'whether each of the polygons represents a door (True) or a window (False). '

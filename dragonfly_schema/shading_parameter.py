@@ -1,6 +1,6 @@
 """Window Parameters with instructions for generating windows."""
-from pydantic import Field, constr
-from typing import List
+from pydantic import Field
+from typing import List, Literal, Annotated
 
 from honeybee_schema._base import NoExtraBaseModel
 
@@ -8,7 +8,7 @@ from honeybee_schema._base import NoExtraBaseModel
 class ExtrudedBorder(NoExtraBaseModel):
     """Extruded borders over all windows in the wall."""
 
-    type: constr(regex='^ExtrudedBorder$') = 'ExtrudedBorder'
+    type: Literal['ExtrudedBorder'] = 'ExtrudedBorder'
 
     depth: float = Field(
         ...,
@@ -20,7 +20,7 @@ class ExtrudedBorder(NoExtraBaseModel):
 class Overhang(NoExtraBaseModel):
     """A single overhang over an entire wall."""
 
-    type: constr(regex='^Overhang$') = 'Overhang'
+    type: Literal['Overhang'] = 'Overhang'
 
     depth: float = Field(
         ...,
@@ -64,10 +64,8 @@ class _LouversBase(NoExtraBaseModel):
         'an upward rotation.'
     )
 
-    contour_vector: List[float] = Field(
+    contour_vector: Annotated[List[float], Field(min_length=2, max_length=2)] = Field(
         [0, 1],
-        min_items=2,
-        max_items=2,
         description='A list of two float values representing the (x, y) of a 2D vector '
         'for the direction along which contours are generated. (0, 1) will generate '
         'horizontal contours, (1, 0) will generate vertical contours, and (1, 1) '
@@ -85,7 +83,7 @@ class _LouversBase(NoExtraBaseModel):
 class LouversByDistance(_LouversBase):
     """A series of louvered Shades at a given distance between each louver."""
 
-    type: constr(regex='^LouversByDistance$') = 'LouversByDistance'
+    type: Literal['LouversByDistance'] = 'LouversByDistance'
 
     distance: float = Field(
         ...,
@@ -97,7 +95,7 @@ class LouversByDistance(_LouversBase):
 class LouversByCount(_LouversBase):
     """A specific number of louvered Shades over a wall."""
 
-    type: constr(regex='^LouversByCount$') = 'LouversByCount'
+    type: Literal['LouversByCount'] = 'LouversByCount'
 
     louver_count: int = Field(
         ...,

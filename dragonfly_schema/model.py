@@ -1,6 +1,6 @@
 """Model schema and the 3 geometry objects that define it."""
-from pydantic import BaseModel, Field, root_validator, constr, conlist
-from typing import List, Union
+from pydantic import BaseModel, Field, model_validator
+from typing import List, Union, Literal, Annotated
 from enum import Enum
 
 from honeybee_schema._base import IDdBaseModel
@@ -28,39 +28,37 @@ from .comparison.properties import Room2DComparisonProperties, ModelComparisonPr
 
 class Room2DPropertiesAbridged(BaseModel):
 
-    type: constr(regex='^Room2DPropertiesAbridged$') = 'Room2DPropertiesAbridged'
+    type: Literal['Room2DPropertiesAbridged'] = 'Room2DPropertiesAbridged'
 
-    energy: Room2DEnergyPropertiesAbridged = Field(
+    energy: Union[Room2DEnergyPropertiesAbridged, None] = Field(
         default=None
     )
 
-    radiance: Room2DRadiancePropertiesAbridged = Field(
+    radiance: Union[Room2DRadiancePropertiesAbridged, None] = Field(
         default=None
     )
 
-    doe2: Room2DDoe2Properties = Field(
+    doe2: Union[Room2DDoe2Properties, None] = Field(
         default=None
     )
 
-    comparison: Room2DComparisonProperties = Field(
+    comparison: Union[Room2DComparisonProperties, None] = Field(
         default=None
     )
 
 
 class Room2D(IDdBaseModel):
 
-    type: constr(regex='^Room2D$') = 'Room2D'
+    type: Literal['Room2D'] = 'Room2D'
 
-    floor_boundary: List[conlist(float, min_items=2, max_items=2)] = Field(
+    floor_boundary: Annotated[List[Annotated[List[float], Field(min_length=2, max_length=2)]], Field(min_length=3)] = Field(
         ...,
-        min_items=3,
         description='A list of 2D points representing the outer boundary vertices of '
         'the Room2D. The list should include at least 3 points and each point '
         'should be a list of 2 (x, y) values.'
     )
 
-    floor_holes: List[conlist(conlist(float, min_items=2, max_items=2), min_items=3)] \
-        = Field(
+    floor_holes: Union[List[Annotated[List[Annotated[List[float], Field(min_length=2, max_length=2)]], Field(min_length=3)]], None] = Field(
         None,
         description='Optional list of lists with one list for each hole in the floor '
         'plate. Each hole should be a list of at least 2 points and each point a list '
@@ -128,7 +126,7 @@ class Room2D(IDdBaseModel):
         'Setting this to zero indicates that the room has no floor plenum.'
     )
 
-    zone: str = Field(
+    zone: Union[str, None] = Field(
         default=None,
         description='Text string for for the zone identifier to which this Room2D '
         ' belongs. Room2Ds sharing the same zone identifier are considered part of the '
@@ -137,9 +135,9 @@ class Room2D(IDdBaseModel):
         'property has no character restrictions.'
     )
 
-    boundary_conditions: List[
+    boundary_conditions: Union[List[
         Union[Ground, Outdoors, Surface, Adiabatic, OtherSideTemperature]
-    ] = Field(
+    ], None] = Field(
         default=None,
         description='A list of boundary conditions that match the number of segments '
         'in the input floor_geometry + floor_holes. These will be used to assign '
@@ -150,26 +148,26 @@ class Room2D(IDdBaseModel):
         'height of the room is at or below 0 (the assumed ground plane).'
     )
 
-    window_parameters: List[Union[
+    window_parameters: Union[List[Union[
         None, SingleWindow, SimpleWindowArea, SimpleWindowRatio, RepeatingWindowRatio,
         RectangularWindows, DetailedWindows
-    ]] = Field(
+    ]], None] = Field(
         default=None,
         description='A list of WindowParameter objects that dictate how the window '
         'geometries will be generated for each of the walls. If None, no windows '
         'will exist over the entire Room2D.'
     )
 
-    shading_parameters: List[Union[
+    shading_parameters: Union[List[Union[
         None, ExtrudedBorder, Overhang, LouversByDistance, LouversByCount
-    ]] = Field(
+    ]], None] = Field(
         default=None,
         description='A list of ShadingParameter objects that dictate how the shade '
         'geometries will be generated for each of the walls. If None, no shades '
         'will exist over the entire Room2D.'
     )
 
-    air_boundaries: List[bool] = Field(
+    air_boundaries: Union[List[bool], None] = Field(
         default=None,
         description='A list of booleans for whether each wall has an air boundary type. '
         'False values indicate a standard opaque type while True values indicate '
@@ -192,36 +190,32 @@ class Room2D(IDdBaseModel):
         '(Radiance, EnergyPlus).'
     )
 
-    @root_validator
-    def check_segment_count(cls, values):
+    @model_validator(mode='after')
+    def check_segment_count(self):
         "Ensure len of boundary_conditions, window par, shading par match segment count."
-        floor_bound = values.get('floor_boundary')
-        floor_holes = values.get('floor_holes')
-        bcs = values.get('boundary_conditions')
-        win_par = values.get('window_parameters')
-        shd_par = values.get('shading_parameters')
-        air_bnd = values.get('air_boundaries')
+        floor_bound = self.floor_boundary
+        floor_holes = self.floor_holes
+        bcs = self.boundary_conditions
+        win_par = self.window_parameters
+        shd_par = self.shading_parameters
+        air_bnd = self.air_boundaries
 
-        seg_count = len(floor_bound) if floor_holes is None\
-            else len(floor_bound) + sum(len(hole) for hole in floor_holes)
+        seg_count = len(floor_bound) if floor_holes is None else \
+            len(floor_bound) + sum(len(hole) for hole in floor_holes)
 
         if bcs is not None:
             assert len(bcs) == seg_count, 'Length of Room2D boundary_conditions ' \
-                'must match number of floor segments. {} != {}'.format(
-                    len(bcs), seg_count)
+                f'must match number of floor segments. {len(bcs)} != {seg_count}'
         if win_par is not None:
             assert len(win_par) == seg_count, 'Length of Room2D window_parameters ' \
-                'must match number of floor segments. {} != {}'.format(
-                    len(win_par), seg_count)
+                f'must match number of floor segments. {len(win_par)} != {seg_count}'
         if shd_par is not None:
             assert len(shd_par) == seg_count, 'Length of Room2D shading_parameters ' \
-                'must match number of floor segments. {} != {}'.format(
-                    len(shd_par), seg_count)
+                f'must match number of floor segments. {len(shd_par)} != {seg_count}'
         if air_bnd is not None:
             assert len(air_bnd) == seg_count, 'Length of Room2D air_boundaries ' \
-                'must match number of floor segments. {} != {}'.format(
-                    len(air_bnd), seg_count)
-        return values
+                f'must match number of floor segments. {len(air_bnd)} != {seg_count}'
+        return self
 
 
 class StoryType(str, Enum):
@@ -232,20 +226,20 @@ class StoryType(str, Enum):
 
 class StoryPropertiesAbridged(BaseModel):
 
-    type: constr(regex='^StoryPropertiesAbridged$') = 'StoryPropertiesAbridged'
+    type: Literal['StoryPropertiesAbridged'] = 'StoryPropertiesAbridged'
 
-    energy: StoryEnergyPropertiesAbridged = Field(
+    energy: Union[StoryEnergyPropertiesAbridged, None] = Field(
         default=None
     )
 
-    radiance: StoryRadiancePropertiesAbridged = Field(
+    radiance: Union[StoryRadiancePropertiesAbridged, None] = Field(
         default=None
     )
 
 
 class Story(IDdBaseModel):
 
-    type: constr(regex='^Story$') = 'Story'
+    type: Literal['Story'] = 'Story'
 
     room_2ds: List[Room2D] = Field(
         ...,
@@ -275,7 +269,7 @@ class Story(IDdBaseModel):
         'repeated over the height of the building.'
     )
 
-    roof: RoofSpecification = Field(
+    roof: Union[RoofSpecification, None] = Field(
         default=None,
         description='An optional RoofSpecification object containing geometry '
         'for generating sloped roofs over the Story. The RoofSpecification will only '
@@ -299,22 +293,22 @@ class Story(IDdBaseModel):
 
 class BuildingPropertiesAbridged(BaseModel):
 
-    type: constr(regex='^BuildingPropertiesAbridged$') = 'BuildingPropertiesAbridged'
+    type: Literal['BuildingPropertiesAbridged'] = 'BuildingPropertiesAbridged'
 
-    energy: BuildingEnergyPropertiesAbridged = Field(
+    energy: Union[BuildingEnergyPropertiesAbridged, None] = Field(
         default=None
     )
 
-    radiance: BuildingRadiancePropertiesAbridged = Field(
+    radiance: Union[BuildingRadiancePropertiesAbridged, None] = Field(
         default=None
     )
 
 
 class Building(IDdBaseModel):
 
-    type: constr(regex='^Building$') = 'Building'
+    type: Literal['Building'] = 'Building'
 
-    unique_stories: List[Story] = Field(
+    unique_stories: Union[List[Story], None] = Field(
         default=None,
         description='An array of unique dragonfly Story objects that together form '
         'the entire building. Stories should generally be ordered from lowest '
@@ -324,7 +318,7 @@ class Building(IDdBaseModel):
         'list should be the first (lowest) story of the repeated floors.'
     )
 
-    room_3ds: List[Room] = Field(
+    room_3ds: Union[List[Room], None] = Field(
         default=None,
         description='An optional array of 3D Honeybee Room objects for additional '
         'Rooms that are a part of the Building but are not represented within '
@@ -342,7 +336,7 @@ class Building(IDdBaseModel):
         'Room.story may reference. (Default: None).'
     )
 
-    roof: RoofSpecification = Field(
+    roof: Union[RoofSpecification, None] = Field(
         default=None,
         description='An optional RoofSpecification object that provides an '
         'alternative way to describe roof geometry over rooms (instead of '
@@ -369,21 +363,20 @@ class Building(IDdBaseModel):
 
 class ContextShadePropertiesAbridged(BaseModel):
 
-    type: constr(regex='^ContextShadePropertiesAbridged$') = \
-        'ContextShadePropertiesAbridged'
+    type: Literal['ContextShadePropertiesAbridged'] = 'ContextShadePropertiesAbridged'
 
-    energy: ContextShadeEnergyPropertiesAbridged = Field(
+    energy: Union[ContextShadeEnergyPropertiesAbridged, None] = Field(
         default=None
     )
 
-    radiance: ContextShadeRadiancePropertiesAbridged = Field(
+    radiance: Union[ContextShadeRadiancePropertiesAbridged, None] = Field(
         default=None
     )
 
 
 class ContextShade(IDdBaseModel):
 
-    type: constr(regex='^ContextShade$') = 'ContextShade'
+    type: Literal['ContextShade'] = 'ContextShade'
 
     geometry: List[Union[Face3D, Mesh3D]] = Field(
         ...,
@@ -407,41 +400,41 @@ class ContextShade(IDdBaseModel):
 
 class ModelProperties(BaseModel):
 
-    type: constr(regex='^ModelProperties$') = 'ModelProperties'
+    type: Literal['ModelProperties'] = 'ModelProperties'
 
-    energy: ModelEnergyProperties = Field(
+    energy: Union[ModelEnergyProperties, None] = Field(
         default=None
     )
 
-    radiance: ModelRadianceProperties = Field(
+    radiance: Union[ModelRadianceProperties, None] = Field(
         default=None
     )
 
-    doe2: ModelDoe2Properties = Field(
+    doe2: Union[ModelDoe2Properties, None] = Field(
         default=None
     )
 
-    comparison: ModelComparisonProperties = Field(
+    comparison: Union[ModelComparisonProperties, None] = Field(
         default=None
     )
 
 
 class Model(IDdBaseModel):
 
-    type: constr(regex='^Model$') = 'Model'
+    type: Literal['Model'] = 'Model'
 
     version: str = Field(
         default='0.0.0',
-        regex=r'([0-9]+)\.([0-9]+)\.([0-9]+)',
+        pattern=r'([0-9]+)\.([0-9]+)\.([0-9]+)',
         description='Text string for the current version of the schema.'
     )
 
-    buildings: List[Building] = Field(
+    buildings: Union[List[Building], None] = Field(
         None,
         description='A list of Buildings in the model.'
     )
 
-    context_shades: List[ContextShade] = Field(
+    context_shades: Union[List[ContextShade], None] = Field(
         None,
         description='A list of ContextShades in the model.'
     )
@@ -476,15 +469,13 @@ class Model(IDdBaseModel):
         'been performed on a given Model.'
     )
 
-    reference_vector: List[float] = Field(
+    reference_vector: Union[Annotated[List[float], Field(min_length=3, max_length=3)], None] = Field(
         None,
         description='A n optional list of 3 (x, y, z) values that describe a Vector3D '
         'relating the model to an original source coordinate system. Setting a value '
         'here is useful if the model has been moved from its original location '
         'and there may be future operations of merging geometry from the original '
-        'source system.',
-        min_items=3,
-        max_items=3
+        'source system.'
     )
 
     properties: ModelProperties = Field(

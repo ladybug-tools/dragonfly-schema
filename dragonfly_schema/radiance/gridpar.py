@@ -1,6 +1,6 @@
 """Grid Parameters with instructions for generating SensorGrids."""
-from pydantic import Field, constr
-from typing import Union, List
+from pydantic import Field
+from typing import Union, List, Literal, Annotated
 from enum import Enum
 
 from honeybee_schema._base import NoExtraBaseModel
@@ -26,7 +26,7 @@ class _GridParameterBase(NoExtraBaseModel):
 class RoomGridParameter(_GridParameterBase):
     """Instructions for a SensorGrid generated from a Room2D's floors."""
 
-    type: constr(regex='^RoomGridParameter$') = 'RoomGridParameter'
+    type: Literal['RoomGridParameter'] = 'RoomGridParameter'
 
     offset: float = Field(
         1.0,
@@ -50,7 +50,7 @@ class RoomRadialGridParameter(RoomGridParameter):
     view directions, such as imageless glare studies.
     """
 
-    type: constr(regex='^RoomRadialGridParameter$') = 'RoomRadialGridParameter'
+    type: Literal['RoomRadialGridParameter'] = 'RoomRadialGridParameter'
 
     offset: float = Field(
         1.2,
@@ -65,15 +65,13 @@ class RoomRadialGridParameter(RoomGridParameter):
         'to be generated around each position.'
     )
 
-    start_vector: List[float] = Field(
+    start_vector: Union[Annotated[List[float], Field(min_length=3, max_length=3)], None] = Field(
         None,
         description='A vector as 3 (x, y, z) values to set the start direction of '
         'the generated directions. This can be used to orient the resulting sensors to '
         'specific parts of the scene. It can also change the elevation of the '
         'resulting directions since this start vector will always be rotated in '
-        'the XY plane to generate the resulting directions.',
-        min_items=3,
-        max_items=3
+        'the XY plane to generate the resulting directions.'
     )
 
     mesh_radius: Union[Autocalculate, float] = Field(
@@ -96,7 +94,7 @@ class ExteriorFaceType(str, Enum):
 class ExteriorFaceGridParameter(_GridParameterBase):
     """Instructions for a SensorGrid generated from exterior Faces."""
 
-    type: constr(regex='^ExteriorFaceGridParameter$') = 'ExteriorFaceGridParameter'
+    type: Literal['ExteriorFaceGridParameter'] = 'ExteriorFaceGridParameter'
 
     offset: float = Field(
         0.1,
@@ -130,8 +128,7 @@ class ExteriorApertureType(str, Enum):
 class ExteriorApertureGridParameter(_GridParameterBase):
     """Instructions for a SensorGrid generated from exterior Aperture."""
 
-    type: constr(regex='^ExteriorApertureGridParameter$') = \
-        'ExteriorApertureGridParameter'
+    type: Literal['ExteriorApertureGridParameter'] = 'ExteriorApertureGridParameter'
 
     offset: float = Field(
         0.1,
