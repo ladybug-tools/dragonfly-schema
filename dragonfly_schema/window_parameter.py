@@ -132,7 +132,7 @@ class RepeatingWindowRatio(_WindowParameterBase):
         ...,
         ge=0,
         description='A number for the target separation between individual window '
-        'centerlines.  If this number is larger than the parent rectangle base, '
+        'center lines.  If this number is larger than the parent rectangle base, '
         'only one window will be produced.'
     )
 
@@ -180,7 +180,7 @@ class RepeatingWindowWidthHeight(_WindowParameterBase):
         ...,
         ge=0,
         description='A number for the target separation between individual window '
-        'centerlines.  If this number is larger than the parent rectangle base, '
+        'center lines.  If this number is larger than the parent rectangle base, '
         'only one window will be produced.'
     )
 
