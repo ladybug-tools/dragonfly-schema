@@ -59,7 +59,10 @@ class DetailedSkylights(NoExtraBaseModel):
 
     type: Literal['DetailedSkylights'] = 'DetailedSkylights'
 
-    polygons: List[Annotated[List[Annotated[List[float], Field(min_length=2, max_length=2)]], Field(min_length=3)]] = Field(
+    polygons: List[
+        Annotated[List[Annotated[List[float], Field(min_length=2, max_length=2)]],
+                  Field(min_length=3)]
+    ] = Field(
         ...,
         description='An array of arrays with each sub-array representing a polygonal '
         'boundary of a skylight. Each sub-array should consist of arrays '

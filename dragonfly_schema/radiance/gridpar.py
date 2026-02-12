@@ -65,7 +65,9 @@ class RoomRadialGridParameter(RoomGridParameter):
         'to be generated around each position.'
     )
 
-    start_vector: Union[Annotated[List[float], Field(min_length=3, max_length=3)], None] = Field(
+    start_vector: Union[
+        Annotated[List[float], Field(min_length=3, max_length=3)], None
+    ] = Field(
         None,
         description='A vector as 3 (x, y, z) values to set the start direction of '
         'the generated directions. This can be used to orient the resulting sensors to '

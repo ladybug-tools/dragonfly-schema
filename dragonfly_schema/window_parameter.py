@@ -4,6 +4,7 @@ from typing import Union, List, Literal, Annotated
 
 from honeybee_schema._base import NoExtraBaseModel
 
+
 class _WindowParameterBase(NoExtraBaseModel):
     """Base class for all window parameters."""
 
@@ -189,7 +190,9 @@ class RectangularWindows(_WindowParameterBase):
 
     type: Literal['RectangularWindows'] = 'RectangularWindows'
 
-    origins: List[Annotated[List[Annotated[float, Field(gt=0)]], Field(min_length=2, max_length=2)]] = Field(
+    origins: List[
+        Annotated[List[Annotated[float, Field(gt=0)]], Field(min_length=2, max_length=2)]
+    ] = Field(
         ...,
         min_length=1,
         description='An array of 2D points within the plane of the wall for the origin '
@@ -237,7 +240,10 @@ class DetailedWindows(_WindowParameterBase):
 
     type: Literal['DetailedWindows'] = 'DetailedWindows'
 
-    polygons: List[Annotated[List[Annotated[List[Annotated[float, Field(gt=0)]], Field(min_length=2, max_length=3)]], Field(min_length=3)]] = Field(
+    polygons: List[
+        Annotated[List[Annotated[List[Annotated[float, Field(gt=0)]], Field(min_length=2, max_length=3)]],
+                  Field(min_length=3)]
+    ] = Field(
         ...,
         description='An array of arrays with each sub-array representing a polygonal '
         'boundary of a window. Each sub-array should consist of arrays '

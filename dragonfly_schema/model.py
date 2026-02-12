@@ -51,14 +51,19 @@ class Room2D(IDdBaseModel):
 
     type: Literal['Room2D'] = 'Room2D'
 
-    floor_boundary: Annotated[List[Annotated[List[float], Field(min_length=2, max_length=2)]], Field(min_length=3)] = Field(
+    floor_boundary: Annotated[
+        List[Annotated[List[float], Field(min_length=2, max_length=2)]], Field(min_length=3)
+    ] = Field(
         ...,
         description='A list of 2D points representing the outer boundary vertices of '
         'the Room2D. The list should include at least 3 points and each point '
         'should be a list of 2 (x, y) values.'
     )
 
-    floor_holes: Union[List[Annotated[List[Annotated[List[float], Field(min_length=2, max_length=2)]], Field(min_length=3)]], None] = Field(
+    floor_holes: Union[
+        List[Annotated[List[Annotated[List[float], Field(min_length=2, max_length=2)]],
+                       Field(min_length=3)]], None
+    ] = Field(
         None,
         description='Optional list of lists with one list for each hole in the floor '
         'plate. Each hole should be a list of at least 2 points and each point a list '
@@ -469,7 +474,9 @@ class Model(IDdBaseModel):
         'been performed on a given Model.'
     )
 
-    reference_vector: Union[Annotated[List[float], Field(min_length=3, max_length=3)], None] = Field(
+    reference_vector: Union[
+        Annotated[List[float], Field(min_length=3, max_length=3)], None
+    ] = Field(
         None,
         description='A n optional list of 3 (x, y, z) values that describe a Vector3D '
         'relating the model to an original source coordinate system. Setting a value '

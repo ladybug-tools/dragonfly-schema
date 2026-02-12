@@ -173,7 +173,9 @@ class ModelEnergyProperties(NoExtraBaseModel):
         json_schema_extra={'readOnly': True}
     )
 
-    construction_sets: Union[List[Union[ConstructionSetAbridged, ConstructionSet]], None] = Field(
+    construction_sets: Union[
+        List[Union[ConstructionSetAbridged, ConstructionSet]], None
+    ] = Field(
         default=None,
         description='List of all ConstructionSets in the Model.'
     )
