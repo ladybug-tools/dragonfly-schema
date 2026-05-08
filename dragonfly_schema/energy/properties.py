@@ -3,9 +3,12 @@ from pydantic import Field
 from typing import List, Union, Literal
 
 from honeybee_schema._base import NoExtraBaseModel
-from honeybee_schema.energy.constructionset import ConstructionSetAbridged, \
-    ConstructionSet
+
 from honeybee_schema.energy.programtype import ProgramTypeAbridged, ProgramType
+from honeybee_schema.energy.ventcool import VentilationControlAbridged, \
+    VentilationOpening, VentilationFan
+from honeybee_schema.energy.load import ProcessAbridged
+from honeybee_schema.energy.daylight import DaylightingControl
 from honeybee_schema.energy.hvac.idealair import IdealAirSystemAbridged
 from honeybee_schema.energy.hvac.allair import VAV, PVAV, PSZ, PTAC, ForcedAirFurnace
 from honeybee_schema.energy.hvac.doas import FCUwithDOASAbridged, \
@@ -13,12 +16,11 @@ from honeybee_schema.energy.hvac.doas import FCUwithDOASAbridged, \
 from honeybee_schema.energy.hvac.heatcool import FCU, WSHP, VRF, Baseboard, \
     EvaporativeCooler, Residential, WindowAC, GasUnitHeater, Radiant
 from honeybee_schema.energy.hvac.detailed import DetailedHVAC
-from honeybee_schema.energy.ventcool import VentilationControlAbridged, \
-    VentilationOpening
-from honeybee_schema.energy.load import ProcessAbridged
 from honeybee_schema.energy.shw import SHWSystem
-from honeybee_schema.energy.global_constructionset import GlobalConstructionSet
 
+from honeybee_schema.energy.global_constructionset import GlobalConstructionSet
+from honeybee_schema.energy.constructionset import ConstructionSetAbridged, \
+    ConstructionSet
 from honeybee_schema.energy.construction import OpaqueConstructionAbridged, \
     WindowConstructionAbridged, ShadeConstruction, AirBoundaryConstructionAbridged, \
     OpaqueConstruction, WindowConstruction, AirBoundaryConstruction
@@ -72,6 +74,22 @@ class Room2DEnergyPropertiesAbridged(NoExtraBaseModel):
         'and does not account for system efficiencies.'
     )
 
+    process_loads: Union[List[ProcessAbridged], None] = Field(
+        default=None,
+        description='An optional list of Process objects for process loads within '
+        'the room. These can represent wood burning fireplaces, kilns, manufacturing '
+        'equipment, and various industrial processes. They can also be used to '
+        'represent certain pieces of equipment to be separated from the other '
+        'end uses, such as MRI machines, theatrical lighting, and elevators.'
+    )
+
+    daylighting_control: Union[DaylightingControl, None] = Field(
+        default=None,
+        description='An optional DaylightingControl object to dictate the dimming '
+        'of lights. If None, the lighting will respond only to the schedule and '
+        'not the daylight conditions within the room.'
+    )
+
     window_vent_control: Union[VentilationControlAbridged, None] = Field(
         default=None,
         description='An optional VentilationControl object to dictate the opening '
@@ -84,13 +102,16 @@ class Room2DEnergyPropertiesAbridged(NoExtraBaseModel):
         'portion of all windows of the Room2D. If None, the windows will never open.'
     )
 
-    process_loads: Union[List[ProcessAbridged], None] = Field(
+    fans: Union[List[VentilationFan], None] = Field(
         default=None,
-        description='An optional list of Process objects for process loads within '
-        'the room. These can represent wood burning fireplaces, kilns, manufacturing '
-        'equipment, and various industrial processes. They can also be used to '
-        'represent certain pieces of equipment to be separated from the other '
-        'end uses, such as MRI machines, theatrical lighting, and elevators.'
+        description='An optional list of VentilationFan objects for fans within the '
+        'room. Note that these fans are not connected to the heating or cooling system '
+        'and are meant to represent the intentional circulation of unconditioned '
+        'outdoor air for the purposes of keeping a space cooler, drier or free '
+        'of indoor pollutants (as in the case of kitchen or bathroom exhaust fans). '
+        'For the specification of mechanical ventilation of conditioned outdoor air, '
+        'the Room.ventilation property should be used and the Room should be '
+        'given a HVAC that can meet this specification.'
     )
 
 
