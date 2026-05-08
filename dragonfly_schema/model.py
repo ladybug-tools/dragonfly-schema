@@ -73,7 +73,8 @@ class Room2D(IDdBaseModel):
 
     floor_height: float = Field(
         ...,
-        description='A number to indicate the height of the floor plane in the Z axis.'
+        description='A number to indicate the Z-coordinate (or elevation) of '
+        'the room floor plane.'
     )
 
     floor_to_ceiling_height: float = Field(
