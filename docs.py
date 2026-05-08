@@ -25,7 +25,7 @@ info = {
     "contact": {
         "name": "Ladybug Tools",
         "email": "info@ladybug.tools",
-        "url": "https://github.com/ladybug-tools/dragonfly-core"
+        "url": "https://github.com/ladybug-tools/dragonfly-schema"
     },
     "x-logo": {
         "url": "https://www.ladybug.tools/assets/img/dragonfly-large.png",
