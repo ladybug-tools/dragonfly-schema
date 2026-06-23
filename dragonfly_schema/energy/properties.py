@@ -1,9 +1,9 @@
 """Model energy properties."""
 from pydantic import Field
-from typing import List, Union, Literal
+from typing import List, Union, Literal, Annotated
 
 from honeybee_schema._base import NoExtraBaseModel
-
+from honeybee_schema.altnumber import Unassigned
 from honeybee_schema.energy.programtype import ProgramTypeAbridged, ProgramType
 from honeybee_schema.energy.ventcool import VentilationControlAbridged, \
     VentilationOpening, VentilationFan
@@ -72,6 +72,47 @@ class Room2DEnergyPropertiesAbridged(NoExtraBaseModel):
         'that specifies how the hot water load of the Room is met. If None, the hot '
         'water load will be met with a generic system that only measures thermal load'
         'and does not account for system efficiencies.'
+    )
+
+    person_count: Union[Unassigned, Annotated[float, Field(ge=0)]] = Field(
+        Unassigned(),
+        description='Number for the total number of people in the room or '
+        'an Unassigned object to indicate that people are assigned via the program_type.'
+    )
+
+    lighting_watts: Union[Unassigned, Annotated[float, Field(ge=0)]] = Field(
+        Unassigned(),
+        description='Number for the total wattage of lighting in the room or '
+        'an Unassigned object to indicate that lighting is assigned via the '
+        'program_type.'
+    )
+
+    electric_equipment_watts: Union[Unassigned, Annotated[float, Field(ge=0)]] = Field(
+        Unassigned(),
+        description='Number for the total wattage of electric equipment in the room or '
+        'an Unassigned object to indicate that electric equipment is assigned via '
+        'the program_type.'
+    )
+
+    gas_equipment_watts: Union[Unassigned, Annotated[float, Field(ge=0)]] = Field(
+        Unassigned(),
+        description='Number for the total wattage of gas equipment in the room or '
+        'an Unassigned object to indicate that gas equipment is assigned via '
+        'the program_type.'
+    )
+
+    hot_water_flow: Union[Unassigned, Annotated[float, Field(ge=0)]] = Field(
+        Unassigned(),
+        description='Number for the total flow of hot water in the room or '
+        'an Unassigned object to indicate that service hot water is assigned via '
+        'the program_type.'
+    )
+
+    infiltration_ach: Union[Unassigned, Annotated[float, Field(ge=0)]] = Field(
+        Unassigned(),
+        description='Number for the infiltration of the room in air changes per '
+        'hour or an Unassigned object to indicate that infiltration is assigned '
+        'via the program_type.'
     )
 
     process_loads: Union[List[ProcessAbridged], None] = Field(
