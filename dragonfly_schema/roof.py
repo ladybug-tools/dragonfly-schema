@@ -5,7 +5,7 @@ from typing import Union, List, Literal, Annotated
 from honeybee_schema._base import NoExtraBaseModel
 from honeybee_schema.model import Face3D, Mesh3D
 
-from .clearstory_parameter import DetailedClearstory
+from .clerestory_parameter import DetailedClerestory
 
 
 class RoofSpecification(NoExtraBaseModel):
@@ -21,10 +21,10 @@ class RoofSpecification(NoExtraBaseModel):
         'being extruded to their floor_to_ceiling_height.'
     )
 
-    clearstory_parameters: Union[List[DetailedClearstory], None] = Field(
+    clerestory_parameters: Union[List[DetailedClerestory], None] = Field(
         default=None,
-        description='A list of ClearstoryParameter objects that dictate how to '
+        description='A list of ClerestoryParameter objects that dictate how to '
         'generate window geometries for any vertical walls that result from the '
-        'translation of roof geometry. If None, no clearstory windows will exist '
+        'translation of roof geometry. If None, no clerestory windows will exist '
         'over the roof.'
     )
